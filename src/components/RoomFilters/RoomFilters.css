@@ -1,0 +1,129 @@
+.room-filters {
+  margin-bottom: 40px;
+  padding: 24px;
+  background: var(--white);
+  border-radius: 16px;
+  border: 2px solid var(--border);
+}
+
+.filters-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.filters-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0;
+}
+
+.clear-filters-btn {
+  background: transparent;
+  border: 2px solid var(--gray);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gray);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: 40px;
+  font-family: inherit;
+}
+
+.clear-filters-btn:hover {
+  border-color: var(--dark);
+  color: var(--dark);
+}
+
+.clear-filters-btn:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+.filters-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--light);
+  border: 2px solid var(--border);
+  border-radius: 100px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gray);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: 44px;
+  font-family: inherit;
+}
+
+.filter-chip:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.filter-chip:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+.filter-chip.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+}
+
+.filter-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.filter-chip.active .filter-check {
+  border-color: var(--white);
+  color: var(--white);
+}
+
+.room-count-announcement {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 0.9375rem;
+  color: var(--gray);
+}
+
+.room-count-announcement .no-results {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .room-filters {
+    padding: 16px;
+  }
+
+  .filters-grid {
+    gap: 8px;
+  }
+
+  .filter-chip {
+    padding: 8px 14px;
+    font-size: 0.8125rem;
+    min-height: 40px;
+  }
+}
