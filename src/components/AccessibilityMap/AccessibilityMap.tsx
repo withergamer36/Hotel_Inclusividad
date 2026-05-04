@@ -194,8 +194,8 @@ const mapPoints: MapPoint[] = [
   },
   {
     id: 'laundry-service',
-    label: 'Lavanderia Adaptada',
-    description: 'Lavadoras y secadoras a 80cm de altura, puertas anchas de 90cm, servicio de recogida y entrega directa a la habitacion sin costo adicional.',
+    label: 'Lavandería Adaptada',
+    description: 'Lavadoras y secadoras a 80cm de altura, puertas anchas de 90cm, servicio de recogida y entrega directa a la habitación sin costo adicional.',
     x: 687,
     y: 205,
     icon: 'entrance',
@@ -585,4 +585,5 @@ export function AccessibilityMap() {
       </div>
     </div>
   )
-}
+}}
+}}

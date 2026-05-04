@@ -317,6 +317,14 @@
   /* Transformar tabla en tarjetas */
   .modern-table, .modern-table thead, .modern-table tbody, .modern-table th, .modern-table td, .modern-table tr {
     display: block;
+    min-width: 100%;
+    width: 100%;
+  }
+
+  .table-wrapper {
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
   }
 
   .modern-table thead {

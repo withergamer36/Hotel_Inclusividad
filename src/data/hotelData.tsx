@@ -167,14 +167,14 @@ const iconParking = (
 
 const iconStore = (
   <>
-    <span className="sr-only">Icono de Oxxo</span>
+    <span className="sr-only">Icono de tienda</span>
     <span aria-hidden="true">&#x1F36A;</span>
   </>
 )
 
 const iconLaundry = (
   <>
-    <span className="sr-only">Icono de lavanderia</span>
+    <span className="sr-only">Icono de lavandería</span>
     <span aria-hidden="true">&#x1F6BF;</span>
   </>
 )
@@ -188,16 +188,16 @@ const iconPharmacy = (
 
 export const hotelData = {
   name: "The Grand Executive",
-  tagline: "Lujo Ejecutivo e Inclusion Total",
-  description: "Hotel cinco estrellas ubicado en el corazon de Paseo de la Reforma. Disenado para ofrecer una experiencia inclusiva excepcional donde cada huesped, sin importar su capacidad, disfruta de absoluta comodidad y autonomia.",
+  tagline: "Lujo Ejecutivo e Inclusión Total",
+  description: "Hotel cinco estrellas ubicado en el corazón de Paseo de la Reforma. Diseñado para ofrecer una experiencia inclusiva excepcional donde cada huésped, sin importar su capacidad, disfruta de absoluta comodidad y autonomía.",
   category: "5 Estrellas",
   hotelType: "Ejecutivo de Alta Gama",
   plan: "Todo Incluido",
   roomsCount: 100,
-  location: "Paseo de la Reforma, Ciudad de Mexico",
+  location: "Paseo de la Reforma, Ciudad de México",
   phone: "+52 55 9171 0000",
   email: "reservas@thegrandexecutive.mx",
-  address: "Paseo de la Reforma 222, Col. Juarez, CDMX, Mexico",
+  address: "Paseo de la Reforma 222, Col. Juárez, CDMX, México",
   currency: "MXN",
   amenities: [
     {
@@ -208,27 +208,27 @@ export const hotelData = {
     {
       icon: iconEye,
       title: "Asistencia Visual",
-      description: "Senalamientos en Braille, audiodescripcion y equipamiento para personas con baja vision."
+      description: "Señalamientos en Braille, audiodescripción y equipamiento para personas con baja visión."
     },
     {
       icon: iconEar,
       title: "Asistencia Auditiva",
-      description: "Alarmas visuales, telefonos con amplificador y bucles magneticos en areas comunes."
+      description: "Alarmas visuales, teléfonos con amplificador y bucles magnéticos en áreas comunes."
     },
     {
       icon: iconWheelchairAlt,
       title: "Movilidad",
-      description: "Sillas de ruedas disponibles, rampas en todas las areas y ascensores espaciosos."
+      description: "Sillas de ruedas disponibles, rampas en todas las áreas y ascensores espaciosos."
     },
     {
       icon: iconSpeaker,
       title: "Sensory-Friendly",
-      description: "Habitaciones con aislamiento acustico, iluminacion ajustable y zonas de baja estimulacion."
+      description: "Habitaciones con aislamiento acústico, iluminación ajustable y zonas de baja estimulación."
     },
     {
       icon: iconGuide,
-      title: "Guia Personal",
-      description: "Asistencia personalizada para huespedes con discapacidades visuales o cognitivas."
+      title: "Guía Personal",
+      description: "Asistencia personalizada para huéspedes con discapacidades visuales o cognitivas."
     }
   ],
   facilities: [
@@ -236,91 +236,91 @@ export const hotelData = {
       id: 'gym',
       name: 'Gimnasio',
       icon: iconGym,
-      description: 'Equipamiento adapted con maquinas de ejercicio de baja carga, pesas virtuales y entrenamiento-guided por audio. Acceso sin escalones desde el lobby.'
+      description: 'Equipamiento adaptado con máquinas de ejercicio de baja carga, pesas virtuales y entrenamiento guiado por audio. Acceso sin escalones desde el lobby.'
     },
     {
       id: 'pool',
       name: 'Alberca',
       icon: iconPool,
-      description: 'Rampa de acceso sumergida, silla de transferencia hydraulic para alberca, vestidores adaptados con barras de apoyo y ducha de emergencia.'
+      description: 'Rampa de acceso sumergida, silla de transferencia hidráulica para alberca, vestidores adaptados con barras de apoyo y ducha de emergencia.'
     },
     {
       id: 'bar',
       name: 'Bar',
       icon: iconBar,
-      description: 'Mostrador a 75cm de altura con espacio inferior para silla de ruedas. Menu en Braille y carta con letras grandes de 24pt disponibles.'
+      description: 'Mostrador a 75cm de altura con espacio inferior para silla de ruedas. Menú en Braille y carta con letras grandes de 24pt disponibles.'
     },
     {
       id: 'restaurant',
       name: 'Restaurante',
       icon: iconRestaurant,
-      description: 'Mesas con espacio inferior libre para silla de ruedas, menu en Braille,土地上-indicadores tactiles en el piso y personal capacitado en protocolo de accesibilidad.'
+      description: 'Mesas con espacio inferior libre para silla de ruedas, menú en Braille, indicadores táctiles en el piso y personal capacitado en protocolo de accesibilidad.'
     },
     {
       id: 'bank',
       name: 'Convenio con bancos',
       icon: iconBank,
-      description: 'Cajero automatico con pantalla tactil, salida de audio para transacciones, boton de emergencia en Braille y espacio para silla de ruedas.'
+      description: 'Cajero automático con pantalla táctil, salida de audio para transacciones, botón de emergencia en Braille y espacio para silla de ruedas.'
     },
     {
       id: 'shuttle',
       name: 'Traslados',
       icon: iconShuttle,
-      description: 'Vehiculos adaptados con rampa de acceso manuelle, anclajes para silla de ruedas y espacio para equipaje de asistencia. Servicio 24 horas.'
+      description: 'Vehículos adaptados con rampa de acceso manual, anclajes para silla de ruedas y espacio para equipaje de asistencia. Servicio 24 horas.'
     },
     {
       id: 'exchange',
       name: 'Casa de cambio',
       icon: iconExchange,
-      description: 'Atencion preferencial en mostrador a 80cm de altura con espacio inferior. Cambio de moneda extranjera y viaj主题eros sin comision.'
+      description: 'Atención preferencial en mostrador a 80cm de altura con espacio inferior. Cambio de moneda extranjera y para viajeros sin comisión.'
     },
     {
       id: 'spa',
       name: 'Spa',
       icon: iconSpa,
-      description: 'Zona de tratamiento con camillas electricas ajustables en altura,泡泡-tina de hidromasaje con rampa, y terapeutas capacitados en asistencia a personas con discapacidad.'
+      description: 'Zona de tratamiento con camillas eléctricas ajustables en altura, tina de hidromasaje con rampa, y terapeutas capacitados en asistencia a personas con discapacidad.'
     },
     {
       id: 'events',
       name: 'Sala de eventos',
       icon: iconEvent,
-      description: 'Escenario con rampa de acceso, iluminacion LED regulable, sistema de audio con induccion magnetica y espacios para silla de ruedas frente al escenario.'
+      description: 'Escenario con rampa de acceso, iluminación LED regulable, sistema de audio con inducción magnética y espacios para silla de ruedas frente al escenario.'
     },
     {
       id: 'meeting',
       name: 'Salas de juntas',
       icon: iconMeeting,
-      description: 'Mesas redondas accesibles con espacio central para silla, pantalla gigante con subtitulos en tiempo real y sistema de microphones inalambricos.'
+      description: 'Mesas redondas accesibles con espacio central para silla, pantalla gigante con subtítulos en tiempo real y sistema de micrófonos inalámbricos.'
     },
     {
       id: 'elevator',
       name: 'Elevadores',
       icon: iconElevator,
-      description: 'Tres elevadores con botones en Braille, audio de planta, espejos panoramicos y capacidad para 15 personas o 2 sillas de ruedas simultaneamente.'
+      description: 'Tres elevadores con botones en Braille, audio de planta, espejos panorámicos y capacidad para 15 personas o 2 sillas de ruedas simultáneamente.'
     },
     {
       id: 'parking',
       name: 'Estacionamiento',
       icon: iconParking,
-      description: '10 cajones de estacionamiento accesibles cerca de la entrada, con zona de transferencia de 1.50m, senalamientos verticales y rampa hacia el lobby.'
+      description: '10 cajones de estacionamiento accesibles cerca de la entrada, con zona de transferencia de 1.50m, señalamientos verticales y rampa hacia el lobby.'
     },
     {
       id: 'store',
       name: 'Tienda',
       icon: iconStore,
-      description: 'Pasillo amplio de 1.50m sin obstaculos, estantes a maxima altura de 1.20m, cajas con espacio inferior y entrada sin escalon con puerta automatica.'
+      description: 'Pasillo amplio de 1.50m sin obstáculos, estantes a máxima altura de 1.20m, cajas con espacio inferior y entrada sin escalón con puerta automática.'
     },
     {
       id: 'laundry',
-      name: 'Lavanderia',
+      name: 'Lavandería',
       icon: iconLaundry,
-      description: 'Lavadoras y secadoras a 80cm de altura, puertas anchas de 90cm, servicio de recogida y entrega directa a la habitacion sin costo adicional.'
+      description: 'Lavadoras y secadoras a 80cm de altura, puertas anchas de 90cm, servicio de recogida y entrega directa a la habitación sin costo adicional.'
     },
     {
       id: 'pharmacy',
       name: 'Farmacia',
       icon: iconPharmacy,
-      description: 'Atencion a domicilio dentro del hotel, mostrador accesible en el lobby, medications organizados en blisters Braille y servicio de recordatorio de dosis.'
+      description: 'Atención a domicilio dentro del hotel, mostrador accesible en el lobby, medicamentos organizados en blisters Braille y servicio de recordatorio de dosis.'
     }
   ],
   rooms: [
@@ -334,9 +334,9 @@ export const hotelData = {
         "Barras de apoyo en baño",
         "Alarmas visuales y vibratorias",
         "Mobiliario de altura ajustable",
-        "Bucle magnetico integrado",
-        "Grua de transferencia disponible",
-        "Smart TV con subtitulos y SDL"
+        "Bucle magnético integrado",
+        "Grúa de transferencia disponible",
+        "Smart TV con subtítulos y SDL"
       ],
       accessibility: {
         wheelchairAccessible: true,
@@ -347,7 +347,7 @@ export const hotelData = {
         hearingLoop: true,
         transferCrane: true
       },
-      altDescription: "Suite espaciosa con cama king size, espacio de giro amplio para silla de ruedas, baño privado con ducha a ras de suelo, barras de apoyo cromadas, mobiliario de altura ajustable, y sistema de alerta visual. Vista panoramica de Paseo de la Reforma."
+      altDescription: "Suite espaciosa con cama king size, espacio de giro amplio para silla de ruedas, baño privado con ducha a ras de suelo, barras de apoyo cromadas, mobiliario de altura ajustable, y sistema de alerta visual. Vista panorámica de Paseo de la Reforma."
     },
     {
       name: "Suite Junior Accesible",
@@ -359,7 +359,7 @@ export const hotelData = {
         "Barras de apoyo",
         "Alarmas visuales",
         "Mobiliario ajustable",
-        "Bucle magnetico en area comun"
+        "Bucle magnético en área común"
       ],
       accessibility: {
         wheelchairAccessible: true,
@@ -373,13 +373,13 @@ export const hotelData = {
       altDescription: "Suite elegante con cama queen size, baño adaptado con ducha sin bordillo y barras de apoyo, escritorio de altura regulable, y alarma visual junto a la cama. Vista al centro comercial."
     },
     {
-      name: "Habitacion Estandar Adaptada",
+      name: "Habitación Estándar Adaptada",
       price: 2800,
       image: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=600",
       features: [
         "Barras de apoyo en baño",
         "Alarmas visuales junto a la cama",
-        "Bucle magnetico portatil",
+        "Bucle magnético portátil",
         "Escritorio accesible",
         "Puertas anchas"
       ],
@@ -392,26 +392,26 @@ export const hotelData = {
         hearingLoop: true,
         transferCrane: false
       },
-      altDescription: "Habitacion doble con baño adaptado que incluye barras de apoyo junto al inodoro y en la regadera, alarma visual en la mesita de noche, bucle magnetico portatil disponible bajo request, y puertas de ancho completo para acceso comodo."
+      altDescription: "Habitación doble con baño adaptado que incluye barras de apoyo junto al inodoro y en la regadera, alarma visual en la mesita de noche, bucle magnético portátil disponible bajo petición, y puertas de ancho completo para acceso cómodo."
     }
   ],
   testimonials: [
     {
-      name: "Maria Garcia",
-      role: "Huesped con discapacidad motora",
-      text: "Por primera vez en mi vida, me senti realmente libre en un hotel. Todo estaba adaptado perfectamente, desde la ducha hasta el escritorio.",
+      name: "María García",
+      role: "Huésped con discapacidad motora",
+      text: "Por primera vez en mi vida, me sentí realmente libre en un hotel. Todo estaba adaptado perfectamente, desde la ducha hasta el escritorio.",
       rating: 5
     },
     {
       name: "Carlos Mendoza",
-      role: "Huesped con discapacidad visual",
-      text: "El personal me asistio con una dedicacion increible. Pude moverme con total autonomia gracias al sistema Braille y la audiodescripcion.",
+      role: "Huésped con discapacidad visual",
+      text: "El personal me asistió con una dedicación increíble. Pude moverme con total autonomía gracias al sistema Braille y la audiodescripción.",
       rating: 5
     },
     {
       name: "Ana Ruiz",
       role: "Madre de hijo con TEA",
-      text: "La habitacion de baja estimulacion fue un oasis para mi hijo. Pudimos disfrutar de nuestras vacaciones sin estres ni abrumacion sensorial.",
+      text: "La habitación de baja estimulación fue un oasis para mi hijo. Pudimos disfrutar de nuestras vacaciones sin estrés ni abrumación sensorial.",
       rating: 5
     }
   ]
@@ -421,41 +421,41 @@ export const accommodationOptions = [
   {
     id: 'auditory-kit',
     label: 'Kit de accesibilidad auditiva',
-    description: 'Timbre visual, despertador vibratorio y bucle magnetico portatil'
+    description: 'Timbre visual, despertador vibratorio y bucle magnético portátil'
   },
   {
     id: 'guide-dog',
-    label: 'Alojamiento para perro guia',
+    label: 'Alojamiento para perro guía',
     description: 'Cama, comederos y zona designada para perro de asistencia'
   },
   {
     id: 'transfer-crane',
-    label: 'Grua de transferencia',
+    label: 'Grúa de transferencia',
     description: 'Sistema de techo para movilidad entre cama y silla de ruedas'
   },
   {
     id: 'braille-menu',
-    label: 'Menu y documentacion en Braille',
-    description: 'Menu del restaurante, directorio del hotel y senalamientos'
+    label: 'Menú y documentación en Braille',
+    description: 'Menú del restaurante, directorio del hotel y señalamientos'
   },
   {
     id: 'special-diet',
     label: 'Dieta especial',
-    description: 'Alergias alimentarias, restricciones o necesidades dieteticas especificas'
+    description: 'Alergias alimentarias, restricciones o necesidades dietéticas específicas'
   },
   {
     id: 'visual-assistance',
     label: 'Asistencia visual personalizada',
-    description: 'Acompanamiento guiado en instalaciones del hotel'
+    description: 'Acompañamiento guiado en instalaciones del hotel'
   },
   {
     id: 'wheelchair',
-    label: 'Silla de ruedas de cortesia',
+    label: 'Silla de ruedas de cortesía',
     description: 'Silla de ruedas manual o motorizada durante la estancia'
   },
   {
     id: 'hospital-bed',
-    label: 'Cama hospitalaria o antireflujos',
+    label: 'Cama hospitalaria o antirreflujo',
     description: 'Cama articulada con barandales y control remoto'
   }
 ]
@@ -466,6 +466,6 @@ export const accessibilityFilterOptions = [
   { id: 'grabBars', label: 'Barras de apoyo' },
   { id: 'visualAlarms', label: 'Alarmas visuales' },
   { id: 'adjustableFurniture', label: 'Mobiliario ajustable' },
-  { id: 'hearingLoop', label: 'Bucle magnetico' },
-  { id: 'transferCrane', label: 'Grua de transferencia' }
+  { id: 'hearingLoop', label: 'Bucle magnético' },
+  { id: 'transferCrane', label: 'Grúa de transferencia' }
 ]

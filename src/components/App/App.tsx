@@ -793,7 +793,7 @@ function App() {
                 </div>
 
                 <fieldset className="accommodation-fieldset">
-                  <legend className="accommodation-legend">Solicitudes de Acomodacion Especial</legend>
+                  <legend className="accommodation-legend">Solicitudes de Acomodación Especial</legend>
                   <p className="accommodation-description">
                     Seleccione los servicios de accesibilidad que requiera durante su estancia
                   </p>
@@ -853,8 +853,8 @@ function App() {
             </div>
             <p className="footer-text">&copy; 2024 {hotelData.name}. {hotelData.category}. Todos los derechos reservados.</p>
             <nav className="footer-links" aria-label="Enlaces legales">
-              <a href="#">Politica de Privacidad</a>
-              <a href="#">Terminos de Servicio</a>
+              <a href="#">Política de Privacidad</a>
+              <a href="#">Términos de Servicio</a>
               <a href="#">Accesibilidad</a>
               <button 
                 onClick={() => setIsAdminView(true)} 
@@ -873,7 +873,7 @@ function App() {
                   gap: '4px'
                 }}
               >
-                <span>🔐</span> Administracion
+                <span>🔐</span> Administración
               </button>
             </nav>
           </div>
