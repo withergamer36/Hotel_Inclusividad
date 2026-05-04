@@ -192,6 +192,7 @@ export function AdminPanel() {
                     <div className="td-reserva">
                       <span className="room">{reserva.habitacion_tipo}</span>
                       <span className="qty">Cantidad: {reserva.habitacion_cantidad}</span>
+                      <span className="dates text-xs text-gray-500">{reserva.checkIn} al {reserva.checkOut}</span>
                     </div>
                   </td>
                   <td data-label="Accesibilidad">

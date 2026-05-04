@@ -585,5 +585,4 @@ export function AccessibilityMap() {
       </div>
     </div>
   )
-}}
-}}
+}

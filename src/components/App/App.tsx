@@ -6,7 +6,9 @@ import { hotelData, accommodationOptions, type Room } from '../../data/hotelData
 import { db } from '../../lib/firebase'
 import { collection, addDoc, query, where, getDocs } from 'firebase/firestore'
 import emailjs from '@emailjs/browser'
+import { HeroSection } from '../HeroSection/HeroSection'
 import { AdminPanel } from '../AdminPanel/AdminPanel'
+import { Toaster, toast } from 'react-hot-toast'
 import './App.css'
 
 function StarIcon(props: React.SVGProps<SVGSVGElement> & { filled?: boolean }) {
@@ -349,13 +351,16 @@ function App() {
       const querySnapshot = await getDocs(q)
       
       if (querySnapshot.empty) {
+        toast.error('No se encontró ninguna reserva con ese número de pedido.')
         announce('No se encontró ninguna reserva con ese número de pedido.')
       } else {
         const doc = querySnapshot.docs[0]
         setFoundReservation({ id: doc.id, ...doc.data() })
-        announce('Reserva encontrada.')
+        toast.success('Reserva encontrada.')
+        announce('Reserva encontrada. Desplácese hacia abajo para ver los detalles.')
       }
     } catch (error) {
+      toast.error('Error al buscar la reserva.')
       announce('Error al buscar la reserva.')
     } finally {
       setIsSearching(false)
@@ -400,6 +405,7 @@ function App() {
       className={`landing ${accessibilityClasses}`}
       style={{ fontSize: `${accessibility.fontSize}rem` }}
     >
+      <Toaster position="top-center" reverseOrder={false} />
       <a href="#main-content" className="skip-link">
         Saltar al contenido principal
       </a>
@@ -445,42 +451,7 @@ function App() {
       </header>
 
       <main id="main-content" role="main">
-        <section id="inicio" className="hero" aria-labelledby="hero-title">
-          <div className="hero-content">
-            <div className="hero-badge">
-              <span className="badge-stars">{'★'.repeat(5)}</span>
-              <span className="badge-category">{hotelData.category}</span>
-              <span className="badge-type">{hotelData.hotelType}</span>
-            </div>
-            <h1 id="hero-title" className="hero-title">{hotelData.tagline}</h1>
-            <p className="hero-description">{hotelData.description}</p>
-            <div className="hero-badges">
-              <span className="hero-info-badge">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-                {hotelData.plan}
-              </span>
-              <span className="hero-info-badge">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M7 14C8.1 14 9 13.1 9 12C9 10.9 8.1 10 7 10C5.9 10 5 10.9 5 12C5 13.1 5.9 14 7 14ZM19 7H11V15H3V5H1V20H3V17H19V20H21V11C21 8.79 19.21 7 17 7H19ZM19 15H17V9H19V15Z"/>
-                </svg>
-                {hotelData.roomsCount} habitaciones
-              </span>
-            </div>
-            <div className="hero-buttons">
-              <a href="#habitaciones" className="btn btn-primary">Ver Habitaciones</a>
-              <a href="#contacto" className="btn btn-secondary">Contactar</a>
-              <PageSpeaker rate={accessibility.speechRate} />
-            </div>
-          </div>
-          <div className="hero-image">
-            <img
-              src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800"
-              alt={`Fachada del ${hotelData.name}, hotel cinco estrellas en ${hotelData.location}`}
-            />
-          </div>
-        </section>
+        <HeroSection PageSpeakerComponent={PageSpeaker} speechRate={accessibility.speechRate} />
 
         <section id="instalaciones" className="facilities" aria-labelledby="facilities-title">
           <div className="container">
@@ -493,24 +464,17 @@ function App() {
             </p>
             <div className="facilities-grid" role="list">
               {hotelData.facilities.map((facility) => (
-                <div
+                <button
                   key={facility.id}
                   className={`facility-card ${selectedFacility === facility.id ? 'selected' : ''}`}
                   role="listitem"
                   onClick={() => setSelectedFacility(selectedFacility === facility.id ? null : facility.id)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault()
-                      setSelectedFacility(selectedFacility === facility.id ? null : facility.id)
-                    }
-                  }}
-                  tabIndex={0}
                   aria-pressed={selectedFacility === facility.id}
-                  aria-label={`${facility.name}. Haga clic para ver más información.`}
+                  aria-label={`${facility.name}. ${selectedFacility === facility.id ? 'Colapsar detalles.' : 'Expandir detalles.'}`}
                 >
                   <span className="facility-icon" aria-hidden="true">{facility.icon}</span>
                   <span className="facility-name">{facility.name}</span>
-                </div>
+                </button>
               ))}
             </div>
             {selectedFacilityData && (
@@ -582,7 +546,7 @@ function App() {
                 filteredRooms.map((room, index) => (
                   <article key={index} className="room-card">
                     <div className="room-image">
-                      <img src={room.image} alt={room.altDescription} />
+                      <img src={room.image} alt={room.altDescription} loading="lazy" />
                       <div className="room-accessibility-badges">
                         {room.accessibility.wheelchairAccessible && (
                           <span className="access-badge" title="Espacio para silla de ruedas">♿</span>
@@ -677,8 +641,15 @@ function App() {
                   onChange={(e) => setSearchOrder(e.target.value)}
                   className="form-input"
                 />
-                <button type="submit" className="btn btn-secondary" disabled={isSearching}>
-                  {isSearching ? 'Buscando...' : 'Buscar Reserva'}
+                <button type="submit" className="btn btn-secondary" disabled={isSearching} style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
+                  {isSearching ? (
+                    <>
+                      <svg className="spinner" viewBox="0 0 50 50" width="20" height="20">
+                        <circle className="path" cx="25" cy="25" r="20" fill="none" strokeWidth="5"></circle>
+                      </svg>
+                      Buscando...
+                    </>
+                  ) : 'Buscar Reserva'}
                 </button>
               </form>
 
@@ -695,6 +666,7 @@ function App() {
                     <p><strong>Titular:</strong> {foundReservation.nombre}</p>
                     <p><strong>Correo:</strong> {foundReservation.email}</p>
                     <p><strong>Teléfono:</strong> {foundReservation.telefono}</p>
+                    <p><strong>Fechas:</strong> Del {foundReservation.checkIn} al {foundReservation.checkOut}</p>
                     <p><strong>Habitación:</strong> {foundReservation.habitacion_tipo} ({foundReservation.habitacion_cantidad} unidad/es)</p>
                     <p><strong>Solicitudes de Accesibilidad:</strong> {foundReservation.acomodaciones || 'Ninguna'}</p>
                     <p><strong>Fecha de Reserva:</strong> {new Date(foundReservation.fecha_creacion).toLocaleString('es-MX')}</p>
@@ -780,8 +752,33 @@ function App() {
                   </div>
                 </div>
 
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="check-in">Fecha de Llegada</label>
+                    <input
+                      type="date"
+                      id="check-in"
+                      name="checkIn"
+                      className="form-input"
+                      required
+                      min={new Date().toISOString().split('T')[0]}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="check-out">Fecha de Salida</label>
+                    <input
+                      type="date"
+                      id="check-out"
+                      name="checkOut"
+                      className="form-input"
+                      required
+                      min={new Date().toISOString().split('T')[0]}
+                    />
+                  </div>
+                </div>
+
                 <div className="form-group">
-                  <label htmlFor="contact-phone">Telefono</label>
+                  <label htmlFor="contact-phone">Teléfono</label>
                   <input
                     type="tel"
                     id="contact-phone"
