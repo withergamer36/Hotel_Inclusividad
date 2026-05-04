@@ -9,6 +9,7 @@ import emailjs from '@emailjs/browser'
 import { HeroSection } from '../HeroSection/HeroSection'
 import { AdminPanel } from '../AdminPanel/AdminPanel'
 import { Toaster, toast } from 'react-hot-toast'
+import { VoiceNavigator } from '../VoiceNavigator/VoiceNavigator'
 import './App.css'
 
 function StarIcon(props: React.SVGProps<SVGSVGElement> & { filled?: boolean }) {
@@ -406,6 +407,7 @@ function App() {
       style={{ fontSize: `${accessibility.fontSize}rem` }}
     >
       <Toaster position="top-center" reverseOrder={false} />
+      <VoiceNavigator />
       <a href="#main-content" className="skip-link">
         Saltar al contenido principal
       </a>
