@@ -11,6 +11,10 @@ export interface AccessibilityState {
   readingLine: boolean
   isSpeaking: boolean
   speechRate: number
+  colorBlindMode: 'none' | 'protanopia' | 'deuteranopia' | 'tritanopia' | 'achromatopsia'
+  immersiveReading: boolean
+  largeCursor: boolean
+  highlightLinks: boolean
 }
 
 interface AccessibilityToolbarProps {
@@ -199,6 +203,58 @@ export function AccessibilityToolbar({ state, onChange }: AccessibilityToolbarPr
                   {state.reduceMotion ? 'Activado' : 'Desactivado'}
                 </button>
               </div>
+
+              <div className="accessibility-option">
+                <span className="accessibility-label">Resaltar enlaces</span>
+                <button
+                  onClick={() => updateState('highlightLinks', !state.highlightLinks)}
+                  aria-pressed={state.highlightLinks}
+                  className={`accessibility-toggle-btn ${state.highlightLinks ? 'active' : ''}`}
+                >
+                  {state.highlightLinks ? 'Activado' : 'Desactivado'}
+                </button>
+              </div>
+
+              <div className="accessibility-option">
+                <span className="accessibility-label">Cursor grande</span>
+                <button
+                  onClick={() => updateState('largeCursor', !state.largeCursor)}
+                  aria-pressed={state.largeCursor}
+                  className={`accessibility-toggle-btn ${state.largeCursor ? 'active' : ''}`}
+                >
+                  {state.largeCursor ? 'Activado' : 'Desactivado'}
+                </button>
+              </div>
+
+              <div className="accessibility-option">
+                <span className="accessibility-label">Filtros para Daltonismo</span>
+                <select
+                  value={state.colorBlindMode}
+                  onChange={(e) => updateState('colorBlindMode', e.target.value as AccessibilityState['colorBlindMode'])}
+                  className="accessibility-select"
+                  aria-label="Seleccionar filtro para daltonismo"
+                >
+                  <option value="none">Estándar</option>
+                  <option value="protanopia">Protanopía (Rojo-Verde)</option>
+                  <option value="deuteranopia">Deuteranopía (Verde-Rojo)</option>
+                  <option value="tritanopia">Tritanopía (Azul-Amarillo)</option>
+                  <option value="achromatopsia">Acromatopsia (Monocromático)</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="accessibility-section">
+              <h3 className="accessibility-section-title">Cognitivo</h3>
+              <div className="accessibility-option">
+                <span className="accessibility-label">Lectura inmersiva (Sin distracciones)</span>
+                <button
+                  onClick={() => updateState('immersiveReading', !state.immersiveReading)}
+                  aria-pressed={state.immersiveReading}
+                  className={`accessibility-toggle-btn ${state.immersiveReading ? 'active' : ''}`}
+                >
+                  {state.immersiveReading ? 'Activado' : 'Desactivado'}
+                </button>
+              </div>
             </div>
 
             <button
@@ -215,7 +271,11 @@ export function AccessibilityToolbar({ state, onChange }: AccessibilityToolbarPr
                   increasedSpacing: false,
                   readingLine: false,
                   isSpeaking: false,
-                  speechRate: 1
+                  speechRate: 1,
+                  colorBlindMode: 'none',
+                  immersiveReading: false,
+                  largeCursor: false,
+                  highlightLinks: false
                 })
               }}
               className="accessibility-reset"
@@ -226,5 +286,5 @@ export function AccessibilityToolbar({ state, onChange }: AccessibilityToolbarPr
         </div>
       )}
     </div>
-  )
-}
+    )
+    }

@@ -1317,3 +1317,82 @@ textarea:focus:not(:focus-visible) {
   outline: none;
 }
 
+/* ==========================================================================
+   NUEVAS HERRAMIENTAS DE ACCESIBILIDAD
+   ========================================================================== */
+
+/* Daltonismo - Filtros aplicados al contenido para no romper position:fixed de las barras */
+.cb-protanopia .header, .cb-protanopia main, .cb-protanopia .footer { filter: url('#protanopia'); }
+.cb-deuteranopia .header, .cb-deuteranopia main, .cb-deuteranopia .footer { filter: url('#deuteranopia'); }
+.cb-tritanopia .header, .cb-tritanopia main, .cb-tritanopia .footer { filter: url('#tritanopia'); }
+.cb-achromatopsia .header, .cb-achromatopsia main, .cb-achromatopsia .footer { filter: url('#achromatopsia'); }
+
+/* Resaltar Enlaces */
+.highlight-links a, 
+.highlight-links button {
+  text-decoration: underline !important;
+  text-decoration-thickness: 3px !important;
+  text-underline-offset: 4px !important;
+  background-color: rgba(255, 255, 0, 0.2) !important;
+  color: #000 !important;
+  font-weight: 700 !important;
+  border-radius: 2px;
+}
+
+/* Modo Lectura Inmersiva (Sin Distracciones) */
+.immersive-reading,
+.immersive-reading section,
+.immersive-reading .container,
+.immersive-reading .hero,
+.immersive-reading .facilities,
+.immersive-reading .rooms,
+.immersive-reading .testimonials,
+.immersive-reading .contact,
+.immersive-reading .footer {
+  background-color: #fdfdfd !important;
+  background-image: none !important;
+  color: #222 !important;
+}
+.immersive-reading img, 
+.immersive-reading svg:not(.accessibility-toggle svg, .accessibility-close-btn svg), 
+.immersive-reading .hero-image,
+.immersive-reading .facility-icon,
+.immersive-reading .map-container {
+  opacity: 0.3 !important; /* Aumentado para que no desaparezcan */
+  filter: grayscale(100%) !important;
+}
+.immersive-reading * {
+  color: #222 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+.immersive-reading input, 
+.immersive-reading select, 
+.immersive-reading textarea {
+  border: 2px solid #333 !important; /* Marcos más fuertes para el formulario */
+  background-color: #fff !important;
+}
+.immersive-reading .header {
+  background-color: white !important;
+  border-bottom: 2px solid #000;
+}
+.immersive-reading p, .immersive-reading h1, .immersive-reading h2, .immersive-reading h3 {
+  line-height: 2 !important;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Cursor Grande */
+.large-cursor, .large-cursor * {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="black" stroke="white" stroke-width="1.5" d="M4 2v18l5-4.5 4 8 2.5-1 4-8.5-5.5-1 4-3.5L4 2z"/></svg>') 0 0, auto !important;
+}
+.large-cursor a, 
+.large-cursor button,
+.large-cursor select,
+.large-cursor input,
+.large-cursor .nav-link,
+.large-cursor .facility-card {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="black" stroke="white" stroke-width="1.5" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>') 24 24, pointer !important;
+}
+
