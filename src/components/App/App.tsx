@@ -303,6 +303,8 @@ function App() {
       telefono: formData.get('phone'),
       habitacion_tipo: formData.get('roomType'),
       habitacion_cantidad: formData.get('quantity'),
+      checkIn: formData.get('checkIn'),
+      checkOut: formData.get('checkOut'),
       acomodaciones: translatedAccommodations,
       fecha_creacion: new Date().toISOString()
     }
@@ -326,6 +328,8 @@ function App() {
             numero_de_pedido: reservationData.numero_de_pedido,
             habitacion_tipo: reservationData.habitacion_tipo,
             habitacion_cantidad: reservationData.habitacion_cantidad,
+            checkIn: reservationData.checkIn,
+            checkOut: reservationData.checkOut,
             acomodaciones: reservationData.acomodaciones
           },
           'TTS9BrBBr92hi-UHq'

@@ -98,6 +98,7 @@ export function AdminPanel() {
               <input
                 id="admin-user"
                 type="text"
+                placeholder="Usuario"
                 value={user}
                 onChange={(e) => setUser(e.target.value)}
                 className="admin-input"
@@ -109,6 +110,7 @@ export function AdminPanel() {
               <input
                 id="admin-pass"
                 type="password"
+                placeholder="Contraseña"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="admin-input"

@@ -1082,6 +1082,29 @@ section {
   text-decoration: underline;
 }
 
+/* Modo oscuro para el Footer */
+.dark-mode .footer {
+  background-color: #0d0d1a;
+  border-top: 1px solid var(--border);
+}
+
+.dark-mode .footer-logo .logo-text,
+.dark-mode .footer-text,
+.dark-mode .footer-links a,
+.dark-mode .admin-access-link {
+  color: var(--gray-light);
+}
+
+.dark-mode .footer-links a:hover,
+.dark-mode .admin-access-link:hover {
+  color: var(--primary);
+}
+
+.dark-mode .admin-access-link {
+  background-color: rgba(255,255,255,0.05) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+}
+
 @media (max-width: 900px) {
   .hero {
     flex-direction: column;
@@ -1243,6 +1266,70 @@ section {
   color: #ccc;
 }
 
+/* Modo oscuro para Formularios y Búsqueda de Reservas */
+.dark-mode .search-reservation {
+  background-color: var(--light);
+}
+
+.dark-mode .search-reservation .section-title,
+.dark-mode .search-reservation .section-subtitle {
+  color: var(--dark);
+}
+
+.dark-mode .reservation-result-card {
+  background-color: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.dark-mode .result-header h3 {
+  color: var(--dark);
+}
+
+.dark-mode .result-body p {
+  color: var(--gray-light);
+}
+
+.dark-mode .btn-close-result {
+  background-color: var(--border);
+  color: var(--dark);
+}
+
+.dark-mode .btn-close-result:hover {
+  background-color: var(--gray);
+}
+
+/* Modo oscuro para inputs generales (contacto y búsqueda) */
+.dark-mode .form-input,
+.dark-mode .form-textarea,
+.dark-mode .search-form .form-input {
+  background-color: var(--white);
+  color: var(--dark);
+  border: 1px solid var(--border);
+}
+
+.dark-mode .form-input::placeholder,
+.dark-mode .form-textarea::placeholder {
+  color: var(--gray);
+}
+
+.dark-mode .accommodation-fieldset {
+  border-color: var(--border);
+}
+
+.dark-mode .accommodation-option {
+  background-color: var(--white);
+  border-color: var(--border);
+}
+
+.dark-mode .accommodation-label {
+  color: var(--dark);
+}
+
+.dark-mode .accommodation-option.selected {
+  background-color: rgba(74, 155, 184, 0.15); /* Color primary semitransparente */
+  border-color: var(--primary);
+}
+
 .btn-close-result {
   margin-top: 25px;
   background: #eee;
@@ -1318,8 +1405,180 @@ textarea:focus:not(:focus-visible) {
 }
 
 /* ==========================================================================
-   NUEVAS HERRAMIENTAS DE ACCESIBILIDAD
+   COMBINACIONES ARMÓNICAS DE ACCESIBILIDAD
    ========================================================================== */
+
+/* Modo Oscuro + Alto Contraste */
+.dark-mode.high-contrast {
+  /* Mantenemos los fondos oscuros, pero los hacemos más profundos para mayor contraste */
+  --light: #0d0d1a; 
+  --white: #16162a;
+  /* El texto debe ser blanco brillante para contrastar, no negro */
+  --dark: #ffffff;
+  --gray: #e0e0e0;
+  --gray-light: #f5f5f5;
+  /* Resaltamos bordes y elementos interactivos con colores neón (Amarillo y Cian) */
+  --border: #ffff00;
+  --primary: #00ffff; 
+  --primary-dark: #00cccc;
+  --accent: #ffff00; 
+}
+
+/* En Modo Oscuro + Alto Contraste, los botones no se invierten, solo se delinean fuertemente */
+.dark-mode.high-contrast .btn-primary,
+.dark-mode.high-contrast .btn-secondary {
+  background-color: transparent !important;
+  color: #00ffff !important;
+  border: 3px solid #00ffff !important;
+  font-weight: 900 !important;
+}
+
+.dark-mode.high-contrast .btn-primary:hover,
+.dark-mode.high-contrast .btn-secondary:hover {
+  background-color: #00ffff !important;
+  color: #000000 !important;
+}
+
+.dark-mode.high-contrast .btn-secondary {
+  color: #ffff00 !important;
+  border-color: #ffff00 !important;
+}
+
+.dark-mode.high-contrast .btn-secondary:hover {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+}
+
+/* Tarjetas (Habitaciones, Instalaciones) en Modo Oscuro + Alto Contraste */
+.dark-mode.high-contrast .room-card,
+.dark-mode.high-contrast .facility-card,
+.dark-mode.high-contrast .feature-card,
+.dark-mode.high-contrast .testimonial-card {
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 0 10px rgba(255,255,255,0.2) !important;
+}
+
+.dark-mode.high-contrast .room-card:hover,
+.dark-mode.high-contrast .facility-card:hover {
+  border-color: #00ffff !important;
+  box-shadow: 0 0 15px rgba(0,255,255,0.4) !important;
+}
+
+/* Las opciones del formulario */
+.dark-mode.high-contrast .accommodation-option {
+  border: 2px solid #ffffff !important;
+}
+.dark-mode.high-contrast .accommodation-option.selected {
+  border-color: #ffff00 !important;
+  background-color: rgba(255,255,0,0.1) !important;
+}
+.dark-mode.high-contrast .accommodation-option.selected .accommodation-check {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+  border-color: #ffff00 !important;
+}
+
+/* Inputs del formulario en Modo Oscuro + Alto Contraste */
+.dark-mode.high-contrast .form-input {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+.dark-mode.high-contrast .form-input:focus {
+  border-color: #00ffff !important;
+  outline: none !important;
+}
+
+/* Modo Oscuro + Lectura Inmersiva */
+.dark-mode.immersive-reading,
+.dark-mode.immersive-reading section,
+.dark-mode.immersive-reading .container,
+.dark-mode.immersive-reading .hero,
+.dark-mode.immersive-reading .facilities,
+.dark-mode.immersive-reading .rooms,
+.dark-mode.immersive-reading .testimonials,
+.dark-mode.immersive-reading .contact,
+.dark-mode.immersive-reading .footer {
+  background-color: #121212 !important;
+  color: #f0f0f0 !important;
+}
+
+.dark-mode.immersive-reading * {
+  color: #f0f0f0 !important;
+  border-color: #555 !important;
+}
+
+.dark-mode.immersive-reading input, 
+.dark-mode.immersive-reading select, 
+.dark-mode.immersive-reading textarea {
+  background-color: #222 !important;
+  color: #fff !important;
+  border: 2px solid #777 !important;
+}
+
+.dark-mode.immersive-reading .header {
+  background-color: #1a1a1a !important;
+  border-bottom: 2px solid #555 !important;
+}
+
+/* Alto Contraste + Lectura Inmersiva (Modo Claro) */
+.high-contrast.immersive-reading:not(.dark-mode),
+.high-contrast.immersive-reading:not(.dark-mode) section,
+.high-contrast.immersive-reading:not(.dark-mode) .container,
+.high-contrast.immersive-reading:not(.dark-mode) .hero,
+.high-contrast.immersive-reading:not(.dark-mode) .header {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+.high-contrast.immersive-reading:not(.dark-mode) * {
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+/* Alto Contraste + Lectura Inmersiva (Modo Oscuro) */
+.dark-mode.high-contrast.immersive-reading,
+.dark-mode.high-contrast.immersive-reading section,
+.dark-mode.high-contrast.immersive-reading .container,
+.dark-mode.high-contrast.immersive-reading .hero,
+.dark-mode.high-contrast.immersive-reading .header {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+.dark-mode.high-contrast.immersive-reading * {
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+/* Resaltar Enlaces en Modo Oscuro y Alto Contraste */
+.dark-mode.high-contrast .highlight-links a, 
+.dark-mode.high-contrast .highlight-links button {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+}
+
+/* Modo Oscuro + Alto Contraste para el Footer */
+.dark-mode.high-contrast .footer {
+  background-color: #000000 !important;
+  border-top: 3px solid #ffffff !important;
+}
+
+.dark-mode.high-contrast .footer-text,
+.dark-mode.high-contrast .footer-links a,
+.dark-mode.high-contrast .footer-logo .logo-text {
+  color: #ffffff !important;
+}
+
+.dark-mode.high-contrast .admin-access-link {
+  border: 2px solid #00ffff !important;
+  color: #00ffff !important;
+  background-color: #000000 !important;
+}
+
+.dark-mode.high-contrast .admin-access-link:hover {
+  background-color: #00ffff !important;
+  color: #000000 !important;
+}
+
 
 /* Daltonismo - Filtros aplicados al contenido para no romper position:fixed de las barras */
 .cb-protanopia .header, .cb-protanopia main, .cb-protanopia .footer { filter: url('#protanopia'); }

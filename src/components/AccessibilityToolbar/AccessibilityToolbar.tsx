@@ -54,7 +54,16 @@ export function AccessibilityToolbar({ state, onChange }: AccessibilityToolbarPr
   }, [])
 
   const updateState = (key: keyof AccessibilityState, value: AccessibilityState[keyof AccessibilityState]) => {
-    onChange({ ...state, [key]: value })
+    let newState = { ...state, [key]: value }
+
+    // Lógica mutuamente excluyente entre Modo Oscuro y Lectura Inmersiva
+    if (key === 'darkMode' && value === true) {
+      newState.immersiveReading = false
+    } else if (key === 'immersiveReading' && value === true) {
+      newState.darkMode = false
+    }
+
+    onChange(newState)
   }
 
   return (
@@ -228,18 +237,47 @@ export function AccessibilityToolbar({ state, onChange }: AccessibilityToolbarPr
 
               <div className="accessibility-option">
                 <span className="accessibility-label">Filtros para Daltonismo</span>
-                <select
-                  value={state.colorBlindMode}
-                  onChange={(e) => updateState('colorBlindMode', e.target.value as AccessibilityState['colorBlindMode'])}
-                  className="accessibility-select"
-                  aria-label="Seleccionar filtro para daltonismo"
-                >
-                  <option value="none">Estándar</option>
-                  <option value="protanopia">Protanopía (Rojo-Verde)</option>
-                  <option value="deuteranopia">Deuteranopía (Verde-Rojo)</option>
-                  <option value="tritanopia">Tritanopía (Azul-Amarillo)</option>
-                  <option value="achromatopsia">Acromatopsia (Monocromático)</option>
-                </select>
+                <div className="color-blind-grid">
+                  <button
+                    onClick={() => updateState('colorBlindMode', 'none')}
+                    aria-pressed={state.colorBlindMode === 'none'}
+                    className={`accessibility-toggle-btn ${state.colorBlindMode === 'none' ? 'active' : ''}`}
+                  >
+                    Estándar
+                  </button>
+                  <button
+                    onClick={() => updateState('colorBlindMode', 'protanopia')}
+                    aria-pressed={state.colorBlindMode === 'protanopia'}
+                    className={`accessibility-toggle-btn ${state.colorBlindMode === 'protanopia' ? 'active' : ''}`}
+                    title="Protanopía (Rojo-Verde)"
+                  >
+                    Protanopía
+                  </button>
+                  <button
+                    onClick={() => updateState('colorBlindMode', 'deuteranopia')}
+                    aria-pressed={state.colorBlindMode === 'deuteranopia'}
+                    className={`accessibility-toggle-btn ${state.colorBlindMode === 'deuteranopia' ? 'active' : ''}`}
+                    title="Deuteranopía (Verde-Rojo)"
+                  >
+                    Deuteranopía
+                  </button>
+                  <button
+                    onClick={() => updateState('colorBlindMode', 'tritanopia')}
+                    aria-pressed={state.colorBlindMode === 'tritanopia'}
+                    className={`accessibility-toggle-btn ${state.colorBlindMode === 'tritanopia' ? 'active' : ''}`}
+                    title="Tritanopía (Azul-Amarillo)"
+                  >
+                    Tritanopía
+                  </button>
+                  <button
+                    onClick={() => updateState('colorBlindMode', 'achromatopsia')}
+                    aria-pressed={state.colorBlindMode === 'achromatopsia'}
+                    className={`accessibility-toggle-btn ${state.colorBlindMode === 'achromatopsia' ? 'active' : ''}`}
+                    title="Acromatopsia (Monocromático)"
+                  >
+                    Acromatopsia
+                  </button>
+                </div>
               </div>
             </div>
 

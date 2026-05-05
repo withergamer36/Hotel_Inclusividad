@@ -254,6 +254,26 @@
   text-align: center;
 }
 
+.color-blind-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.color-blind-grid .accessibility-toggle-btn {
+  font-size: 0.75rem;
+  padding: 6px 10px;
+  min-height: 36px;
+  text-align: center;
+  justify-content: center;
+}
+
+/* La opción "Estándar" puede ocupar el ancho completo para destacar */
+.color-blind-grid .accessibility-toggle-btn:first-child {
+  grid-column: 1 / -1;
+}
+
 .accessibility-reset {
   width: 100%;
   padding: 10px;

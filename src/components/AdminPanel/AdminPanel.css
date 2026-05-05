@@ -229,21 +229,28 @@
 .td-client, .td-reserva {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
 .td-client .name { font-weight: 600; }
-.td-client .contact { font-size: 0.8rem; color: #636e72; }
+.td-client .contact { 
+  font-size: 0.8rem; 
+  color: #636e72; 
+  background: transparent !important;
+  text-decoration: none !important;
+}
 
 .td-reserva .room { font-weight: 600; color: #2d3436; }
 .td-reserva .qty { font-size: 0.8rem; color: #0984e3; }
+.td-reserva .dates { font-size: 0.75rem; color: #636e72; }
 
 .td-acc {
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  max-width: 250px;
+  white-space: normal;
+  word-wrap: break-word;
   font-size: 0.85rem;
   color: #636e72;
+  line-height: 1.4;
 }
 
 .date {
