@@ -9,51 +9,64 @@ export function VoiceNavigator() {
 
   const commands = [
     {
-      command: ['ir a inicio', 'subir del todo', 'volver arriba'],
+      command: ['*inicio*', '*arriba del todo*'],
       callback: () => {
         document.getElementById('inicio')?.scrollIntoView({ behavior: 'smooth' })
         toast('Navegando al Inicio', { icon: '🏠' })
       }
     },
     {
-      command: ['ir a instalaciones', 'ver instalaciones', 'muéstrame el hotel'],
+      command: '*instalaciones*',
       callback: () => {
         document.getElementById('instalaciones')?.scrollIntoView({ behavior: 'smooth' })
         toast('Navegando a Instalaciones', { icon: '🏢' })
       }
     },
     {
-      command: ['ir a habitaciones', 'ver habitaciones', 'quiero una habitación'],
+      command: '*habitaciones*',
       callback: () => {
         document.getElementById('habitaciones')?.scrollIntoView({ behavior: 'smooth' })
         toast('Navegando a Habitaciones', { icon: '🛏️' })
       }
     },
     {
-      command: ['ir a mapa', 'ver mapa', 'mapa de accesibilidad'],
+      command: '*mapa*',
       callback: () => {
         document.getElementById('mapa')?.scrollIntoView({ behavior: 'smooth' })
         toast('Navegando al Mapa', { icon: '🗺️' })
       }
     },
     {
-      command: ['ir a contacto', 'hacer una reserva', 'reservar', 'reservar ahora'],
+      command: ['*contacto*', '*reservar*'],
       callback: () => {
         document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' })
         toast('Navegando a Contacto', { icon: '📅' })
-        // Dar foco al primer input
         setTimeout(() => document.getElementById('contact-name')?.focus(), 1000)
       }
     },
     {
-      command: ['consultar reserva', 'ver mi reserva', 'buscar mi pedido'],
+      command: ['*consultar*', '*mi reserva*', '*mi pedido*'],
       callback: () => {
         document.getElementById('consultar-reserva')?.scrollIntoView({ behavior: 'smooth' })
         toast('Consultar Reserva', { icon: '🔍' })
       }
     },
     {
-      command: 'detener voz',
+      command: ['*bajar*', '*abajo*'],
+      callback: () => {
+        window.scrollBy({ top: 600, behavior: 'smooth' })
+        toast('Bajando pantalla', { icon: '⬇️' })
+      }
+    },
+    {
+      command: ['*subir*', '*arriba*'],
+      callback: () => {
+        window.scrollBy({ top: -600, behavior: 'smooth' })
+        toast('Subiendo pantalla', { icon: '⬆️' })
+      }
+    },
+    {
+      command: ['*detener voz*', '*apagar micrófono*'],
       callback: () => {
         toggleVoice(false)
         toast('Control por voz desactivado', { icon: '🔇' })
