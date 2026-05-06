@@ -425,6 +425,11 @@ function App() {
             {t('footer.backToSite')}
           </button>
         </div>
+        <AccessibilityToolbar
+          state={accessibility}
+          onChange={setAccessibility}
+          onAnnounce={announce}
+        />
         <AdminPanel />
       </div>
     )
@@ -730,7 +735,7 @@ function App() {
                   <a href={`tel:${hotelData.phone}`}>{hotelData.phone}</a>
                 </div>
                 <div className="contact-item">
-                  <span className="contact-icon" aria-hidden="true">{'\u2709}\uFE0F'}</span>
+                  <span className="contact-icon" aria-hidden="true">{'\u2709\uFE0F'}</span>
                   <a href={`mailto:${hotelData.email}`}>{hotelData.email}</a>
                 </div>
                 <div className="contact-item">

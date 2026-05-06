@@ -252,7 +252,7 @@
 
   "facilitiesSection": {
     "title": "Hotel Facilities",
-    "subtitle": "{count} luxury rooms with {plan} and all the amenities you need",
+    "subtitle": "{{count}} luxury rooms with {{plan}} and all the amenities you need",
     "expandDetails": "Expand details.",
     "collapseDetails": "Collapse details.",
     "closeDetail": "Close detail",
@@ -271,18 +271,18 @@
     "reserve": "Book Now",
     "noRoomsFound": "No rooms found matching the selected filters.",
     "clearFilters": "Clear Filters",
-    "priceAriaLabel": "Price: {price} Mexican pesos per night"
+    "priceAriaLabel": "Price: {{price}} Mexican pesos per night"
   },
 
   "roomFilters": {
     "title": "Accessibility Filters",
     "clearFilters": "Clear Filters",
     "clearAllFilters": "Clear all filters",
-    "filterBy": "Filter by: {label}",
+    "filterBy": "Filter by: {{label}}",
     "ariaLabel": "Room accessibility filters",
-    "showingAll": "Showing all {count} available rooms",
-    "foundResults": "{count} room found matching the selected filters",
-    "foundResults_plural": "{count} rooms found matching the selected filters",
+    "showingAll": "Showing all {{count}} available rooms",
+    "foundResults": "{{count}} room found matching the selected filters",
+    "foundResults_plural": "{{count}} rooms found matching the selected filters",
     "noResults": "No rooms found matching the selected filters"
   },
 
@@ -294,7 +294,7 @@
     "filterAriaLabel": "Filter by category",
     "pointsAriaLabel": "Accessibility points",
     "closeDetail": "Close detail",
-    "detailIconAria": "Icon for {label}",
+    "detailIconAria": "Icon for {{label}}",
     "categories": {
       "all": "All",
       "entrance": "Entrances & Reception",
@@ -440,7 +440,7 @@
 
   "testimonialsSection": {
     "title": "What Our Guests Say",
-    "ratingAria": "Rating: {rating} out of 5 stars"
+    "ratingAria": "Rating: {{rating}} out of 5 stars"
   },
 
   "reservation": {
@@ -466,8 +466,8 @@
       "selectRoom": "Select an option"
     },
     "submit": "Submit Request",
-    "success": "Message sent successfully! Your order number is: {orderNumber}",
-    "error": "Error sending: {error}"
+    "success": "Message sent successfully! Your order number is: {{orderNumber}}",
+    "error": "Error sending: {{error}}"
   },
 
   "search": {
@@ -489,9 +489,9 @@
       "email": "Email",
       "phone": "Phone",
       "dates": "Dates",
-      "datesValue": "From {checkIn} to {checkOut}",
+      "datesValue": "From {{checkIn}} to {{checkOut}}",
       "room": "Room",
-      "quantity": "{type} ({qty} unit/s)",
+      "quantity": "{{type}} ({{qty}} unit/s)",
       "accessibility": "Accessibility Requests",
       "reservationDate": "Reservation Date",
       "none": "None"
@@ -500,7 +500,7 @@
   },
 
   "footer": {
-    "copyright": "© 2024 {name}. {category}. All rights reserved.",
+    "copyright": "© 2024 {{name}}. {{category}}. All rights reserved.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
     "accessibility": "Accessibility",
@@ -595,10 +595,10 @@
     },
     "attendedLabel": "Attended",
     "pendingLabel": "Pending",
-    "quantity": "Quantity: {qty}",
+    "quantity": "Quantity: {{qty}}",
     "none": "None",
     "updateError": "Error updating",
-    "exportFileName": "Hotel_Reservations_Report_{date}.xlsx"
+    "exportFileName": "Hotel_Reservations_Report_{{date}}.xlsx"
   },
 
   "speaker": {

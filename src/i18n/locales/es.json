@@ -252,7 +252,7 @@
 
   "facilitiesSection": {
     "title": "Instalaciones del Hotel",
-    "subtitle": "{count} habitaciones de lujo con {plan} y todas las amenidades que necesita",
+    "subtitle": "{{count}} habitaciones de lujo con {{plan}} y todas las amenidades que necesita",
     "expandDetails": "Expandir detalles.",
     "collapseDetails": "Colapsar detalles.",
     "closeDetail": "Cerrar detalle",
@@ -271,18 +271,18 @@
     "reserve": "Reservar",
     "noRoomsFound": "No se encontraron habitaciones con los filtros seleccionados.",
     "clearFilters": "Limpiar filtros",
-    "priceAriaLabel": "Precio: {price} pesos mexicanos por noche"
+    "priceAriaLabel": "Precio: {{price}} pesos mexicanos por noche"
   },
 
   "roomFilters": {
     "title": "Filtros de Accesibilidad",
     "clearFilters": "Limpiar filtros",
     "clearAllFilters": "Limpiar todos los filtros",
-    "filterBy": "Filtrar por: {label}",
+    "filterBy": "Filtrar por: {{label}}",
     "ariaLabel": "Filtros de accesibilidad para habitaciones",
-    "showingAll": "Mostrando las {count} habitaciones disponibles",
-    "foundResults": "Se encontraron {count} habitación con los filtros seleccionados",
-    "foundResults_plural": "Se encontraron {count} habitaciones con los filtros seleccionados",
+    "showingAll": "Mostrando las {{count}} habitaciones disponibles",
+    "foundResults": "Se encontraron {{count}} habitación con los filtros seleccionados",
+    "foundResults_plural": "Se encontraron {{count}} habitaciones con los filtros seleccionados",
     "noResults": "No se encontraron habitaciones con los filtros seleccionados"
   },
 
@@ -294,7 +294,7 @@
     "filterAriaLabel": "Filtrar por categoria",
     "pointsAriaLabel": "Puntos de accesibilidad",
     "closeDetail": "Cerrar detalle",
-    "detailIconAria": "Icono de {label}",
+    "detailIconAria": "Icono de {{label}}",
     "categories": {
       "all": "Todos",
       "entrance": "Entradas y Recepcion",
@@ -440,7 +440,7 @@
 
   "testimonialsSection": {
     "title": "Lo que dicen nuestros huespedes",
-    "ratingAria": "Calificacion: {rating} de 5 estrellas"
+    "ratingAria": "Calificacion: {{rating}} de 5 estrellas"
   },
 
   "reservation": {
@@ -466,8 +466,8 @@
       "selectRoom": "Seleccione una opción"
     },
     "submit": "Enviar Solicitud",
-    "success": "¡Mensaje enviado correctamente! Su número de pedido es: {orderNumber}",
-    "error": "Error al enviar: {error}"
+    "success": "¡Mensaje enviado correctamente! Su número de pedido es: {{orderNumber}}",
+    "error": "Error al enviar: {{error}}"
   },
 
   "search": {
@@ -489,9 +489,9 @@
       "email": "Correo",
       "phone": "Teléfono",
       "dates": "Fechas",
-      "datesValue": "Del {checkIn} al {checkOut}",
+      "datesValue": "Del {{checkIn}} al {{checkOut}}",
       "room": "Habitación",
-      "quantity": "{type} ({qty} unidad/es)",
+      "quantity": "{{type}} ({{qty}} unidad/es)",
       "accessibility": "Solicitudes de Accesibilidad",
       "reservationDate": "Fecha de Reserva",
       "none": "Ninguna"
@@ -500,7 +500,7 @@
   },
 
   "footer": {
-    "copyright": "© 2024 {name}. {category}. Todos los derechos reservados.",
+    "copyright": "© 2024 {{name}}. {{category}}. Todos los derechos reservados.",
     "privacy": "Política de Privacidad",
     "terms": "Términos de Servicio",
     "accessibility": "Accesibilidad",
@@ -595,10 +595,10 @@
     },
     "attendedLabel": "Atendido",
     "pendingLabel": "Pendiente",
-    "quantity": "Cantidad: {qty}",
+    "quantity": "Cantidad: {{qty}}",
     "none": "Ninguna",
     "updateError": "Error al actualizar",
-    "exportFileName": "Reporte_Reservas_Hotel_{date}.xlsx"
+    "exportFileName": "Reporte_Reservas_Hotel_{{date}}.xlsx"
   },
 
   "speaker": {
