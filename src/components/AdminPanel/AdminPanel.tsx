@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { db } from '../../lib/firebase'
 import { collection, getDocs, updateDoc, doc, query, orderBy } from 'firebase/firestore'
 import * as XLSX from 'xlsx';
 import './AdminPanel.css'
 
 export function AdminPanel() {
+  const { t, i18n } = useTranslation()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
@@ -26,7 +28,7 @@ export function AdminPanel() {
       setIsAuthenticated(true)
       fetchReservas()
     } else {
-      alert('Usuario o contraseña incorrectos')
+      alert(t('admin.loginError'))
     }
   }
 
@@ -51,8 +53,8 @@ export function AdminPanel() {
       const reservaRef = doc(db, 'reservas', id)
       await updateDoc(reservaRef, { atendido: !estadoActual })
       fetchReservas()
-    } catch (error) {
-      alert('Error al actualizar')
+    } catch {
+      alert(t('admin.updateError'))
     }
   }
 
@@ -65,22 +67,22 @@ export function AdminPanel() {
       'Habitación': r.habitacion_tipo,
       'Cantidad': r.habitacion_cantidad,
       'Accesibilidad': r.acomodaciones,
-      'Fecha': new Date(r.fecha_creacion).toLocaleString('es-MX'),
-      'Estado': r.atendido ? 'Atendido' : 'Pendiente'
+      'Fecha': new Date(r.fecha_creacion).toLocaleString(i18n.language === 'en' ? 'en-US' : 'es-MX'),
+      'Estado': r.atendido ? t('admin.attendedLabel') : t('admin.pendingLabel')
     }))
 
     const worksheet = XLSX.utils.json_to_sheet(dataToExport)
     const workbook = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Reservas')
-    
-    // Ajustar ancho de columnas
+
     const wscols = [
-      {wch: 15}, {wch: 25}, {wch: 30}, {wch: 15}, {wch: 25}, 
+      {wch: 15}, {wch: 25}, {wch: 30}, {wch: 15}, {wch: 25},
       {wch: 10}, {wch: 40}, {wch: 25}, {wch: 15}
     ]
     worksheet['!cols'] = wscols
 
-    XLSX.writeFile(workbook, `Reporte_Reservas_Hotel_${new Date().toISOString().split('T')[0]}.xlsx`)
+    const fileName = t('admin.exportFileName', { date: new Date().toISOString().split('T')[0] })
+    XLSX.writeFile(workbook, fileName)
   }
 
   if (!isAuthenticated) {
@@ -88,17 +90,17 @@ export function AdminPanel() {
       <div className="admin-login-container">
         <div className="login-card">
           <div className="login-header">
-            <span className="logo-icon">&#x1F3E8;</span>
-            <h2>Dashboard Administrativo</h2>
-            <p>Acceso restringido para personal del hotel</p>
+            <span className="logo-icon">{'\u{1F3E8}'}</span>
+            <h2>{t('admin.loginTitle')}</h2>
+            <p>{t('admin.loginSubtitle')}</p>
           </div>
           <form onSubmit={handleLogin} className="login-form">
             <div className="form-group">
-              <label htmlFor="admin-user">Usuario</label>
+              <label htmlFor="admin-user">{t('admin.user')}</label>
               <input
                 id="admin-user"
                 type="text"
-                placeholder="Usuario"
+                placeholder={t('admin.userPlaceholder')}
                 value={user}
                 onChange={(e) => setUser(e.target.value)}
                 className="admin-input"
@@ -106,11 +108,11 @@ export function AdminPanel() {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="admin-pass">Contraseña</label>
+              <label htmlFor="admin-pass">{t('admin.password')}</label>
               <input
                 id="admin-pass"
                 type="password"
-                placeholder="Contraseña"
+                placeholder={t('admin.passwordPlaceholder')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="admin-input"
@@ -118,7 +120,7 @@ export function AdminPanel() {
               />
             </div>
             <button type="submit" className="btn btn-primary login-btn">
-              Entrar al Sistema
+              {t('admin.loginButton')}
             </button>
           </form>
         </div>
@@ -130,85 +132,85 @@ export function AdminPanel() {
     <div className="admin-dashboard">
       <header className="admin-header-main">
         <div className="header-info">
-          <h1>Panel de Control</h1>
-          <p>Gestión de reservas y solicitudes de accesibilidad</p>
+          <h1>{t('admin.dashboard')}</h1>
+          <p>{t('admin.dashboardSubtitle')}</p>
         </div>
         <div className="header-actions">
           <button onClick={exportToExcel} className="btn btn-excel">
-            📊 Exportar a Excel
+            {'\u{1F4CA}'} {t('admin.exportExcel')}
           </button>
           <button onClick={() => setIsAuthenticated(false)} className="btn-logout">
-            Cerrar Sesión
+            {t('admin.logout')}
           </button>
         </div>
       </header>
 
       <div className="stats-grid">
         <div className="stat-card">
-          <span className="stat-label">Total Reservas</span>
+          <span className="stat-label">{t('admin.totalReservations')}</span>
           <span className="stat-value">{stats.total}</span>
         </div>
         <div className="stat-card warning">
-          <span className="stat-label">Pendientes</span>
+          <span className="stat-label">{t('admin.pending')}</span>
           <span className="stat-value">{stats.pendientes}</span>
         </div>
         <div className="stat-card success">
-          <span className="stat-label">Atendidas</span>
+          <span className="stat-label">{t('admin.attended')}</span>
           <span className="stat-value">{stats.atendidas}</span>
         </div>
       </div>
 
       <div className="table-wrapper">
         {loading ? (
-          <div className="loading-state">Cargando reservas...</div>
+          <div className="loading-state">{t('admin.loading')}</div>
         ) : (
           <table className="modern-table">
             <thead>
               <tr>
-                <th>Estado</th>
-                <th>Pedido</th>
-                <th>Cliente</th>
-                <th>Reserva</th>
-                <th>Accesibilidad</th>
-                <th>Fecha</th>
-                <th>Acciones</th>
+                <th>{t('admin.tableHeaders.status')}</th>
+                <th>{t('admin.tableHeaders.order')}</th>
+                <th>{t('admin.tableHeaders.client')}</th>
+                <th>{t('admin.tableHeaders.reservation')}</th>
+                <th>{t('admin.tableHeaders.accessibility')}</th>
+                <th>{t('admin.tableHeaders.date')}</th>
+                <th>{t('admin.tableHeaders.actions')}</th>
               </tr>
             </thead>
             <tbody>
               {reservas.map((reserva) => (
                 <tr key={reserva.id} className={reserva.atendido ? 'is-atendido' : ''}>
-                  <td data-label="Estado">
+                  <td data-label={t('admin.tableHeaders.status')}>
                     <span className={`badge ${reserva.atendido ? 'bg-success' : 'bg-warning'}`}>
-                      {reserva.atendido ? 'Atendido' : 'Pendiente'}
+                      {reserva.atendido ? t('admin.attendedLabel') : t('admin.pendingLabel')}
                     </span>
                   </td>
-                  <td data-label="Pedido" className="font-mono">{reserva.numero_de_pedido}</td>
-                  <td data-label="Cliente">
+                  <td data-label={t('admin.tableHeaders.order')} className="font-mono">{reserva.numero_de_pedido}</td>
+                  <td data-label={t('admin.tableHeaders.client')}>
                     <div className="td-client">
                       <span className="name">{reserva.nombre}</span>
                       <span className="contact">{reserva.email}</span>
                       <span className="contact">{reserva.telefono}</span>
                     </div>
                   </td>
-                  <td data-label="Reserva">
+                  <td data-label={t('admin.tableHeaders.reservation')}>
                     <div className="td-reserva">
                       <span className="room">{reserva.habitacion_tipo}</span>
-                      <span className="qty">Cantidad: {reserva.habitacion_cantidad}</span>
+                      <span className="qty">{t('admin.quantity', { qty: reserva.habitacion_cantidad })}</span>
                       <span className="dates text-xs text-gray-500">{reserva.checkIn} al {reserva.checkOut}</span>
                     </div>
                   </td>
-                  <td data-label="Accesibilidad">
+                  <td data-label={t('admin.tableHeaders.accessibility')}>
                     <div className="td-acc" title={reserva.acomodaciones}>
-                      {reserva.acomodaciones || 'Ninguna'}
+                      {reserva.acomodaciones || t('admin.none')}
                     </div>
                   </td>
-                  <td data-label="Fecha" className="date">{new Date(reserva.fecha_creacion).toLocaleString('es-MX', { dateStyle: 'short', timeStyle: 'short' })}</td>
-                  <td data-label="Acciones">
-                    <button 
+                  <td data-label={t('admin.tableHeaders.date')} className="date">{new Date(reserva.fecha_creacion).toLocaleString(i18n.language === 'en' ? 'en-US' : 'es-MX', { dateStyle: 'short', timeStyle: 'short' })}</td>
+                  <td data-label={t('admin.tableHeaders.actions')}>
+                    <button
                       onClick={() => handleToggleAtendido(reserva.id, reserva.atendido)}
                       className={`action-btn ${reserva.atendido ? 'btn-undo' : 'btn-complete'}`}
                     >
-                      {reserva.atendido ? '↩️' : '✅'}
+                      {reserva.atendido ? '\u21A9\uFE0F' : '\u2705'}
                     </button>
                   </td>
                 </tr>

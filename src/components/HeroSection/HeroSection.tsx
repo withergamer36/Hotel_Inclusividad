@@ -1,13 +1,32 @@
-import { hotelData } from '../../data/hotelData'
+import type { TFunction } from 'react-i18next'
 
-// Nota: Importamos el PageSpeaker simplificado o lo pasamos como prop.
-// Por ahora mantendremos el diseño estático principal aquí.
-export function HeroSection({ PageSpeakerComponent, speechRate }: { PageSpeakerComponent: any, speechRate: number }) {
+interface HotelDataForHero {
+  category: string
+  hotelType: string
+  tagline: string
+  description: string
+  plan: string
+  roomsCount: number
+  name: string
+  location: string
+  heroImageAlt: string
+}
+
+interface HeroSectionProps {
+  hotelData: HotelDataForHero
+  PageSpeakerComponent: any
+  speechRate: number
+  speechLang: string
+  t: TFunction
+  formatPrice: (price: number) => string
+}
+
+export function HeroSection({ hotelData, PageSpeakerComponent, speechRate, speechLang, t }: HeroSectionProps) {
   return (
     <section id="inicio" className="hero" aria-labelledby="hero-title">
       <div className="hero-content">
         <div className="hero-badge">
-          <span className="badge-stars">{'★'.repeat(5)}</span>
+          <span className="badge-stars">{'\u2605'.repeat(5)}</span>
           <span className="badge-category">{hotelData.category}</span>
           <span className="badge-type">{hotelData.hotelType}</span>
         </div>
@@ -24,19 +43,19 @@ export function HeroSection({ PageSpeakerComponent, speechRate }: { PageSpeakerC
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M7 14C8.1 14 9 13.1 9 12C9 10.9 8.1 10 7 10C5.9 10 5 10.9 5 12C5 13.1 5.9 14 7 14ZM19 7H11V15H3V5H1V20H3V17H19V20H21V11C21 8.79 19.21 7 17 7H19ZM19 15H17V9H19V15Z"/>
             </svg>
-            {hotelData.roomsCount} habitaciones
+            {hotelData.roomsCount} {t('hero.roomsCountLabel')}
           </span>
         </div>
         <div className="hero-buttons">
-          <a href="#habitaciones" className="btn btn-primary">Ver Habitaciones</a>
-          <a href="#contacto" className="btn btn-secondary">Contactar</a>
-          <PageSpeakerComponent rate={speechRate} />
+          <a href="#habitaciones" className="btn btn-primary">{t('hero.viewRooms')}</a>
+          <a href="#contacto" className="btn btn-secondary">{t('hero.contact')}</a>
+          <PageSpeakerComponent rate={speechRate} speechLang={speechLang} />
         </div>
       </div>
       <div className="hero-image">
         <img
           src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800"
-          alt={`Fachada del ${hotelData.name}, hotel cinco estrellas en ${hotelData.location}`}
+          alt={hotelData.heroImageAlt}
           loading="lazy"
         />
       </div>

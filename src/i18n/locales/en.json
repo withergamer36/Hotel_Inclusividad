@@ -1,0 +1,622 @@
+{
+  "skipLink": "Skip to main content",
+
+  "hotel": {
+    "name": "The Grand Executive",
+    "tagline": "Executive Luxury and Total Inclusion",
+    "description": "Five-star hotel located in the heart of Paseo de la Reforma. Designed to offer an exceptional inclusive experience where every guest, regardless of ability, enjoys absolute comfort and autonomy.",
+    "category": "5 Stars",
+    "hotelType": "High-End Executive",
+    "plan": "All Inclusive",
+    "roomsCount": 100,
+    "location": "Paseo de la Reforma, Mexico City",
+    "phone": "+52 55 9171 0000",
+    "email": "reservas@thegrandexecutive.mx",
+    "address": "Paseo de la Reforma 222, Col. Juárez, CDMX, México",
+    "currency": "MXN",
+    "heroImageAlt": "Facade of The Grand Executive, a five-star hotel on Paseo de la Reforma, Mexico City",
+
+    "amenities": {
+      "wheelchair": {
+        "title": "Accessible Rooms",
+        "description": "Spacious rooms with grab bars, adapted showers, and wheelchair-accessible space."
+      },
+      "visual": {
+        "title": "Visual Assistance",
+        "description": "Braille signage, audio description, and equipment for people with low vision."
+      },
+      "auditory": {
+        "title": "Hearing Assistance",
+        "description": "Visual alarms, amplified telephones, and hearing loops in common areas."
+      },
+      "mobility": {
+        "title": "Mobility",
+        "description": "Wheelchairs available, ramps in all areas, and spacious elevators."
+      },
+      "sensory": {
+        "title": "Sensory-Friendly",
+        "description": "Rooms with acoustic insulation, adjustable lighting, and low-stimulation zones."
+      },
+      "guide": {
+        "title": "Personal Guide",
+        "description": "Personalized assistance for guests with visual or cognitive disabilities."
+      }
+    },
+
+    "facilities": {
+      "gym": {
+        "name": "Gym",
+        "description": "Adapted equipment with low-impact exercise machines, virtual weights, and audio-guided training. Step-free access from the lobby."
+      },
+      "pool": {
+        "name": "Pool",
+        "description": "Submerged access ramp, hydraulic pool transfer chair, adapted changing rooms with grab bars, and emergency shower."
+      },
+      "bar": {
+        "name": "Bar",
+        "description": "Counter at 75cm height with knee clearance for wheelchairs. Braille menu and large-print 24pt menu available."
+      },
+      "restaurant": {
+        "name": "Restaurant",
+        "description": "Tables with knee clearance for wheelchairs, Braille menu, tactile floor indicators, and staff trained in accessibility protocol."
+      },
+      "bank": {
+        "name": "Banking Partner",
+        "description": "ATM with touch screen, audio output for transactions, Braille emergency button, and wheelchair-accessible space."
+      },
+      "shuttle": {
+        "name": "Transfers",
+        "description": "Adapted vehicles with manual access ramp, wheelchair anchors, and space for assistive equipment luggage. 24-hour service."
+      },
+      "exchange": {
+        "name": "Currency Exchange",
+        "description": "Preferential service at an 80cm-high counter with knee clearance. Foreign currency and traveler's check exchange with no commission."
+      },
+      "spa": {
+        "name": "Spa",
+        "description": "Treatment area with height-adjustable electric massage tables, hot tub with ramp access, and therapists trained in assisting people with disabilities."
+      },
+      "events": {
+        "name": "Event Hall",
+        "description": "Stage with access ramp, adjustable LED lighting, hearing loop audio system, and wheelchair spaces in front of the stage."
+      },
+      "meeting": {
+        "name": "Meeting Rooms",
+        "description": "Accessible round tables with central wheelchair space, large screen with real-time captions, and wireless microphone system."
+      },
+      "elevator": {
+        "name": "Elevators",
+        "description": "Three elevators with Braille buttons, floor audio announcements, panoramic mirrors, and capacity for 15 people or 2 wheelchairs simultaneously."
+      },
+      "parking": {
+        "name": "Parking",
+        "description": "10 accessible parking spaces near the entrance, with 1.50m transfer zone, vertical signage, and ramp to the lobby."
+      },
+      "store": {
+        "name": "Store",
+        "description": "Wide 1.50m aisle without obstacles, shelves at a maximum height of 1.20m, accessible checkout counters, and step-free entrance with automatic door."
+      },
+      "laundry": {
+        "name": "Laundry",
+        "description": "Washers and dryers at 80cm height, 90cm wide doors, pickup and delivery service directly to the room at no additional cost."
+      },
+      "pharmacy": {
+        "name": "Pharmacy",
+        "description": "Room delivery within the hotel, accessible counter in the lobby, medications organized in Braille blister packs, and dosage reminder service."
+      }
+    },
+
+    "rooms": {
+      "suitePresidencial": {
+        "name": "Accessible Presidential Suite",
+        "features": [
+          "Full wheelchair access",
+          "Roll-in shower",
+          "Bathroom grab bars",
+          "Visual and vibrating alarms",
+          "Height-adjustable furniture",
+          "Built-in hearing loop",
+          "Transfer crane available",
+          "Smart TV with subtitles and SDH"
+        ],
+        "altDescription": "Spacious suite with king-size bed, wide turning radius for wheelchairs, private bathroom with roll-in shower, chrome grab bars, height-adjustable furniture, and visual alert system. Panoramic view of Paseo de la Reforma."
+      },
+      "suiteJunior": {
+        "name": "Accessible Junior Suite",
+        "features": [
+          "Wheelchair access",
+          "Curbless shower",
+          "Grab bars",
+          "Visual alarms",
+          "Adjustable furniture",
+          "Hearing loop in common area"
+        ],
+        "altDescription": "Elegant suite with queen-size bed, adapted bathroom with curbless shower and grab bars, height-adjustable desk, and bedside visual alarm. View of the shopping center."
+      },
+      "habitacionEstandar": {
+        "name": "Adapted Standard Room",
+        "features": [
+          "Bathroom grab bars",
+          "Bedside visual alarms",
+          "Portable hearing loop",
+          "Accessible desk",
+          "Wide doors"
+        ],
+        "altDescription": "Double room with adapted bathroom including grab bars next to the toilet and in the shower, bedside visual alarm, portable hearing loop available upon request, and full-width doors for comfortable access."
+      }
+    },
+
+    "testimonials": {
+      "maria": {
+        "name": "María García",
+        "role": "Guest with motor disability",
+        "text": "For the first time in my life, I felt truly free in a hotel. Everything was perfectly adapted, from the shower to the desk."
+      },
+      "carlos": {
+        "name": "Carlos Mendoza",
+        "role": "Guest with visual disability",
+        "text": "The staff assisted me with incredible dedication. I was able to move around with total autonomy thanks to the Braille system and audio description."
+      },
+      "ana": {
+        "name": "Ana Ruiz",
+        "role": "Mother of a child with ASD",
+        "text": "The low-stimulation room was an oasis for my son. We were able to enjoy our vacation without stress or sensory overwhelm."
+      }
+    },
+
+    "accommodationOptions": {
+      "auditory-kit": {
+        "label": "Hearing Accessibility Kit",
+        "description": "Visual doorbell, vibrating alarm clock, and portable hearing loop"
+      },
+      "guide-dog": {
+        "label": "Guide Dog Accommodation",
+        "description": "Bed, bowls, and designated area for assistance dog"
+      },
+      "transfer-crane": {
+        "label": "Transfer Crane",
+        "description": "Ceiling-mounted system for mobility between bed and wheelchair"
+      },
+      "braille-menu": {
+        "label": "Braille Menu and Documentation",
+        "description": "Restaurant menu, hotel directory, and signage in Braille"
+      },
+      "special-diet": {
+        "label": "Special Diet",
+        "description": "Food allergies, restrictions, or specific dietary needs"
+      },
+      "visual-assistance": {
+        "label": "Personalized Visual Assistance",
+        "description": "Guided accompaniment throughout the hotel facilities"
+      },
+      "wheelchair": {
+        "label": "Complimentary Wheelchair",
+        "description": "Manual or motorized wheelchair during your stay"
+      },
+      "hospital-bed": {
+        "label": "Hospital or Anti-Reflux Bed",
+        "description": "Articulated bed with side rails and remote control"
+      }
+    },
+
+    "filterOptions": {
+      "wheelchairAccessible": "Wheelchair Accessible",
+      "rollInShower": "Roll-In Shower",
+      "grabBars": "Grab Bars",
+      "visualAlarms": "Visual Alarms",
+      "adjustableFurniture": "Adjustable Furniture",
+      "hearingLoop": "Hearing Loop",
+      "transferCrane": "Transfer Crane"
+    },
+
+    "iconLabels": {
+      "wheelchair": "Wheelchair accessibility icon",
+      "visual": "Visual assistance icon",
+      "auditory": "Hearing assistance icon",
+      "mobility": "Mobility icon",
+      "sensory": "Sensory-friendly environment icon",
+      "guide": "Personal guide icon",
+      "gym": "Gym icon",
+      "pool": "Pool icon",
+      "bar": "Bar icon",
+      "restaurant": "Restaurant icon",
+      "bank": "Banking partner icon",
+      "shuttle": "Transfers icon",
+      "exchange": "Currency exchange icon",
+      "spa": "Spa icon",
+      "events": "Event hall icon",
+      "meeting": "Meeting rooms icon",
+      "elevator": "Elevators icon",
+      "parking": "Parking icon",
+      "store": "Store icon",
+      "laundry": "Laundry icon",
+      "pharmacy": "Pharmacy icon"
+    }
+  },
+
+  "nav": {
+    "inicio": "Home",
+    "instalaciones": "Facilities",
+    "habitaciones": "Rooms",
+    "mapa": "Map",
+    "reservar": "Book Now",
+    "ariaLabel": "Main navigation",
+    "logoAriaLabel": "The Grand Executive - Home"
+  },
+
+  "hero": {
+    "viewRooms": "View Rooms",
+    "contact": "Contact",
+    "roomsCountLabel": "rooms"
+  },
+
+  "facilitiesSection": {
+    "title": "Hotel Facilities",
+    "subtitle": "{count} luxury rooms with {plan} and all the amenities you need",
+    "expandDetails": "Expand details.",
+    "collapseDetails": "Collapse details.",
+    "closeDetail": "Close detail",
+    "detailRegion": "Selected facility detail"
+  },
+
+  "amenitiesSection": {
+    "title": "Total Accessibility",
+    "subtitle": "All the tools you need for a comfortable stay"
+  },
+
+  "roomsSection": {
+    "title": "Our Rooms",
+    "subtitle": "Designed for your comfort and autonomy",
+    "perNight": "/night",
+    "reserve": "Book Now",
+    "noRoomsFound": "No rooms found matching the selected filters.",
+    "clearFilters": "Clear Filters",
+    "priceAriaLabel": "Price: {price} Mexican pesos per night"
+  },
+
+  "roomFilters": {
+    "title": "Accessibility Filters",
+    "clearFilters": "Clear Filters",
+    "clearAllFilters": "Clear all filters",
+    "filterBy": "Filter by: {label}",
+    "ariaLabel": "Room accessibility filters",
+    "showingAll": "Showing all {count} available rooms",
+    "foundResults": "{count} room found matching the selected filters",
+    "foundResults_plural": "{count} rooms found matching the selected filters",
+    "noResults": "No rooms found matching the selected filters"
+  },
+
+  "map": {
+    "title": "Accessibility Map",
+    "subtitle": "Navigate our adapted facilities",
+    "svgAriaLabel": "Architectural floor plan of the hotel with accessibility points",
+    "emptyState": "Click on any map point to view accessibility details",
+    "filterAriaLabel": "Filter by category",
+    "pointsAriaLabel": "Accessibility points",
+    "closeDetail": "Close detail",
+    "detailIconAria": "Icon for {label}",
+    "categories": {
+      "all": "All",
+      "entrance": "Entrances & Reception",
+      "vertical": "Vertical Access",
+      "bathroom": "Bathrooms",
+      "emergency": "Emergency",
+      "room": "Rooms",
+      "recreation": "Recreation",
+      "route": "Accessible Routes"
+    },
+    "svgLabels": {
+      "habitaciones": "ROOMS",
+      "servicios": "SERVICES",
+      "restaurante": "RESTAURANT",
+      "mesas": "80 tables",
+      "accesibles": "♿ 15 accessible",
+      "menuBraille": "Braille menu",
+      "salaEventos": "EVENT HALL",
+      "rampaEscenario": "♿ stage ramp",
+      "induccionMagnetica": "hearing loop",
+      "espaciosSIA": "20 SIA spaces",
+      "salasJuntas": "MEETING ROOMS",
+      "mesasAccesibles": "♿ accessible tables",
+      "subtitulosReal": "live captions",
+      "microfonos": "wireless mics",
+      "lavanderia": "LAUNDRY ♿",
+      "altura80": "80cm height • 90cm doors",
+      "farmacia": "PHARMACY ♿",
+      "blisterBraille": "Braille blister • room delivery",
+      "amenidades": "AMENITIES",
+      "estacionamiento": "PARKING",
+      "salidas": "EXITS",
+      "lobby": "LOBBY",
+      "recepcion": "Reception L",
+      "ascensor": "♿ Elev.",
+      "piscina": "POOL",
+      "rampa": "ramp",
+      "spa": "SPA",
+      "hidromasaje": "hydromassage",
+      "gimnasio": "GYM",
+      "cocina": "KITCHEN",
+      "banos": "BATHROOMS ♿",
+      "pisoAntiderrapante": "non-slip floor",
+      "hab3a": "Room 3A",
+      "hab3b": "Room 3B",
+      "hab4a": "Room 4A",
+      "hab4b": "Room 4B",
+      "salida": "EXIT",
+      "entrada": "ENTRANCE",
+      "principal": "MAIN"
+    },
+    "points": {
+      "main-entrance": {
+        "label": "Main Accessible Entrance",
+        "description": "Concrete ramp with 6% slope, automatic revolving door 1.40m wide + 1.20m side door. Doorbell with visual indicator and non-slip flooring."
+      },
+      "parking-spot-1": {
+        "label": "Reserved Accessible Parking 1",
+        "description": "Wide parking space 3.80m wide, striped transfer zone, wheelchair icon in blue. Located near the main entrance."
+      },
+      "parking-spot-2": {
+        "label": "Reserved Accessible Parking 2",
+        "description": "Second accessible space with the same specifications. Obstacle-free area and vertical sign with accessibility symbol."
+      },
+      "emergency-exit-north": {
+        "label": "Emergency Exit - North",
+        "description": "Emergency staircase with panic bar, green EXIT symbol, and step-free evacuation ramp. Automatic emergency lighting."
+      },
+      "reception": {
+        "label": "Inclusive Reception",
+        "description": "L-shaped counter with different heights: 75cm for wheelchair users and 90cm for standing persons. Knee clearance of 70cm. Built-in hearing loop."
+      },
+      "main-elevator": {
+        "label": "Inclusive Elevator",
+        "description": "Panoramic elevator with international accessibility symbol. Braille buttons, floor audio, and full-length side mirror. Capacity for 15 people or 2 wheelchairs."
+      },
+      "lobby-bathroom": {
+        "label": "Adapted Bathroom - Lobby",
+        "description": "Unisex public bathroom with 1.50m transfer space, chrome grab bars, emergency alarm with flashing light, and mirror at 90cm height."
+      },
+      "pool": {
+        "label": "Adapted Pool",
+        "description": "Depth from 0.90m to 1.40m. Features a 6m submerged access ramp and a hydraulic pool lift with SIA symbol for safe transfer."
+      },
+      "spa": {
+        "label": "Spa and Treatments",
+        "description": "3 massage cabins with electric adjustable tables from 45cm to 90cm. Hot tub with access ramp and therapists trained in assisting people with disabilities."
+      },
+      "gym": {
+        "label": "Adapted Gym",
+        "description": "400m² with 12 adapted exercise machines, audio channel trainer, digital weights, and stretching area with minimum 1.50m wheelchair clearance."
+      },
+      "restaurant": {
+        "label": "Accessible Restaurant",
+        "description": "80 covers with 15 wheelchair-accessible tables (knee clearance). Braille menu available upon request. Service surface at 85cm height."
+      },
+      "kitchen-bathrooms": {
+        "label": "Kitchen and Public Bathrooms",
+        "description": "Service area with adapted public bathrooms. Left and right grab bars at toilet, luminous alarm, and wide 90cm step-free doors."
+      },
+      "rooms-floor-3-a": {
+        "label": "Accessible Rooms - Floor 3 Wing A",
+        "description": "4 rooms with 90cm doors, bathrooms with grab bars, bedside visual alarm. 1.50m turning radius. Step-free floor transition."
+      },
+      "rooms-floor-3-b": {
+        "label": "Accessible Rooms - Floor 3 Wing B",
+        "description": "4 additional rooms on the same floor with the same accessibility specifications. Wide obstacle-free hallway."
+      },
+      "rooms-floor-4-a": {
+        "label": "Junior Rooms - Floor 4 Wing A",
+        "description": "4 adapted rooms with roll-in shower, height-adjustable desk, and portable hearing loop available. View of the inner courtyard."
+      },
+      "rooms-floor-4-b": {
+        "label": "Junior Rooms - Floor 4 Wing B",
+        "description": "Junior Suite with 1.20m entrance, full bathroom with grab bars, and articulated bed. Maximum comfort amenities."
+      },
+      "floor-bathroom": {
+        "label": "Floor Common Bathroom",
+        "description": "Adapted bathroom on each floor near the elevators. Bilateral grab bars at toilet, luminous alarm visible from hallway, and shift changing table."
+      },
+      "route-lobby-pool": {
+        "label": "Accessible Route Lobby-Pool",
+        "description": "Obstacle-free path with non-slip flooring, minimum width of 1.50m, and ramps where there are level changes. Connects the lobby with the pool area."
+      },
+      "events-room": {
+        "label": "Accessible Event Hall",
+        "description": "Stage with access ramp, adjustable LED lighting, hearing loop audio system, and 20 wheelchair spaces in front of the stage."
+      },
+      "meeting-rooms": {
+        "label": "Accessible Meeting Rooms",
+        "description": "Accessible round tables with central wheelchair space, large screen with real-time captions, and wireless microphone system."
+      },
+      "laundry-service": {
+        "label": "Adapted Laundry",
+        "description": "Washers and dryers at 80cm height, 90cm wide doors, pickup and delivery service directly to the room at no additional cost."
+      },
+      "pharmacy-service": {
+        "label": "Accessible Pharmacy",
+        "description": "Accessible counter in the lobby, medications organized in Braille blister packs, dosage reminder service, and in-room delivery within the hotel."
+      }
+    }
+  },
+
+  "testimonialsSection": {
+    "title": "What Our Guests Say",
+    "ratingAria": "Rating: {rating} out of 5 stars"
+  },
+
+  "reservation": {
+    "title": "Book Your Stay",
+    "subtitle": "We are here to help",
+    "formLabels": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "roomType": "Room Type",
+      "quantity": "Quantity",
+      "checkIn": "Check-in Date",
+      "checkOut": "Check-out Date",
+      "phone": "Phone",
+      "accommodations": "Special Accommodation Requests",
+      "accommodationsDesc": "Select the accessibility services you need during your stay",
+      "message": "Other needs or comments"
+    },
+    "placeholders": {
+      "name": "John Smith",
+      "email": "john@example.com",
+      "phone": "+1 555 0000 000",
+      "message": "Please indicate any other special accessibility needs...",
+      "selectRoom": "Select an option"
+    },
+    "submit": "Submit Request",
+    "success": "Message sent successfully! Your order number is: {orderNumber}",
+    "error": "Error sending: {error}"
+  },
+
+  "search": {
+    "title": "Check My Reservation",
+    "subtitle": "Enter your order number to check the status",
+    "placeholder": "Ex: RES-X7H2J9L1",
+    "button": "Search Reservation",
+    "searching": "Searching...",
+    "notFound": "No reservation found with that order number.",
+    "found": "Reservation found.",
+    "foundAnnounce": "Reservation found. Scroll down to view details.",
+    "error": "Error searching for reservation.",
+    "confirmed": "Confirmed / Attended",
+    "pending": "Pending Review",
+    "detailsTitle": "Reservation Details",
+    "labels": {
+      "orderNumber": "Order Number",
+      "holder": "Guest Name",
+      "email": "Email",
+      "phone": "Phone",
+      "dates": "Dates",
+      "datesValue": "From {checkIn} to {checkOut}",
+      "room": "Room",
+      "quantity": "{type} ({qty} unit/s)",
+      "accessibility": "Accessibility Requests",
+      "reservationDate": "Reservation Date",
+      "none": "None"
+    },
+    "close": "Close Details"
+  },
+
+  "footer": {
+    "copyright": "© 2024 {name}. {category}. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "accessibility": "Accessibility",
+    "admin": "Administration",
+    "backToSite": "Back to Hotel Site",
+    "ariaLabel": "Legal links"
+  },
+
+  "accessibility": {
+    "toolbarLabel": "Accessibility tools",
+    "openPanel": "Open accessibility panel",
+    "closePanel": "Close accessibility panel",
+    "panelTitle": "Accessibility Options",
+    "closeBtn": "Close panel",
+    "sections": {
+      "text": "Text",
+      "visual": "Visual",
+      "cognitive": "Cognitive",
+      "language": "Language"
+    },
+    "fontSize": "Font Size",
+    "dyslexiaFont": "Dyslexia-Friendly Font",
+    "textSpacing": "Text Spacing",
+    "readingGuide": "Reading Guide",
+    "highContrast": "High Contrast",
+    "darkMode": "Dark Mode",
+    "reduceMotion": "Reduce Animations",
+    "highlightLinks": "Highlight Links",
+    "largeCursor": "Large Cursor",
+    "colorBlindFilters": "Color Blindness Filters",
+    "immersiveReading": "Immersive Reading (Distraction-Free)",
+    "on": "Enabled",
+    "off": "Disabled",
+    "standard": "Standard",
+    "protanopia": "Protanopia",
+    "protanopiaTitle": "Protanopia (Red-Green)",
+    "deuteranopia": "Deuteranopia",
+    "deuteranopiaTitle": "Deuteranopia (Green-Red)",
+    "tritanopia": "Tritanopia",
+    "tritanopiaTitle": "Tritanopia (Blue-Yellow)",
+    "achromatopsia": "Achromatopsia",
+    "achromatopsiaTitle": "Achromatopsia (Monochrome)",
+    "reset": "Reset Settings",
+    "increaseFont": "Increase font size",
+    "decreaseFont": "Decrease font size",
+    "languageLabel": "Switch language"
+  },
+
+  "voice": {
+    "button": "Voice Control",
+    "listening": "Listening...",
+    "enable": "Enable voice control",
+    "disable": "Disable voice control",
+    "navigatingInicio": "Navigating to Home",
+    "navigatingInstalaciones": "Navigating to Facilities",
+    "navigatingHabitaciones": "Navigating to Rooms",
+    "navigatingMapa": "Navigating to Map",
+    "navigatingContacto": "Navigating to Contact",
+    "consulting": "Check Reservation",
+    "scrollDown": "Scrolling down",
+    "scrollUp": "Scrolling up",
+    "deactivated": "Voice control disabled",
+    "activated": "Voice control enabled. Say 'Go to rooms', 'Book', etc.",
+    "microphoneError": "Microphone is not available or lacks permissions."
+  },
+
+  "admin": {
+    "loginTitle": "Administrative Dashboard",
+    "loginSubtitle": "Restricted access for hotel staff",
+    "user": "User",
+    "password": "Password",
+    "userPlaceholder": "User",
+    "passwordPlaceholder": "Password",
+    "loginButton": "Enter System",
+    "loginError": "Incorrect username or password",
+    "dashboard": "Dashboard",
+    "dashboardSubtitle": "Reservation and accessibility request management",
+    "exportExcel": "Export to Excel",
+    "logout": "Log Out",
+    "totalReservations": "Total Reservations",
+    "pending": "Pending",
+    "attended": "Attended",
+    "loading": "Loading reservations...",
+    "tableHeaders": {
+      "status": "Status",
+      "order": "Order",
+      "client": "Client",
+      "reservation": "Reservation",
+      "accessibility": "Accessibility",
+      "date": "Date",
+      "actions": "Actions"
+    },
+    "attendedLabel": "Attended",
+    "pendingLabel": "Pending",
+    "quantity": "Quantity: {qty}",
+    "none": "None",
+    "updateError": "Error updating",
+    "exportFileName": "Hotel_Reservations_Report_{date}.xlsx"
+  },
+
+  "speaker": {
+    "facilitiesSection": "Read facilities section",
+    "amenitiesSection": "Read services section",
+    "roomsSection": "Read rooms section",
+    "mapSection": "Read map section",
+    "testimonialsSection": "Read testimonials section",
+    "contactSection": "Read contact section",
+    "readPage": "Read entire page",
+    "stopPage": "Stop reading"
+  },
+
+  "roomAccessBadges": {
+    "wheelchairAccessible": "Wheelchair Accessible",
+    "rollInShower": "Roll-in Shower",
+    "grabBars": "Grab Bars",
+    "visualAlarms": "Visual Alarms",
+    "hearingLoop": "Hearing Loop"
+  }
+}

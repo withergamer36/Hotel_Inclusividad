@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { AccessibilityToolbar, type AccessibilityState } from '../AccessibilityToolbar/AccessibilityToolbar'
 import { RoomFilters } from '../RoomFilters/RoomFilters'
 import { AccessibilityMap } from '../AccessibilityMap/AccessibilityMap'
-import { hotelData, accommodationOptions, type Room } from '../../data/hotelData'
+import { useHotelData, type Room } from '../../i18n/useHotelData'
 import { db } from '../../lib/firebase'
 import { collection, addDoc, query, where, getDocs } from 'firebase/firestore'
 import emailjs from '@emailjs/browser'
@@ -31,17 +32,25 @@ function StarIcon(props: React.SVGProps<SVGSVGElement> & { filled?: boolean }) {
   )
 }
 
-function formatPrice(price: number): string {
-  return price.toLocaleString('es-MX')
+function useFormatPrice() {
+  const { i18n } = useTranslation()
+  const locale = i18n.language === 'en' ? 'en-US' : 'es-MX'
+  return (price: number): string => price.toLocaleString(locale)
+}
+
+function useSpeechLang() {
+  const { i18n } = useTranslation()
+  return i18n.language === 'en' ? 'en-US' : 'es-ES'
 }
 
 interface SectionSpeakerProps {
   text: string
   rate: number
   ariaLabel: string
+  speechLang: string
 }
 
-function SectionSpeaker({ text, rate, ariaLabel }: SectionSpeakerProps) {
+function SectionSpeaker({ text, rate, ariaLabel, speechLang }: SectionSpeakerProps) {
   const [isSpeaking, setIsSpeaking] = useState(false)
 
   const handleSpeak = () => {
@@ -56,7 +65,7 @@ function SectionSpeaker({ text, rate, ariaLabel }: SectionSpeakerProps) {
     }
 
     const utterance = new SpeechSynthesisUtterance(text)
-    utterance.lang = 'es-ES'
+    utterance.lang = speechLang
     utterance.rate = rate
     utterance.pitch = 1
 
@@ -89,7 +98,8 @@ function SectionSpeaker({ text, rate, ariaLabel }: SectionSpeakerProps) {
   )
 }
 
-function PageSpeaker({ rate }: { rate: number }) {
+function PageSpeaker({ rate, speechLang }: { rate: number; speechLang: string }) {
+  const { t } = useTranslation()
   const [isSpeaking, setIsSpeaking] = useState(false)
   const isActiveRef = useRef(false)
 
@@ -150,7 +160,7 @@ function PageSpeaker({ rate }: { rate: number }) {
         return
       }
       const utterance = new SpeechSynthesisUtterance(chunks[index])
-      utterance.lang = 'es-ES'
+      utterance.lang = speechLang
       utterance.rate = rate
       utterance.pitch = 1
       utterance.onend = () => speakNext(index + 1)
@@ -169,7 +179,7 @@ function PageSpeaker({ rate }: { rate: number }) {
     <button
       className="hero-speaker"
       onClick={handleSpeak}
-      aria-label={isSpeaking ? 'Detener lectura de la página' : 'Leer toda la página'}
+      aria-label={isSpeaking ? t('speaker.stopPage') : t('speaker.readPage')}
       aria-pressed={isSpeaking}
     >
       {isSpeaking ? (
@@ -188,6 +198,11 @@ function PageSpeaker({ rate }: { rate: number }) {
 }
 
 function App() {
+  const { t, i18n } = useTranslation()
+  const { hotelData, accommodationOptions } = useHotelData()
+  const formatPrice = useFormatPrice()
+  const speechLang = useSpeechLang()
+
   const [accessibility, setAccessibility] = useState<AccessibilityState>({
     fontSize: 1,
     dyslexiaFont: false,
@@ -254,6 +269,10 @@ function App() {
     }
   }, [accessibility.darkMode])
 
+  useEffect(() => {
+    document.documentElement.lang = i18n.language
+  }, [i18n.language])
+
   const accessibilityClasses = [
     accessibility.dyslexiaFont ? 'dyslexia-font' : '',
     accessibility.highContrast ? 'high-contrast' : '',
@@ -283,14 +302,12 @@ function App() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     const form = e.target as HTMLFormElement
     const formData = new FormData(form)
-    
-    // Generar número de pedido aleatorio (ID)
+
     const orderNumber = 'RES-' + Math.random().toString(36).substr(2, 9).toUpperCase()
-    
-    // Traducir las acomodaciones al español para que sean legibles
+
     const translatedAccommodations = selectedAccommodations.map(id => {
       const option = accommodationOptions.find(opt => opt.id === id);
       return option ? option.label : id;
@@ -317,7 +334,6 @@ function App() {
       })
       console.log('Reserva guardada con ID:', docRef.id);
 
-      // Enviar correo de confirmación vía EmailJS
       try {
         await emailjs.send(
           'service_q8d6ofv',
@@ -339,16 +355,17 @@ function App() {
         console.error('Error al enviar el correo:', emailError);
       }
 
-      const successMsg = `¡Mensaje enviado correctamente! Su número de pedido es: ${orderNumber}`
+      const successMsg = t('reservation.success', { orderNumber })
       alert(successMsg)
       announce(successMsg)
-      
+
       setSelectedAccommodations([])
       form.reset()
     } catch (error: any) {
       console.error('Error detallado de Firebase:', error)
-      alert(`Error al enviar: ${error.message}`)
-      announce(`Error al enviar: ${error.message}`)
+      const errorMsg = t('reservation.error', { error: error.message })
+      alert(errorMsg)
+      announce(errorMsg)
     }
   }
 
@@ -362,19 +379,19 @@ function App() {
     try {
       const q = query(collection(db, 'reservas'), where('numero_de_pedido', '==', searchOrder.trim().toUpperCase()))
       const querySnapshot = await getDocs(q)
-      
+
       if (querySnapshot.empty) {
-        toast.error('No se encontró ninguna reserva con ese número de pedido.')
-        announce('No se encontró ninguna reserva con ese número de pedido.')
+        toast.error(t('search.notFound'))
+        announce(t('search.notFound'))
       } else {
         const doc = querySnapshot.docs[0]
         setFoundReservation({ id: doc.id, ...doc.data() })
-        toast.success('Reserva encontrada.')
-        announce('Reserva encontrada. Desplácese hacia abajo para ver los detalles.')
+        toast.success(t('search.found'))
+        announce(t('search.foundAnnounce'))
       }
-    } catch (error) {
-      toast.error('Error al buscar la reserva.')
-      announce('Error al buscar la reserva.')
+    } catch {
+      toast.error(t('search.error'))
+      announce(t('search.error'))
     } finally {
       setIsSearching(false)
     }
@@ -382,30 +399,30 @@ function App() {
 
   const selectedFacilityData = hotelData.facilities.find(f => f.id === selectedFacility)
 
-  const instalacionesText = `Instalaciones del Hotel. ${hotelData.roomsCount} habitaciones de lujo con ${hotelData.plan.toLowerCase()} y todas las amenidades que necesita. ${hotelData.facilities.map(f => `${f.icon} ${f.name}: ${f.description}`).join('. ')}`
+  const instalacionesText = `${t('facilitiesSection.title')}. ${hotelData.roomsCount} ${t('facilitiesSection.subtitle', { count: hotelData.roomsCount, plan: hotelData.plan.toLowerCase() })}. ${hotelData.facilities.map(f => `${f.name}: ${f.description}`).join('. ')}`
 
-  const serviciosText = `Accesibilidad Total. Todas las herramientas que necesitas para una estancia cómoda. ${hotelData.amenities.map(a => `${a.title}: ${a.description}`).join('. ')}`
+  const serviciosText = `${t('amenitiesSection.title')}. ${t('amenitiesSection.subtitle')}. ${hotelData.amenities.map(a => `${a.title}: ${a.description}`).join('. ')}`
 
-  const habitacionesText = `Nuestras Habitaciones. Diseñadas para tu comodidad y autonomía. ${filteredRooms.length} habitaciones disponibles. ${filteredRooms.map(r => `${r.name}: ${r.altDescription}. Precio: ${hotelData.currency} ${formatPrice(r.price)} pesos mexicanos por noche.`).join(' ')}`
+  const habitacionesText = `${t('roomsSection.title')}. ${t('roomsSection.subtitle')}. ${filteredRooms.length} ${t('roomsSection.subtitle').toLowerCase()}. ${filteredRooms.map(r => `${r.name}: ${r.altDescription}. ${t('roomsSection.priceAriaLabel', { price: formatPrice(r.price) })}.`).join(' ')}`
 
-  const mapaText = `Mapa de Accesibilidad. Punto de interés para personas con discapacidad. Leyenda: Zona de recepción, Zona de habitaciones, Zona de restaurante, Zona de instalaciones, Zona de estacionamiento, Zona exterior. Pulse los puntos en el mapa para más detalles.`
+  const mapaText = `${t('map.title')}. ${t('map.subtitle')}.`
 
-  const contactoText = `Reserva tu estancia. Estamos aquí para ayudarte. Teléfono: ${hotelData.phone}. Correo electrónico: ${hotelData.email}. Dirección: ${hotelData.address}.`
+  const contactoText = `${t('reservation.title')}. ${t('reservation.subtitle')}. ${t('hotel.phone')}: ${hotelData.phone}. ${t('search.labels.email')}: ${hotelData.email}. ${t('hotel.address')}: ${hotelData.address}.`
 
-  const testimoniosText = `Lo que dicen nuestros huéspedes. ${hotelData.testimonials.map(t => `${t.name}, ${t.role}: ${t.text}`).join('. ')}`
+  const testimoniosText = `${t('testimonialsSection.title')}. ${hotelData.testimonials.map(test => `${test.name}, ${test.role}: ${test.text}`).join('. ')}`
 
   if (isAdminView) {
     return (
-      <div 
+      <div
         className={`landing ${accessibilityClasses}`}
         style={{ fontSize: `${accessibility.fontSize}rem`, minHeight: '100vh' }}
       >
         <div style={{ padding: '20px', display: 'flex', justifyContent: 'flex-end' }}>
-          <button 
-            onClick={() => setIsAdminView(false)} 
+          <button
+            onClick={() => setIsAdminView(false)}
             className="btn btn-secondary"
           >
-            Volver al Sitio del Hotel
+            {t('footer.backToSite')}
           </button>
         </div>
         <AdminPanel />
@@ -421,7 +438,7 @@ function App() {
       <Toaster position="top-center" reverseOrder={false} />
       <VoiceNavigator />
       <a href="#main-content" className="skip-link">
-        Saltar al contenido principal
+        {t('skipLink')}
       </a>
 
       <div
@@ -450,31 +467,38 @@ function App() {
 
       <header className="header" role="banner">
         <div className="container">
-          <a href="#inicio" className="logo" aria-label={`${hotelData.name} - Inicio`}>
-            <span className="logo-icon" aria-hidden="true">&#x1F3E8;</span>
+          <a href="#inicio" className="logo" aria-label={t('nav.logoAriaLabel')}>
+            <span className="logo-icon" aria-hidden="true">{'\u{1F3E8}'}</span>
             <span className="logo-text">{hotelData.name}</span>
           </a>
-          <nav className="nav" role="navigation" aria-label="Navegacion principal">
-            <a href="#inicio" className="nav-link">Inicio</a>
-            <a href="#instalaciones" className="nav-link">Instalaciones</a>
-            <a href="#habitaciones" className="nav-link">Habitaciones</a>
-            <a href="#mapa" className="nav-link">Mapa</a>
-            <a href="#contacto" className="nav-link btn-primary">Reservar</a>
+          <nav className="nav" role="navigation" aria-label={t('nav.ariaLabel')}>
+            <a href="#inicio" className="nav-link">{t('nav.inicio')}</a>
+            <a href="#instalaciones" className="nav-link">{t('nav.instalaciones')}</a>
+            <a href="#habitaciones" className="nav-link">{t('nav.habitaciones')}</a>
+            <a href="#mapa" className="nav-link">{t('nav.mapa')}</a>
+            <a href="#contacto" className="nav-link btn-primary">{t('nav.reservar')}</a>
           </nav>
         </div>
       </header>
 
       <main id="main-content" role="main">
-        <HeroSection PageSpeakerComponent={PageSpeaker} speechRate={accessibility.speechRate} />
+        <HeroSection
+          hotelData={hotelData}
+          PageSpeakerComponent={PageSpeaker}
+          speechRate={accessibility.speechRate}
+          speechLang={speechLang}
+          t={t}
+          formatPrice={formatPrice}
+        />
 
         <section id="instalaciones" className="facilities" aria-labelledby="facilities-title">
           <div className="container">
             <h2 id="facilities-title" className="section-title">
-              Instalaciones del Hotel
-              <SectionSpeaker text={instalacionesText} rate={accessibility.speechRate} ariaLabel="Leer sección de instalaciones" />
+              {t('facilitiesSection.title')}
+              <SectionSpeaker text={instalacionesText} rate={accessibility.speechRate} ariaLabel={t('speaker.facilitiesSection')} speechLang={speechLang} />
             </h2>
             <p className="section-subtitle">
-              {hotelData.roomsCount} habitaciones de lujo con {hotelData.plan.toLowerCase()} y todas las amenidades que necesita
+              {hotelData.roomsCount} {t('facilitiesSection.subtitle', { count: hotelData.roomsCount, plan: hotelData.plan.toLowerCase() })}
             </p>
             <div className="facilities-grid" role="list">
               {hotelData.facilities.map((facility) => (
@@ -484,7 +508,7 @@ function App() {
                   role="listitem"
                   onClick={() => setSelectedFacility(selectedFacility === facility.id ? null : facility.id)}
                   aria-pressed={selectedFacility === facility.id}
-                  aria-label={`${facility.name}. ${selectedFacility === facility.id ? 'Colapsar detalles.' : 'Expandir detalles.'}`}
+                  aria-label={`${facility.name}. ${selectedFacility === facility.id ? t('facilitiesSection.collapseDetails') : t('facilitiesSection.expandDetails')}`}
                 >
                   <span className="facility-icon" aria-hidden="true">{facility.icon}</span>
                   <span className="facility-name">{facility.name}</span>
@@ -492,14 +516,14 @@ function App() {
               ))}
             </div>
             {selectedFacilityData && (
-              <div className="facility-detail-panel" role="region" aria-label="Detalle de instalación seleccionada">
+              <div className="facility-detail-panel" role="region" aria-label={t('facilitiesSection.detailRegion')}>
                 <div className="facility-detail-header">
                   <span className="facility-detail-icon" aria-hidden="true">{selectedFacilityData.icon}</span>
                   <h3 className="facility-detail-name">{selectedFacilityData.name}</h3>
                   <button
                     className="facility-detail-close"
                     onClick={() => setSelectedFacility(null)}
-                    aria-label="Cerrar detalle"
+                    aria-label={t('facilitiesSection.closeDetail')}
                   >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                       <path d="M18 6L6 18M6 6l12 12" />
@@ -515,10 +539,10 @@ function App() {
         <section id="servicios" className="features" aria-labelledby="features-title">
           <div className="container">
             <h2 id="features-title" className="section-title">
-              Accesibilidad Total
-              <SectionSpeaker text={serviciosText} rate={accessibility.speechRate} ariaLabel="Leer sección de servicios" />
+              {t('amenitiesSection.title')}
+              <SectionSpeaker text={serviciosText} rate={accessibility.speechRate} ariaLabel={t('speaker.amenitiesSection')} speechLang={speechLang} />
             </h2>
-            <p className="section-subtitle">Todas las herramientas que necesitas para una estancia comoda</p>
+            <p className="section-subtitle">{t('amenitiesSection.subtitle')}</p>
             <div className="features-grid" role="list">
               {hotelData.amenities.map((amenity, index) => (
                 <article key={index} className="feature-card" role="listitem">
@@ -534,10 +558,10 @@ function App() {
         <section id="habitaciones" className="rooms" aria-labelledby="rooms-title">
           <div className="container">
             <h2 id="rooms-title" className="section-title">
-              Nuestras Habitaciones
-              <SectionSpeaker text={habitacionesText} rate={accessibility.speechRate} ariaLabel="Leer sección de habitaciones" />
+              {t('roomsSection.title')}
+              <SectionSpeaker text={habitacionesText} rate={accessibility.speechRate} ariaLabel={t('speaker.roomsSection')} speechLang={speechLang} />
             </h2>
-            <p className="section-subtitle">Disenadas para tu comodidad y autonomia</p>
+            <p className="section-subtitle">{t('roomsSection.subtitle')}</p>
 
             <RoomFilters
               activeFilters={activeFilters}
@@ -548,12 +572,12 @@ function App() {
             <div className="rooms-grid">
               {filteredRooms.length === 0 ? (
                 <div className="no-rooms-message" role="alert">
-                  <p>No se encontraron habitaciones con los filtros seleccionados.</p>
+                  <p>{t('roomsSection.noRoomsFound')}</p>
                   <button
                     className="btn btn-secondary"
                     onClick={() => setActiveFilters([])}
                   >
-                    Limpiar filtros
+                    {t('roomsSection.clearFilters')}
                   </button>
                 </div>
               ) : (
@@ -563,19 +587,19 @@ function App() {
                       <img src={room.image} alt={room.altDescription} loading="lazy" />
                       <div className="room-accessibility-badges">
                         {room.accessibility.wheelchairAccessible && (
-                          <span className="access-badge" title="Espacio para silla de ruedas">♿</span>
+                          <span className="access-badge" title={t('roomAccessBadges.wheelchairAccessible')}>{'\u267F'}</span>
                         )}
                         {room.accessibility.rollInShower && (
-                          <span className="access-badge" title="Ducha a ras de suelo">🚿</span>
+                          <span className="access-badge" title={t('roomAccessBadges.rollInShower')}>{'\u{1F6BF}'}</span>
                         )}
                         {room.accessibility.grabBars && (
-                          <span className="access-badge" title="Barras de apoyo">🦯</span>
+                          <span className="access-badge" title={t('roomAccessBadges.grabBars')}>{'\u{1F9AF}'}</span>
                         )}
                         {room.accessibility.visualAlarms && (
-                          <span className="access-badge" title="Alarmas visuales">👁</span>
+                          <span className="access-badge" title={t('roomAccessBadges.visualAlarms')}>{'\u{1F441}'}</span>
                         )}
                         {room.accessibility.hearingLoop && (
-                          <span className="access-badge" title="Bucle magnetico">🔊</span>
+                          <span className="access-badge" title={t('roomAccessBadges.hearingLoop')}>{'\u{1F50A}'}</span>
                         )}
                       </div>
                     </div>
@@ -587,12 +611,12 @@ function App() {
                         ))}
                       </ul>
                       <div className="room-price">
-                        <span className="price" aria-label={`Precio: ${formatPrice(room.price)} pesos mexicanos por noche`}>
+                        <span className="price" aria-label={t('roomsSection.priceAriaLabel', { price: formatPrice(room.price) })}>
                           {hotelData.currency} ${formatPrice(room.price)}
                         </span>
-                        <span className="per-night">/noche</span>
+                        <span className="per-night">{t('roomsSection.perNight')}</span>
                       </div>
-                      <button className="btn btn-primary">Reservar</button>
+                      <button className="btn btn-primary">{t('roomsSection.reserve')}</button>
                     </div>
                   </article>
                 ))
@@ -604,10 +628,10 @@ function App() {
         <section id="mapa" aria-labelledby="map-title">
           <div className="container">
             <h2 id="map-title" className="section-title">
-              Mapa de Accesibilidad
-              <SectionSpeaker text={mapaText} rate={accessibility.speechRate} ariaLabel="Leer sección del mapa" />
+              {t('map.title')}
+              <SectionSpeaker text={mapaText} rate={accessibility.speechRate} ariaLabel={t('speaker.mapSection')} speechLang={speechLang} />
             </h2>
-            <p className="section-subtitle">Navega por nuestras instalaciones adaptadas</p>
+            <p className="section-subtitle">{t('map.subtitle')}</p>
           </div>
           <AccessibilityMap />
         </section>
@@ -615,13 +639,13 @@ function App() {
         <section id="testimonios" className="testimonials" aria-labelledby="testimonials-title">
           <div className="container">
             <h2 id="testimonials-title" className="section-title">
-              Lo que dicen nuestros huespedes
-              <SectionSpeaker text={testimoniosText} rate={accessibility.speechRate} ariaLabel="Leer sección de testimonios" />
+              {t('testimonialsSection.title')}
+              <SectionSpeaker text={testimoniosText} rate={accessibility.speechRate} ariaLabel={t('speaker.testimonialsSection')} speechLang={speechLang} />
             </h2>
             <div className="testimonials-grid">
               {hotelData.testimonials.map((testimonial, index) => (
                 <article key={index} className="testimonial-card">
-                  <div className="testimonial-stars" aria-label={`Calificacion: ${testimonial.rating} de 5 estrellas`}>
+                  <div className="testimonial-stars" aria-label={t('testimonialsSection.ratingAria', { rating: testimonial.rating })}>
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <StarIcon key={i} filled />
                     ))}
@@ -645,12 +669,12 @@ function App() {
         <section id="consultar-reserva" className="search-reservation">
           <div className="container">
             <div className="search-box">
-              <h2 className="section-title">Consultar mi Reserva</h2>
-              <p className="section-subtitle">Ingrese su número de pedido para verificar el estado</p>
+              <h2 className="section-title">{t('search.title')}</h2>
+              <p className="section-subtitle">{t('search.subtitle')}</p>
               <form onSubmit={handleSearchReservation} className="search-form">
-                <input 
-                  type="text" 
-                  placeholder="Ej: RES-X7H2J9L1" 
+                <input
+                  type="text"
+                  placeholder={t('search.placeholder')}
                   value={searchOrder}
                   onChange={(e) => setSearchOrder(e.target.value)}
                   className="form-input"
@@ -661,9 +685,9 @@ function App() {
                       <svg className="spinner" viewBox="0 0 50 50" width="20" height="20">
                         <circle className="path" cx="25" cy="25" r="20" fill="none" strokeWidth="5"></circle>
                       </svg>
-                      Buscando...
+                      {t('search.searching')}
                     </>
-                  ) : 'Buscar Reserva'}
+                  ) : t('search.button')}
                 </button>
               </form>
 
@@ -671,21 +695,21 @@ function App() {
                 <div className="reservation-result-card animate-fade-in">
                   <div className="result-header">
                     <span className={`status-badge ${foundReservation.atendido ? 'atendido' : 'pendiente'}`}>
-                      {foundReservation.atendido ? 'Confirmado / Atendido' : 'Pendiente de Revisión'}
+                      {foundReservation.atendido ? t('search.confirmed') : t('search.pending')}
                     </span>
-                    <h3>Detalles de la Reserva</h3>
+                    <h3>{t('search.detailsTitle')}</h3>
                   </div>
                   <div className="result-body">
-                    <p><strong>Número de Pedido:</strong> <span className="order-id">{foundReservation.numero_de_pedido}</span></p>
-                    <p><strong>Titular:</strong> {foundReservation.nombre}</p>
-                    <p><strong>Correo:</strong> {foundReservation.email}</p>
-                    <p><strong>Teléfono:</strong> {foundReservation.telefono}</p>
-                    <p><strong>Fechas:</strong> Del {foundReservation.checkIn} al {foundReservation.checkOut}</p>
-                    <p><strong>Habitación:</strong> {foundReservation.habitacion_tipo} ({foundReservation.habitacion_cantidad} unidad/es)</p>
-                    <p><strong>Solicitudes de Accesibilidad:</strong> {foundReservation.acomodaciones || 'Ninguna'}</p>
-                    <p><strong>Fecha de Reserva:</strong> {new Date(foundReservation.fecha_creacion).toLocaleString('es-MX')}</p>
+                    <p><strong>{t('search.labels.orderNumber')}:</strong> <span className="order-id">{foundReservation.numero_de_pedido}</span></p>
+                    <p><strong>{t('search.labels.holder')}:</strong> {foundReservation.nombre}</p>
+                    <p><strong>{t('search.labels.email')}:</strong> {foundReservation.email}</p>
+                    <p><strong>{t('search.labels.phone')}:</strong> {foundReservation.telefono}</p>
+                    <p><strong>{t('search.labels.dates')}:</strong> {t('search.labels.datesValue', { checkIn: foundReservation.checkIn, checkOut: foundReservation.checkOut })}</p>
+                    <p><strong>{t('search.labels.room')}:</strong> {foundReservation.habitacion_tipo} ({t('search.labels.quantity', { type: foundReservation.habitacion_tipo, qty: foundReservation.habitacion_cantidad })})</p>
+                    <p><strong>{t('search.labels.accessibility')}:</strong> {foundReservation.acomodaciones || t('search.labels.none')}</p>
+                    <p><strong>{t('search.labels.reservationDate')}:</strong> {new Date(foundReservation.fecha_creacion).toLocaleString(i18n.language === 'en' ? 'en-US' : 'es-MX')}</p>
                   </div>
-                  <button onClick={() => setFoundReservation(null)} className="btn-close-result">Cerrar Detalles</button>
+                  <button onClick={() => setFoundReservation(null)} className="btn-close-result">{t('search.close')}</button>
                 </div>
               )}
             </div>
@@ -696,44 +720,44 @@ function App() {
           <div className="container">
             <div className="contact-content">
               <h2 id="contact-title" className="section-title">
-                Reserva tu estancia
-                <SectionSpeaker text={contactoText} rate={accessibility.speechRate} ariaLabel="Leer sección de contacto" />
+                {t('reservation.title')}
+                <SectionSpeaker text={contactoText} rate={accessibility.speechRate} ariaLabel={t('speaker.contactSection')} speechLang={speechLang} />
               </h2>
-              <p className="section-subtitle">Estamos aqui para ayudarte</p>
+              <p className="section-subtitle">{t('reservation.subtitle')}</p>
               <address className="contact-info">
                 <div className="contact-item">
-                  <span className="contact-icon" aria-hidden="true">&#x1F4DE;</span>
+                  <span className="contact-icon" aria-hidden="true">{'\u{1F4DE}'}</span>
                   <a href={`tel:${hotelData.phone}`}>{hotelData.phone}</a>
                 </div>
                 <div className="contact-item">
-                  <span className="contact-icon" aria-hidden="true">&#x2709;&#xFE0F;</span>
+                  <span className="contact-icon" aria-hidden="true">{'\u2709}\uFE0F'}</span>
                   <a href={`mailto:${hotelData.email}`}>{hotelData.email}</a>
                 </div>
                 <div className="contact-item">
-                  <span className="contact-icon" aria-hidden="true">&#x1F4CD;</span>
+                  <span className="contact-icon" aria-hidden="true">{'\u{1F4CD}'}</span>
                   <span>{hotelData.address}</span>
                 </div>
               </address>
               <form className="contact-form" onSubmit={handleSubmit} noValidate>
                 <div className="form-group">
-                  <label htmlFor="contact-name">Nombre completo</label>
+                  <label htmlFor="contact-name">{t('reservation.formLabels.name')}</label>
                   <input
                     type="text"
                     id="contact-name"
                     name="name"
-                    placeholder="Maria Garcia"
+                    placeholder={t('reservation.placeholders.name')}
                     className="form-input"
                     required
                     autoComplete="name"
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="contact-email">Correo electronico</label>
+                  <label htmlFor="contact-email">{t('reservation.formLabels.email')}</label>
                   <input
                     type="email"
                     id="contact-email"
                     name="email"
-                    placeholder="maria@ejemplo.com"
+                    placeholder={t('reservation.placeholders.email')}
                     className="form-input"
                     required
                     autoComplete="email"
@@ -741,9 +765,9 @@ function App() {
                 </div>
                 <div className="form-row">
                   <div className="form-group">
-                    <label htmlFor="room-type">Tipo de Habitación</label>
+                    <label htmlFor="room-type">{t('reservation.formLabels.roomType')}</label>
                     <select id="room-type" name="roomType" className="form-input" required>
-                      <option value="">Seleccione una opción</option>
+                      <option value="">{t('reservation.placeholders.selectRoom')}</option>
                       {hotelData.rooms.map((room) => (
                         <option key={room.name} value={room.name}>
                           {room.name} - ${formatPrice(room.price)} {hotelData.currency}
@@ -752,7 +776,7 @@ function App() {
                     </select>
                   </div>
                   <div className="form-group">
-                    <label htmlFor="room-quantity">Cantidad</label>
+                    <label htmlFor="room-quantity">{t('reservation.formLabels.quantity')}</label>
                     <input
                       type="number"
                       id="room-quantity"
@@ -768,7 +792,7 @@ function App() {
 
                 <div className="form-row">
                   <div className="form-group">
-                    <label htmlFor="check-in">Fecha de Llegada</label>
+                    <label htmlFor="check-in">{t('reservation.formLabels.checkIn')}</label>
                     <input
                       type="date"
                       id="check-in"
@@ -779,7 +803,7 @@ function App() {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="check-out">Fecha de Salida</label>
+                    <label htmlFor="check-out">{t('reservation.formLabels.checkOut')}</label>
                     <input
                       type="date"
                       id="check-out"
@@ -792,21 +816,21 @@ function App() {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="contact-phone">Teléfono</label>
+                  <label htmlFor="contact-phone">{t('reservation.formLabels.phone')}</label>
                   <input
                     type="tel"
                     id="contact-phone"
                     name="phone"
-                    placeholder="+52 55 0000 0000"
+                    placeholder={t('reservation.placeholders.phone')}
                     className="form-input"
                     autoComplete="tel"
                   />
                 </div>
 
                 <fieldset className="accommodation-fieldset">
-                  <legend className="accommodation-legend">Solicitudes de Acomodación Especial</legend>
+                  <legend className="accommodation-legend">{t('reservation.formLabels.accommodations')}</legend>
                   <p className="accommodation-description">
-                    Seleccione los servicios de accesibilidad que requiera durante su estancia
+                    {t('reservation.formLabels.accommodationsDesc')}
                   </p>
                   <div className="accommodation-options">
                     {accommodationOptions.map((option) => (
@@ -839,16 +863,16 @@ function App() {
                 </fieldset>
 
                 <div className="form-group">
-                  <label htmlFor="contact-message">Otras necesidades o comentarios</label>
+                  <label htmlFor="contact-message">{t('reservation.formLabels.message')}</label>
                   <textarea
                     id="contact-message"
                     name="message"
-                    placeholder="Indique cualquier otra necesidad especial de accesibilidad..."
+                    placeholder={t('reservation.placeholders.message')}
                     className="form-input form-textarea"
                     rows={3}
                   />
                 </div>
-                <button type="submit" className="btn btn-primary">Enviar Solicitud</button>
+                <button type="submit" className="btn btn-primary">{t('reservation.submit')}</button>
               </form>
             </div>
           </div>
@@ -859,23 +883,23 @@ function App() {
         <div className="container">
           <div className="footer-content">
             <div className="footer-logo">
-              <span className="logo-icon" aria-hidden="true">&#x1F3E8;</span>
+              <span className="logo-icon" aria-hidden="true">{'\u{1F3E8}'}</span>
               <span className="logo-text">{hotelData.name}</span>
             </div>
-            <p className="footer-text">&copy; 2024 {hotelData.name}. {hotelData.category}. Todos los derechos reservados.</p>
-            <nav className="footer-links" aria-label="Enlaces legales">
-              <a href="#">Política de Privacidad</a>
-              <a href="#">Términos de Servicio</a>
-              <a href="#">Accesibilidad</a>
-              <button 
-                onClick={() => setIsAdminView(true)} 
+            <p className="footer-text">{t('footer.copyright', { name: hotelData.name, category: hotelData.category })}</p>
+            <nav className="footer-links" aria-label={t('footer.ariaLabel')}>
+              <a href="#">{t('footer.privacy')}</a>
+              <a href="#">{t('footer.terms')}</a>
+              <a href="#">{t('footer.accessibility')}</a>
+              <button
+                onClick={() => setIsAdminView(true)}
                 className="admin-access-link"
-                style={{ 
-                  background: 'rgba(255,255,255,0.1)', 
-                  border: '1px solid rgba(255,255,255,0.2)', 
-                  color: '#fff', 
-                  cursor: 'pointer', 
-                  padding: '4px 8px', 
+                style={{
+                  background: 'rgba(255,255,255,0.1)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  color: '#fff',
+                  cursor: 'pointer',
+                  padding: '4px 8px',
                   borderRadius: '4px',
                   fontSize: '0.8rem',
                   marginLeft: '10px',
@@ -884,13 +908,12 @@ function App() {
                   gap: '4px'
                 }}
               >
-                <span>🔐</span> Administración
+                <span>{'\u{1F510}'}</span> {t('footer.admin')}
               </button>
             </nav>
           </div>
         </div>
       </footer>
-      {/* Filtros SVG para Daltonismo */}
       <svg style={{ height: 0, width: 0, position: 'absolute' }} aria-hidden="true">
         <defs>
           <filter id="protanopia">

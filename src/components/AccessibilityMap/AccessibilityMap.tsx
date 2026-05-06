@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import './AccessibilityMap.css'
 
 interface MapPoint {
@@ -11,216 +12,142 @@ interface MapPoint {
   category: 'entrance' | 'vertical' | 'bathroom' | 'emergency' | 'room' | 'recreation' | 'route'
 }
 
-const mapPoints: MapPoint[] = [
-  {
-    id: 'main-entrance',
-    label: 'Entrada Principal Accesible',
-    description: 'Rampa de concreto con pendiente de 6%, puerta giratoria automatica de 1.40m de ancho + puerta lateral de 1.20m. Timbre con indicacion visual y piso antiderrapante.',
-    x: 440,
-    y: 535,
-    icon: 'entrance',
-    category: 'entrance'
-  },
-  {
-    id: 'parking-spot-1',
-    label: 'Estacionamiento Reservado SIA 1',
-    description: 'Cajon de estacionamiento amplia con ancho de 3.80m, zona de transferencia rayada, icono de silla de ruedas en azul. Ubicado cerca de la entrada principal.',
-    x: 75,
-    y: 485,
-    icon: 'parking',
-    category: 'entrance'
-  },
-  {
-    id: 'parking-spot-2',
-    label: 'Estacionamiento Reservado SIA 2',
-    description: 'Segundo cajon accesible con las mismas especificaciones. Espacio libre de obstaculos y senalamiento vertical con simbolo de accesibilidad.',
-    x: 75,
-    y: 545,
-    icon: 'parking',
-    category: 'entrance'
-  },
-  {
-    id: 'emergency-exit-north',
-    label: 'Salida de Emergencia - Norte',
-    description: 'Escalera de emergencia con barra antipanico, simbolo verde de SALIDA y rampa para evacuacion sin escalones. Iluminacion de emergencia automatica.',
-    x: 60,
-    y: 350,
-    icon: 'exit',
-    category: 'emergency'
-  },
-  {
-    id: 'reception',
-    label: 'Recepcion Inclusiva',
-    description: 'Mostrador en forma de L con diferentes alturas: 75cm para usuarios de silla de ruedas y 90cm para personas de pie. Espacio inferior libre de 70cm. Bucle magnetico integrado.',
-    x: 400,
-    y: 460,
-    icon: 'reception',
-    category: 'entrance'
-  },
-  {
-    id: 'main-elevator',
-    label: 'Ascensor Inclusivo',
-    description: 'Elevador panoramico con simbolo internacional de accesibilidad. Botones en Braille, audio de planta y espejo lateral completo. Capacidad para 15 personas o 2 sillas de ruedas.',
-    x: 520,
-    y: 460,
-    icon: 'elevator',
-    category: 'vertical'
-  },
-  {
-    id: 'lobby-bathroom',
-    label: 'Baño Adaptado - Lobby',
-    description: 'Baño público unisex con espacio de transferencia de 1.50m, barras de apoyo cromadas, alarma de emergencia con luz intermitente y espejo a 90cm de altura.',
-    x: 280,
-    y: 460,
-    icon: 'bathroom',
-    category: 'bathroom'
-  },
-  {
-    id: 'pool',
-    label: 'Piscina Adaptada',
-    description: 'Profundidad de 0.90m a 1.40m. Cuenta con rampa de acceso sumergida de 6m de largo y un elevador hidraulico sumergido (Pool Lift) con simbolo SIA para transferencia segura.',
-    x: 400,
-    y: 300,
-    icon: 'pool',
-    category: 'recreation'
-  },
-  {
-    id: 'spa',
-    label: 'Spa y Tratamientos',
-    description: '3 cabins de masaje con camillas electricas ajustables de 45cm a 90cm. Tina de hidromasaje con rampa de acceso y terapeutas capacitados en asistencia a personas con discapacidad.',
-    x: 560,
-    y: 280,
-    icon: 'spa',
-    category: 'recreation'
-  },
-  {
-    id: 'gym',
-    label: 'Gimnasio Adaptado',
-    description: '400m2 con 12 maquinas de ejercicio adaptadas, entrenador auditivo por canales de audio, pesas digitales y zona de estiramiento con espacio minimo de 1.50m para silla de ruedas.',
-    x: 560,
-    y: 350,
-    icon: 'gym',
-    category: 'recreation'
-  },
-  {
-    id: 'restaurant',
-    label: 'Restaurante Accesible',
-    description: '80 cubiertas con 15 mesas accesibles para silla de ruedas (espacio inferior libre). Menu en Braille disponible bajo solicitud. Superficie de servicio a 85cm de altura.',
-    x: 505,
-    y: 137,
-    icon: 'restaurant',
-    category: 'recreation'
-  },
-  {
-    id: 'kitchen-bathrooms',
-    label: 'Cocina y Baños Públicos',
-    description: 'Área de servicio con baños públicos adaptados. Barra de apoyo izquierda y derecha en inodoro, alarma luminosa y puertas anchas de 90cm sin escalones.',
-    x: 700,
-    y: 520,
-    icon: 'kitchen',
-    category: 'recreation'
-  },
-  {
-    id: 'rooms-floor-3-a',
-    label: 'Habitaciones Accesibles - Piso 3 Ala A',
-    description: '4 habitaciones con puertas de 90cm, baños con barras de apoyo, alarma visual junto a la cama. Espacio de giro de 1.50m. Cambio de piso sin escalones.',
-    x: 150,
-    y: 200,
-    icon: 'room',
-    category: 'room'
-  },
-  {
-    id: 'rooms-floor-3-b',
-    label: 'Habitaciones Accesibles - Piso 3 Ala B',
-    description: '4 habitaciones adicionales en el mismo piso con las mismas especificaciones de accesibilidad. Pasillo amplio sin obstaculos.',
-    x: 150,
-    y: 125,
-    icon: 'room',
-    category: 'room'
-  },
-  {
-    id: 'rooms-floor-4-a',
-    label: 'Habitaciones Junior - Piso 4 Ala A',
-    description: '4 habitaciones adaptadas con ducha a ras de suelo, escritorio de altura ajustable y bucle magnetico portatil disponible. Vista al patio interior.',
-    x: 300,
-    y: 200,
-    icon: 'room',
-    category: 'room'
-  },
-  {
-    id: 'rooms-floor-4-b',
-    label: 'Habitaciones Junior - Piso 4 Ala B',
-    description: 'Suite Junior con entrada de 1.20m, baño completo con barra de apoyo y cama articulada. Equipamiento para maxima comodidad.',
-    x: 300,
-    y: 125,
-    icon: 'room',
-    category: 'room'
-  },
-  {
-    id: 'floor-bathroom',
-    label: 'Baño Común de Pisos',
-    description: 'Baño adaptado en cada piso cerca de los elevadores. Barra de apoyo bilateral en inodoro, alarma luminosa visible desde el pasillo y cambiador de turno.',
-    x: 220,
-    y: 260,
-    icon: 'bathroom',
-    category: 'bathroom'
-  },
-  {
-    id: 'route-lobby-pool',
-    label: 'Ruta Accesible Lobby-Piscina',
-    description: 'Trayectoria libre de obstaculos con piso antiderrapante, ancho minimo de 1.50m y rampas donde hay cambio de nivel. Conecta el lobby con el area de alberca.',
-    x: 400,
-    y: 380,
-    icon: 'route',
-    category: 'route'
-  },
-  {
-    id: 'events-room',
-    label: 'Sala de Eventos Accesible',
-    description: 'Escenario con rampa de acceso, iluminacion LED regulable, sistema de audio con induccion magnetica y 20 espacios para silla de ruedas frente al escenario.',
-    x: 687,
-    y: 137,
-    icon: 'entrance',
-    category: 'recreation'
-  },
-  {
-    id: 'meeting-rooms',
-    label: 'Salas de Juntas Accesibles',
-    description: 'Mesas redondas accesibles con espacio central para silla de ruedas, pantalla gigante con subtitulos en tiempo real y sistema de microfonos inalambricos.',
-    x: 505,
-    y: 227,
-    icon: 'entrance',
-    category: 'recreation'
-  },
-  {
-    id: 'laundry-service',
-    label: 'Lavandería Adaptada',
-    description: 'Lavadoras y secadoras a 80cm de altura, puertas anchas de 90cm, servicio de recogida y entrega directa a la habitación sin costo adicional.',
-    x: 687,
-    y: 205,
-    icon: 'entrance',
-    category: 'recreation'
-  },
-  {
-    id: 'pharmacy-service',
-    label: 'Farmacia Accesible',
-    description: 'Mostrador accesible en el lobby, medicamentos organizados en blisters Braille, servicio de recordatorio de dosis y atencion a domicilio dentro del hotel.',
-    x: 687,
-    y: 250,
-    icon: 'entrance',
-    category: 'recreation'
-  }
-]
-
-const categories = [
-  { id: 'entrance', label: 'Entradas y Recepcion', icon: 'entrance' },
-  { id: 'vertical', label: 'Verticales', icon: 'elevator' },
-  { id: 'bathroom', label: 'Baños', icon: 'bathroom' },
-  { id: 'emergency', label: 'Emergencia', icon: 'exit' },
-  { id: 'room', label: 'Habitaciones', icon: 'room' },
-  { id: 'recreation', label: 'Recreacion', icon: 'pool' },
-  { id: 'route', label: 'Rutas Accesibles', icon: 'route' }
-]
+function useMapPoints(t: (key: string) => string): MapPoint[] {
+  return [
+    {
+      id: 'main-entrance',
+      label: t('map.points.main-entrance.label'),
+      description: t('map.points.main-entrance.description'),
+      x: 440, y: 535, icon: 'entrance', category: 'entrance'
+    },
+    {
+      id: 'parking-spot-1',
+      label: t('map.points.parking-spot-1.label'),
+      description: t('map.points.parking-spot-1.description'),
+      x: 75, y: 485, icon: 'parking', category: 'entrance'
+    },
+    {
+      id: 'parking-spot-2',
+      label: t('map.points.parking-spot-2.label'),
+      description: t('map.points.parking-spot-2.description'),
+      x: 75, y: 545, icon: 'parking', category: 'entrance'
+    },
+    {
+      id: 'emergency-exit-north',
+      label: t('map.points.emergency-exit-north.label'),
+      description: t('map.points.emergency-exit-north.description'),
+      x: 60, y: 350, icon: 'exit', category: 'emergency'
+    },
+    {
+      id: 'reception',
+      label: t('map.points.reception.label'),
+      description: t('map.points.reception.description'),
+      x: 400, y: 460, icon: 'reception', category: 'entrance'
+    },
+    {
+      id: 'main-elevator',
+      label: t('map.points.main-elevator.label'),
+      description: t('map.points.main-elevator.description'),
+      x: 520, y: 460, icon: 'elevator', category: 'vertical'
+    },
+    {
+      id: 'lobby-bathroom',
+      label: t('map.points.lobby-bathroom.label'),
+      description: t('map.points.lobby-bathroom.description'),
+      x: 280, y: 460, icon: 'bathroom', category: 'bathroom'
+    },
+    {
+      id: 'pool',
+      label: t('map.points.pool.label'),
+      description: t('map.points.pool.description'),
+      x: 400, y: 300, icon: 'pool', category: 'recreation'
+    },
+    {
+      id: 'spa',
+      label: t('map.points.spa.label'),
+      description: t('map.points.spa.description'),
+      x: 560, y: 280, icon: 'spa', category: 'recreation'
+    },
+    {
+      id: 'gym',
+      label: t('map.points.gym.label'),
+      description: t('map.points.gym.description'),
+      x: 560, y: 350, icon: 'gym', category: 'recreation'
+    },
+    {
+      id: 'restaurant',
+      label: t('map.points.restaurant.label'),
+      description: t('map.points.restaurant.description'),
+      x: 505, y: 137, icon: 'restaurant', category: 'recreation'
+    },
+    {
+      id: 'kitchen-bathrooms',
+      label: t('map.points.kitchen-bathrooms.label'),
+      description: t('map.points.kitchen-bathrooms.description'),
+      x: 700, y: 520, icon: 'kitchen', category: 'recreation'
+    },
+    {
+      id: 'rooms-floor-3-a',
+      label: t('map.points.rooms-floor-3-a.label'),
+      description: t('map.points.rooms-floor-3-a.description'),
+      x: 150, y: 200, icon: 'room', category: 'room'
+    },
+    {
+      id: 'rooms-floor-3-b',
+      label: t('map.points.rooms-floor-3-b.label'),
+      description: t('map.points.rooms-floor-3-b.description'),
+      x: 150, y: 125, icon: 'room', category: 'room'
+    },
+    {
+      id: 'rooms-floor-4-a',
+      label: t('map.points.rooms-floor-4-a.label'),
+      description: t('map.points.rooms-floor-4-a.description'),
+      x: 300, y: 200, icon: 'room', category: 'room'
+    },
+    {
+      id: 'rooms-floor-4-b',
+      label: t('map.points.rooms-floor-4-b.label'),
+      description: t('map.points.rooms-floor-4-b.description'),
+      x: 300, y: 125, icon: 'room', category: 'room'
+    },
+    {
+      id: 'floor-bathroom',
+      label: t('map.points.floor-bathroom.label'),
+      description: t('map.points.floor-bathroom.description'),
+      x: 220, y: 260, icon: 'bathroom', category: 'bathroom'
+    },
+    {
+      id: 'route-lobby-pool',
+      label: t('map.points.route-lobby-pool.label'),
+      description: t('map.points.route-lobby-pool.description'),
+      x: 400, y: 380, icon: 'route', category: 'route'
+    },
+    {
+      id: 'events-room',
+      label: t('map.points.events-room.label'),
+      description: t('map.points.events-room.description'),
+      x: 687, y: 137, icon: 'entrance', category: 'recreation'
+    },
+    {
+      id: 'meeting-rooms',
+      label: t('map.points.meeting-rooms.label'),
+      description: t('map.points.meeting-rooms.description'),
+      x: 505, y: 227, icon: 'entrance', category: 'recreation'
+    },
+    {
+      id: 'laundry-service',
+      label: t('map.points.laundry-service.label'),
+      description: t('map.points.laundry-service.description'),
+      x: 687, y: 205, icon: 'entrance', category: 'recreation'
+    },
+    {
+      id: 'pharmacy-service',
+      label: t('map.points.pharmacy-service.label'),
+      description: t('map.points.pharmacy-service.description'),
+      x: 687, y: 250, icon: 'entrance', category: 'recreation'
+    }
+  ]
+}
 
 function MapIcon({ type, className }: { type: MapPoint['icon']; className?: string }) {
   switch (type) {
@@ -287,7 +214,7 @@ function MapIcon({ type, className }: { type: MapPoint['icon']; className?: stri
     case 'room':
       return (
         <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M7 14C8.1 14 9 13.1 9 12C9 10.9 8.1 10 7 10C5.9 10 5 10.9 5 12C5 13.1 5.9 14 7 14ZM7 8C9.21 8 11 9.79 11 12C11 14.21 9.21 16 7 16C4.79 16 3 14.21 3 12C3 9.79 4.79 8 7 8ZM19 7H11V15H3V5H1V20H3V17H21V20H23V11C23 8.79 21.21 7 19 7ZM21 15H13V9H19C20.1 9 21 9.9 21 11V15Z" />
+          <path d="M7 14C8.1 14 9 13.1 9 12C9 10.9 8.1 10 7 10C5.9 10 5 10.9 5 12C5 13.1 5.9 14 7 14ZM7 8C9.21 8 11 9.79 11 12C11 14.21 9.21 16 7 16C4.79 16 3 14.21 3 12C3 9.79 4.79 8 7 8ZM19 7H11V15H3V5H1V20H3V17H19V20H21V11C21 8.79 19.21 7 19 7ZM21 15H13V9H19C20.1 9 21 9.9 21 11V15Z" />
         </svg>
       )
     case 'parking':
@@ -305,7 +232,122 @@ function MapIcon({ type, className }: { type: MapPoint['icon']; className?: stri
   }
 }
 
+function MapSVGLabels({ t }: { t: (key: string) => string }) {
+  const lbl = (key: string) => t(`map.svgLabels.${key}`)
+
+  return (
+    <>
+      <rect x="20" y="80" width="360" height="200" fill="#e8f5e9" stroke="#4caf50" strokeWidth="2" rx="4" />
+      <text x="200" y="185" fontSize="14" fill="#2e7d32" textAnchor="middle" fontWeight="bold">{lbl('habitaciones')}</text>
+
+      <rect x="400" y="80" width="380" height="200" fill="#fff3e0" stroke="#ff9800" strokeWidth="2" rx="4" />
+      <text x="590" y="185" fontSize="14" fill="#e65100" textAnchor="middle" fontWeight="bold">{lbl('servicios')}</text>
+
+      <rect x="420" y="95" width="170" height="85" fill="#ffe0b2" stroke="#f57c00" strokeWidth="1" rx="2" />
+      <text x="505" y="120" fontSize="10" fill="#e65100" textAnchor="middle">{lbl('restaurante')}</text>
+      <text x="505" y="135" fontSize="7" fill="#e65100" textAnchor="middle">{lbl('mesas')}</text>
+      <text x="505" y="150" fontSize="7" fill="#e65100" textAnchor="middle">{lbl('accesibles')}</text>
+      <text x="505" y="165" fontSize="7" fill="#e65100" textAnchor="middle">{lbl('menuBraille')}</text>
+
+      <rect x="600" y="95" width="175" height="85" fill="#ffe0b2" stroke="#f57c00" strokeWidth="1" rx="2" />
+      <text x="687" y="118" fontSize="10" fill="#e65100" textAnchor="middle">{lbl('salaEventos')}</text>
+      <text x="687" y="132" fontSize="7" fill="#e65100" textAnchor="middle">{lbl('rampaEscenario')}</text>
+      <text x="687" y="145" fontSize="7" fill="#e65100" textAnchor="middle">{lbl('induccionMagnetica')}</text>
+      <text x="687" y="158" fontSize="7" fill="#e65100" textAnchor="middle">{lbl('espaciosSIA')}</text>
+
+      <rect x="420" y="185" width="170" height="85" fill="#ffe0b2" stroke="#f57c00" strokeWidth="1" rx="2" />
+      <text x="505" y="210" fontSize="10" fill="#e65100" textAnchor="middle">{lbl('salasJuntas')}</text>
+      <text x="505" y="224" fontSize="7" fill="#e65100" textAnchor="middle">{lbl('mesasAccesibles')}</text>
+      <text x="505" y="237" fontSize="7" fill="#e65100" textAnchor="middle">{lbl('subtitulosReal')}</text>
+      <text x="505" y="250" fontSize="7" fill="#e65100" textAnchor="middle">{lbl('microfonos')}</text>
+
+      <rect x="600" y="185" width="175" height="40" fill="#ffe0b2" stroke="#f57c00" strokeWidth="1" rx="2" />
+      <text x="687" y="202" fontSize="9" fill="#e65100" textAnchor="middle">{lbl('lavanderia')}</text>
+      <text x="687" y="215" fontSize="7" fill="#e65100" textAnchor="middle">{lbl('altura80')}</text>
+
+      <rect x="600" y="230" width="175" height="40" fill="#ffe0b2" stroke="#f57c00" strokeWidth="1" rx="2" />
+      <text x="687" y="247" fontSize="9" fill="#e65100" textAnchor="middle">{lbl('farmacia')}</text>
+      <text x="687" y="260" fontSize="7" fill="#e65100" textAnchor="middle">{lbl('blisterBraille')}</text>
+
+      <rect x="100" y="300" width="600" height="160" fill="#f3e5f5" stroke="#9c27b0" strokeWidth="2" rx="4" />
+      <text x="400" y="385" fontSize="14" fill="#6a1b9a" textAnchor="middle" fontWeight="bold">{lbl('amenidades')}</text>
+
+      <rect x="20" y="480" width="360" height="100" fill="#e3f2fd" stroke="#2196f3" strokeWidth="2" rx="4" />
+      <text x="200" y="535" fontSize="14" fill="#1565c0" textAnchor="middle" fontWeight="bold">{lbl('estacionamiento')}</text>
+
+      <rect x="20" y="300" width="80" height="160" fill="#ffebee" stroke="#f44336" strokeWidth="2" rx="4" />
+      <text x="60" y="385" fontSize="10" fill="#c62828" textAnchor="middle" fontWeight="bold">{lbl('salidas')}</text>
+
+      <rect x="400" y="420" width="200" height="140" fill="#e1f5fe" stroke="#03a9f4" strokeWidth="2" rx="4" />
+      <text x="500" y="495" fontSize="14" fill="#0277bd" textAnchor="middle" fontWeight="bold">{lbl('lobby')}</text>
+
+      <rect x="40" y="510" width="60" height="40" fill="url(#parking-stripe)" stroke="#2d7a9e" strokeWidth="1" />
+      <text x="70" y="535" fontSize="8" fill="#fff" textAnchor="middle">♿</text>
+
+      <rect x="100" y="510" width="60" height="40" fill="url(#parking-stripe)" stroke="#2d7a9e" strokeWidth="1" />
+      <text x="130" y="535" fontSize="8" fill="#fff" textAnchor="middle">♿</text>
+
+      <rect x="400" y="440" width="80" height="30" fill="#bbdefb" stroke="#1976d2" strokeWidth="1" />
+      <text x="440" y="460" fontSize="9" fill="#0d47a1" textAnchor="middle">{lbl('recepcion')}</text>
+
+      <rect x="520" y="440" width="40" height="50" fill="#bbdefb" stroke="#1976d2" strokeWidth="1" />
+      <text x="540" y="470" fontSize="7" fill="#0d47a1" textAnchor="middle">{lbl('ascensor')}</text>
+
+      <rect x="350" y="310" width="100" height="80" fill="#ce93d8" stroke="#7b1fa2" strokeWidth="1" rx="2" />
+      <text x="400" y="345" fontSize="10" fill="#4a148c" textAnchor="middle">{lbl('piscina')}</text>
+      <line x1="350" y1="370" x2="370" y2="390" stroke="#4a148c" strokeWidth="2" />
+      <text x="380" y="385" fontSize="7" fill="#4a148c">{lbl('rampa')}</text>
+      <circle cx="420" cy="350" r="8" fill="#7b1fa2" />
+      <text x="420" y="354" fontSize="8" fill="#fff" textAnchor="middle">♿</text>
+
+      <rect x="560" y="280" width="80" height="60" fill="#ce93d8" stroke="#7b1fa2" strokeWidth="1" rx="2" />
+      <text x="600" y="305" fontSize="9" fill="#4a148c" textAnchor="middle">{lbl('spa')}</text>
+      <text x="600" y="320" fontSize="7" fill="#4a148c" textAnchor="middle">{lbl('hidromasaje')}</text>
+
+      <rect x="560" y="350" width="80" height="60" fill="#ce93d8" stroke="#7b1fa2" strokeWidth="1" rx="2" />
+      <text x="600" y="380" fontSize="9" fill="#4a148c" textAnchor="middle">{lbl('gimnasio')}</text>
+
+      <rect x="700" y="500" width="75" height="70" fill="#ffe0b2" stroke="#f57c00" strokeWidth="1" rx="2" />
+      <text x="737" y="522" fontSize="8" fill="#e65100" textAnchor="middle">{lbl('cocina')}</text>
+      <text x="737" y="537" fontSize="7" fill="#e65100" textAnchor="middle">{lbl('banos')}</text>
+      <text x="737" y="550" fontSize="6" fill="#e65100" textAnchor="middle">{lbl('pisoAntiderrapante')}</text>
+
+      <rect x="120" y="120" width="60" height="50" fill="#c8e6c9" stroke="#388e3c" strokeWidth="1" rx="2" />
+      <text x="150" y="145" fontSize="7" fill="#1b5e20" textAnchor="middle">{lbl('hab3a')}</text>
+      <text x="150" y="158" fontSize="6" fill="#1b5e20" textAnchor="middle">♿♿♿♿</text>
+
+      <rect x="120" y="190" width="60" height="50" fill="#c8e6c9" stroke="#388e3c" strokeWidth="1" rx="2" />
+      <text x="150" y="215" fontSize="7" fill="#1b5e20" textAnchor="middle">{lbl('hab3b')}</text>
+      <text x="150" y="228" fontSize="6" fill="#1b5e20" textAnchor="middle">♿♿♿♿</text>
+
+      <rect x="280" y="120" width="60" height="50" fill="#c8e6c9" stroke="#388e3c" strokeWidth="1" rx="2" />
+      <text x="310" y="145" fontSize="7" fill="#1b5e20" textAnchor="middle">{lbl('hab4a')}</text>
+      <text x="310" y="158" fontSize="6" fill="#1b5e20" textAnchor="middle">♿♿♿♿</text>
+
+      <rect x="280" y="190" width="60" height="50" fill="#c8e6c9" stroke="#388e3c" strokeWidth="1" rx="2" />
+      <text x="310" y="215" fontSize="7" fill="#1b5e20" textAnchor="middle">{lbl('hab4b')}</text>
+      <text x="310" y="228" fontSize="6" fill="#1b5e20" textAnchor="middle">♿♿♿♿</text>
+
+      <line x1="60" y1="380" x2="150" y2="380" stroke="#2196f3" strokeWidth="2" strokeDasharray="8,4" />
+      <line x1="400" y1="460" x2="400" y2="380" stroke="#2196f3" strokeWidth="2" strokeDasharray="8,4" />
+      <line x1="400" y1="380" x2="350" y2="380" stroke="#2196f3" strokeWidth="2" strokeDasharray="8,4" />
+      <line x1="220" y1="250" x2="220" y2="380" stroke="#2196f3" strokeWidth="2" strokeDasharray="8,4" />
+
+      <polygon points="55,365 65,365 60,355" fill="#c62828" />
+      <text x="60" y="375" fontSize="7" fill="#c62828" textAnchor="middle">{lbl('salida')}</text>
+      <line x1="60" y1="380" x2="60" y2="395" stroke="#c62828" strokeWidth="2" />
+      <text x="60" y="405" fontSize="6" fill="#c62828" textAnchor="middle">{lbl('rampa')}</text>
+
+      <rect x="400" y="490" width="60" height="60" fill="#bbdefb" stroke="#1976d2" strokeWidth="1" />
+      <text x="430" y="525" fontSize="10" fill="#0d47a1" textAnchor="middle">{lbl('entrada')}</text>
+      <text x="430" y="540" fontSize="8" fill="#0d47a1" textAnchor="middle">{lbl('principal')}</text>
+    </>
+  )
+}
+
 export function AccessibilityMap() {
+  const { t } = useTranslation()
+  const mapPoints = useMapPoints(t)
   const [selectedPoint, setSelectedPoint] = useState<string | null>(null)
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
 
@@ -318,6 +360,16 @@ export function AccessibilityMap() {
       setSelectedPoint(pointId)
     }
   }
+
+  const categories = [
+    { id: 'entrance', label: t('map.categories.entrance'), icon: 'entrance' as const },
+    { id: 'vertical', label: t('map.categories.vertical'), icon: 'elevator' as const },
+    { id: 'bathroom', label: t('map.categories.bathroom'), icon: 'bathroom' as const },
+    { id: 'emergency', label: t('map.categories.emergency'), icon: 'exit' as const },
+    { id: 'room', label: t('map.categories.room'), icon: 'room' as const },
+    { id: 'recreation', label: t('map.categories.recreation'), icon: 'pool' as const },
+    { id: 'route', label: t('map.categories.route'), icon: 'route' as const }
+  ]
 
   const groupedPoints = categories.map(cat => ({
     ...cat,
@@ -333,7 +385,7 @@ export function AccessibilityMap() {
               <svg
                 viewBox="0 0 800 600"
                 className="map-svg-detailed"
-                aria-label="Plano arquitectonico del hotel con puntos de accesibilidad"
+                aria-label={t('map.svgAriaLabel')}
                 role="img"
               >
                 <defs>
@@ -342,110 +394,7 @@ export function AccessibilityMap() {
                   </pattern>
                 </defs>
 
-                <rect x="20" y="80" width="360" height="200" fill="#e8f5e9" stroke="#4caf50" strokeWidth="2" rx="4" />
-                <text x="200" y="185" fontSize="14" fill="#2e7d32" textAnchor="middle" fontWeight="bold">HABITACIONES</text>
-
-                <rect x="400" y="80" width="380" height="200" fill="#fff3e0" stroke="#ff9800" strokeWidth="2" rx="4" />
-                <text x="590" y="185" fontSize="14" fill="#e65100" textAnchor="middle" fontWeight="bold">SERVICIOS</text>
-
-                <rect x="420" y="95" width="170" height="85" fill="#ffe0b2" stroke="#f57c00" strokeWidth="1" rx="2" />
-                <text x="505" y="120" fontSize="10" fill="#e65100" textAnchor="middle">RESTAURANTE</text>
-                <text x="505" y="135" fontSize="7" fill="#e65100" textAnchor="middle">80 mesas</text>
-                <text x="505" y="150" fontSize="7" fill="#e65100" textAnchor="middle">♿ 15 accesibles</text>
-                <text x="505" y="165" fontSize="7" fill="#e65100" textAnchor="middle">menu Braille</text>
-
-                <rect x="600" y="95" width="175" height="85" fill="#ffe0b2" stroke="#f57c00" strokeWidth="1" rx="2" />
-                <text x="687" y="118" fontSize="10" fill="#e65100" textAnchor="middle">SALA DE EVENTOS</text>
-                <text x="687" y="132" fontSize="7" fill="#e65100" textAnchor="middle">♿ rampa escenario</text>
-                <text x="687" y="145" fontSize="7" fill="#e65100" textAnchor="middle">induccion magnetica</text>
-                <text x="687" y="158" fontSize="7" fill="#e65100" textAnchor="middle">20 espacios SIA</text>
-
-                <rect x="420" y="185" width="170" height="85" fill="#ffe0b2" stroke="#f57c00" strokeWidth="1" rx="2" />
-                <text x="505" y="210" fontSize="10" fill="#e65100" textAnchor="middle">SALAS DE JUNTAS</text>
-                <text x="505" y="224" fontSize="7" fill="#e65100" textAnchor="middle">♿ mesas accesibles</text>
-                <text x="505" y="237" fontSize="7" fill="#e65100" textAnchor="middle">subtitulos real</text>
-                <text x="505" y="250" fontSize="7" fill="#e65100" textAnchor="middle">microfonos inalamb.</text>
-
-                <rect x="600" y="185" width="175" height="40" fill="#ffe0b2" stroke="#f57c00" strokeWidth="1" rx="2" />
-                <text x="687" y="202" fontSize="9" fill="#e65100" textAnchor="middle">LAVANDERIA ♿</text>
-                <text x="687" y="215" fontSize="7" fill="#e65100" textAnchor="middle">altura 80cm • puertas 90cm</text>
-
-                <rect x="600" y="230" width="175" height="40" fill="#ffe0b2" stroke="#f57c00" strokeWidth="1" rx="2" />
-                <text x="687" y="247" fontSize="9" fill="#e65100" textAnchor="middle">FARMACIA ♿</text>
-                <text x="687" y="260" fontSize="7" fill="#e65100" textAnchor="middle">blister Braille • a domicilio</text>
-
-                <rect x="100" y="300" width="600" height="160" fill="#f3e5f5" stroke="#9c27b0" strokeWidth="2" rx="4" />
-                <text x="400" y="385" fontSize="14" fill="#6a1b9a" textAnchor="middle" fontWeight="bold">AMENIDADES</text>
-
-                <rect x="20" y="480" width="360" height="100" fill="#e3f2fd" stroke="#2196f3" strokeWidth="2" rx="4" />
-                <text x="200" y="535" fontSize="14" fill="#1565c0" textAnchor="middle" fontWeight="bold">ESTACIONAMIENTO</text>
-
-                <rect x="20" y="300" width="80" height="160" fill="#ffebee" stroke="#f44336" strokeWidth="2" rx="4" />
-                <text x="60" y="385" fontSize="10" fill="#c62828" textAnchor="middle" fontWeight="bold">SALIDAS</text>
-
-                <rect x="400" y="420" width="200" height="140" fill="#e1f5fe" stroke="#03a9f4" strokeWidth="2" rx="4" />
-                <text x="500" y="495" fontSize="14" fill="#0277bd" textAnchor="middle" fontWeight="bold">LOBBY</text>
-
-                <rect x="40" y="510" width="60" height="40" fill="url(#parking-stripe)" stroke="#2d7a9e" strokeWidth="1" />
-                <text x="70" y="535" fontSize="8" fill="#fff" textAnchor="middle">♿</text>
-
-                <rect x="100" y="510" width="60" height="40" fill="url(#parking-stripe)" stroke="#2d7a9e" strokeWidth="1" />
-                <text x="130" y="535" fontSize="8" fill="#fff" textAnchor="middle">♿</text>
-
-                <rect x="400" y="440" width="80" height="30" fill="#bbdefb" stroke="#1976d2" strokeWidth="1" />
-                <text x="440" y="460" fontSize="9" fill="#0d47a1" textAnchor="middle">Recepcion L</text>
-
-                <rect x="520" y="440" width="40" height="50" fill="#bbdefb" stroke="#1976d2" strokeWidth="1" />
-                <text x="540" y="470" fontSize="7" fill="#0d47a1" textAnchor="middle">♿ Asc.</text>
-
-                <rect x="350" y="310" width="100" height="80" fill="#ce93d8" stroke="#7b1fa2" strokeWidth="1" rx="2" />
-                <text x="400" y="345" fontSize="10" fill="#4a148c" textAnchor="middle">PISCINA</text>
-                <line x1="350" y1="370" x2="370" y2="390" stroke="#4a148c" strokeWidth="2" />
-                <text x="380" y="385" fontSize="7" fill="#4a148c">rampa</text>
-                <circle cx="420" cy="350" r="8" fill="#7b1fa2" />
-                <text x="420" y="354" fontSize="8" fill="#fff" textAnchor="middle">♿</text>
-
-                <rect x="560" y="280" width="80" height="60" fill="#ce93d8" stroke="#7b1fa2" strokeWidth="1" rx="2" />
-                <text x="600" y="305" fontSize="9" fill="#4a148c" textAnchor="middle">SPA</text>
-                <text x="600" y="320" fontSize="7" fill="#4a148c" textAnchor="middle">hidromasaje</text>
-
-                <rect x="560" y="350" width="80" height="60" fill="#ce93d8" stroke="#7b1fa2" strokeWidth="1" rx="2" />
-                <text x="600" y="380" fontSize="9" fill="#4a148c" textAnchor="middle">GIMNASIO</text>
-
-                <rect x="700" y="500" width="75" height="70" fill="#ffe0b2" stroke="#f57c00" strokeWidth="1" rx="2" />
-                <text x="737" y="522" fontSize="8" fill="#e65100" textAnchor="middle">COCINA</text>
-                <text x="737" y="537" fontSize="7" fill="#e65100" textAnchor="middle">BAÑOS ♿</text>
-                <text x="737" y="550" fontSize="6" fill="#e65100" textAnchor="middle">piso antiderrapante</text>
-
-                <rect x="120" y="120" width="60" height="50" fill="#c8e6c9" stroke="#388e3c" strokeWidth="1" rx="2" />
-                <text x="150" y="145" fontSize="7" fill="#1b5e20" textAnchor="middle">Hab 3A</text>
-                <text x="150" y="158" fontSize="6" fill="#1b5e20" textAnchor="middle">♿♿♿♿</text>
-
-                <rect x="120" y="190" width="60" height="50" fill="#c8e6c9" stroke="#388e3c" strokeWidth="1" rx="2" />
-                <text x="150" y="215" fontSize="7" fill="#1b5e20" textAnchor="middle">Hab 3B</text>
-                <text x="150" y="228" fontSize="6" fill="#1b5e20" textAnchor="middle">♿♿♿♿</text>
-
-                <rect x="280" y="120" width="60" height="50" fill="#c8e6c9" stroke="#388e3c" strokeWidth="1" rx="2" />
-                <text x="310" y="145" fontSize="7" fill="#1b5e20" textAnchor="middle">Hab 4A</text>
-                <text x="310" y="158" fontSize="6" fill="#1b5e20" textAnchor="middle">♿♿♿♿</text>
-
-                <rect x="280" y="190" width="60" height="50" fill="#c8e6c9" stroke="#388e3c" strokeWidth="1" rx="2" />
-                <text x="310" y="215" fontSize="7" fill="#1b5e20" textAnchor="middle">Hab 4B</text>
-                <text x="310" y="228" fontSize="6" fill="#1b5e20" textAnchor="middle">♿♿♿♿</text>
-
-                <line x1="60" y1="380" x2="150" y2="380" stroke="#2196f3" strokeWidth="2" strokeDasharray="8,4" />
-                <line x1="400" y1="460" x2="400" y2="380" stroke="#2196f3" strokeWidth="2" strokeDasharray="8,4" />
-                <line x1="400" y1="380" x2="350" y2="380" stroke="#2196f3" strokeWidth="2" strokeDasharray="8,4" />
-                <line x1="220" y1="250" x2="220" y2="380" stroke="#2196f3" strokeWidth="2" strokeDasharray="8,4" />
-
-                <polygon points="55,365 65,365 60,355" fill="#c62828" />
-                <text x="60" y="375" fontSize="7" fill="#c62828" textAnchor="middle">SALIDA</text>
-                <line x1="60" y1="380" x2="60" y2="395" stroke="#c62828" strokeWidth="2" />
-                <text x="60" y="405" fontSize="6" fill="#c62828" textAnchor="middle">rampa</text>
-
-                <rect x="400" y="490" width="60" height="60" fill="#bbdefb" stroke="#1976d2" strokeWidth="1" />
-                <text x="430" y="525" fontSize="10" fill="#0d47a1" textAnchor="middle">ENTRADA</text>
-                <text x="430" y="540" fontSize="8" fill="#0d47a1" textAnchor="middle">PRINCIPAL</text>
+                <MapSVGLabels t={t} />
 
                 {mapPoints.map((point) => {
                   const isSelected = selectedPoint === point.id
@@ -495,13 +444,13 @@ export function AccessibilityMap() {
           </div>
 
           <div className="map-sidebar">
-            <div className="category-filter" role="group" aria-label="Filtrar por categoria">
+            <div className="category-filter" role="group" aria-label={t('map.filterAriaLabel')}>
               <button
                 className={`category-chip ${activeCategory === null ? 'active' : ''}`}
                 onClick={() => setActiveCategory(null)}
                 aria-pressed={activeCategory === null}
               >
-                Todos
+                {t('map.categories.all')}
               </button>
               {categories.map((cat) => (
                 <button
@@ -516,7 +465,7 @@ export function AccessibilityMap() {
               ))}
             </div>
 
-            <div className="legend-list" role="list" aria-label="Puntos de accesibilidad">
+            <div className="legend-list" role="list" aria-label={t('map.pointsAriaLabel')}>
               {groupedPoints.map((group) => {
                 const groupPoints = activeCategory === null || activeCategory === group.id
                   ? group.points
@@ -564,7 +513,7 @@ export function AccessibilityMap() {
             <button
               className="map-detail-close"
               onClick={() => setSelectedPoint(null)}
-              aria-label="Cerrar detalle"
+              aria-label={t('map.closeDetail')}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M18 6L6 18M6 6l12 12" />
@@ -579,7 +528,7 @@ export function AccessibilityMap() {
               <circle cx="12" cy="12" r="10" />
               <path d="M12 8v4M12 16h.01" />
             </svg>
-            <p>Haz clic en cualquier punto del mapa para ver los detalles de accesibilidad</p>
+            <p>{t('map.emptyState')}</p>
           </div>
         )}
       </div>

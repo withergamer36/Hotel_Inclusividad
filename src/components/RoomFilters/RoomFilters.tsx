@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { accessibilityFilterOptions } from '../../data/hotelData'
 import './RoomFilters.css'
 
@@ -8,6 +9,7 @@ interface RoomFiltersProps {
 }
 
 export function RoomFilters({ activeFilters, onFilterChange, roomCount }: RoomFiltersProps) {
+  const { t } = useTranslation()
 
   const toggleFilter = (filterId: string) => {
     if (activeFilters.includes(filterId)) {
@@ -21,17 +23,19 @@ export function RoomFilters({ activeFilters, onFilterChange, roomCount }: RoomFi
     onFilterChange([])
   }
 
+  const getFilterLabel = (id: string) => t(`hotel.filterOptions.${id}`)
+
   return (
-    <div className="room-filters" role="group" aria-label="Filtros de accesibilidad para habitaciones">
+    <div className="room-filters" role="group" aria-label={t('roomFilters.ariaLabel')}>
       <div className="filters-header">
-        <h3 className="filters-title">Filtros de Accesibilidad</h3>
+        <h3 className="filters-title">{t('roomFilters.title')}</h3>
         {activeFilters.length > 0 && (
           <button
             className="clear-filters-btn"
             onClick={clearFilters}
-            aria-label="Limpiar todos los filtros"
+            aria-label={t('roomFilters.clearAllFilters')}
           >
-            Limpiar filtros
+            {t('roomFilters.clearFilters')}
           </button>
         )}
       </div>
@@ -45,7 +49,7 @@ export function RoomFilters({ activeFilters, onFilterChange, roomCount }: RoomFi
               className={`filter-chip ${isActive ? 'active' : ''}`}
               onClick={() => toggleFilter(filter.id)}
               aria-pressed={isActive}
-              aria-label={`Filtrar por: ${filter.label}`}
+              aria-label={t('roomFilters.filterBy', { label: getFilterLabel(filter.id) })}
             >
               <span className="filter-check" aria-hidden="true">
                 {isActive ? (
@@ -54,7 +58,7 @@ export function RoomFilters({ activeFilters, onFilterChange, roomCount }: RoomFi
                   </svg>
                 ) : null}
               </span>
-              {filter.label}
+              {getFilterLabel(filter.id)}
             </button>
           )
         })}
@@ -66,11 +70,11 @@ export function RoomFilters({ activeFilters, onFilterChange, roomCount }: RoomFi
         aria-atomic="true"
       >
         {activeFilters.length === 0 ? (
-          <span>Mostrando las {roomCount} habitaciones disponibles</span>
+          <span>{t('roomFilters.showingAll', { count: roomCount })}</span>
         ) : roomCount === 0 ? (
-          <span className="no-results">No se encontraron habitaciones con los filtros seleccionados</span>
+          <span className="no-results">{t('roomFilters.noResults')}</span>
         ) : (
-          <span>Se encontraron {roomCount} habitación{roomCount !== 1 ? 'es' : ''} con los filtros seleccionados</span>
+          <span>{roomCount === 1 ? t('roomFilters.foundResults', { count: roomCount }) : t('roomFilters.foundResults_plural', { count: roomCount })}</span>
         )}
       </div>
     </div>
