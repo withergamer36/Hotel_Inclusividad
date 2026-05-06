@@ -589,6 +589,8 @@
       "order": "Pedido",
       "client": "Cliente",
       "reservation": "Reserva",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
       "accessibility": "Accesibilidad",
       "date": "Fecha",
       "actions": "Acciones"

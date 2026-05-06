@@ -503,7 +503,7 @@ function App() {
               <SectionSpeaker text={instalacionesText} rate={accessibility.speechRate} ariaLabel={t('speaker.facilitiesSection')} speechLang={speechLang} />
             </h2>
             <p className="section-subtitle">
-              {hotelData.roomsCount} {t('facilitiesSection.subtitle', { count: hotelData.roomsCount, plan: hotelData.plan.toLowerCase() })}
+              {t('facilitiesSection.subtitle', { count: hotelData.roomsCount, plan: hotelData.plan.toLowerCase() })}
             </p>
             <div className="facilities-grid" role="list">
               {hotelData.facilities.map((facility) => (

@@ -435,6 +435,17 @@ section {
   box-shadow: var(--shadow);
 }
 
+.high-contrast .facility-card {
+  border-color: var(--dark);
+  background: var(--light);
+}
+
+.high-contrast .facility-card.selected {
+  background: var(--primary-dark);
+  color: var(--white);
+  border-color: var(--dark);
+}
+
 .facility-icon {
   font-size: 2rem;
 }

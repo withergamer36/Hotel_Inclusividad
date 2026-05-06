@@ -171,6 +171,8 @@ export function AdminPanel() {
                 <th>{t('admin.tableHeaders.order')}</th>
                 <th>{t('admin.tableHeaders.client')}</th>
                 <th>{t('admin.tableHeaders.reservation')}</th>
+                <th>{t('admin.tableHeaders.checkIn')}</th>
+                <th>{t('admin.tableHeaders.checkOut')}</th>
                 <th>{t('admin.tableHeaders.accessibility')}</th>
                 <th>{t('admin.tableHeaders.date')}</th>
                 <th>{t('admin.tableHeaders.actions')}</th>
@@ -196,9 +198,10 @@ export function AdminPanel() {
                     <div className="td-reserva">
                       <span className="room">{reserva.habitacion_tipo}</span>
                       <span className="qty">{t('admin.quantity', { qty: reserva.habitacion_cantidad })}</span>
-                      <span className="dates text-xs text-gray-500">{reserva.checkIn} al {reserva.checkOut}</span>
                     </div>
                   </td>
+                  <td data-label={t('admin.tableHeaders.checkIn')} className="date">{reserva.checkIn}</td>
+                  <td data-label={t('admin.tableHeaders.checkOut')} className="date">{reserva.checkOut}</td>
                   <td data-label={t('admin.tableHeaders.accessibility')}>
                     <div className="td-acc" title={reserva.acomodaciones}>
                       {reserva.acomodaciones || t('admin.none')}
