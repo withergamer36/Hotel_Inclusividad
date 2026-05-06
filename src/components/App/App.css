@@ -1721,9 +1721,9 @@ textarea:focus:not(:focus-visible) {
 }
 
 .btn-add-room {
-  padding: 8px 16px;
-  background: transparent;
-  border: 2px dashed var(--primary);
+  padding: 10px 16px;
+  background: var(--white);
+  border: 2px solid var(--border);
   border-radius: 8px;
   cursor: pointer;
   color: var(--primary);
@@ -1735,7 +1735,19 @@ textarea:focus:not(:focus-visible) {
 }
 
 .btn-add-room:hover {
-  background: rgba(45, 122, 158, 0.08);
+  background: var(--light);
+  border-color: var(--primary);
+}
+
+.dark-mode .btn-add-room {
+  background: #1a1a2e;
+  border-color: #334;
+  color: #5bc0de;
+}
+
+.dark-mode .btn-add-room:hover {
+  border-color: #5bc0de;
+  background: #16213e;
 }
 
 .rooms-total-preview {
