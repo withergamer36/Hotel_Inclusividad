@@ -494,6 +494,7 @@
       "quantity": "{{type}} ({{qty}} unit/s)",
       "accessibility": "Accessibility Requests",
       "reservationDate": "Reservation Date",
+      "total": "Total Amount",
       "none": "None"
     },
     "close": "Close Details"
@@ -592,6 +593,7 @@
       "checkIn": "Check-in",
       "checkOut": "Check-out",
       "accessibility": "Accessibility",
+      "total": "Total",
       "date": "Date",
       "actions": "Actions"
     },

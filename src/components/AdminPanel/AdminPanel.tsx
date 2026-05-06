@@ -174,6 +174,7 @@ export function AdminPanel() {
                 <th>{t('admin.tableHeaders.checkIn')}</th>
                 <th>{t('admin.tableHeaders.checkOut')}</th>
                 <th>{t('admin.tableHeaders.accessibility')}</th>
+                <th>{t('admin.tableHeaders.total')}</th>
                 <th>{t('admin.tableHeaders.date')}</th>
                 <th>{t('admin.tableHeaders.actions')}</th>
               </tr>
@@ -207,6 +208,7 @@ export function AdminPanel() {
                       {reserva.acomodaciones || t('admin.none')}
                     </div>
                   </td>
+                  <td data-label={t('admin.tableHeaders.total')} className="font-mono">MXN ${(reserva.precio_total || 0).toLocaleString(i18n.language === 'en' ? 'en-US' : 'es-MX')}</td>
                   <td data-label={t('admin.tableHeaders.date')} className="date">{new Date(reserva.fecha_creacion).toLocaleString(i18n.language === 'en' ? 'en-US' : 'es-MX', { dateStyle: 'short', timeStyle: 'short' })}</td>
                   <td data-label={t('admin.tableHeaders.actions')}>
                     <button

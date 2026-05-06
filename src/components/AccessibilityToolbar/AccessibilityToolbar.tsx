@@ -73,7 +73,10 @@ export function AccessibilityToolbar({ state, onChange }: AccessibilityToolbarPr
 
     if (key === 'darkMode' && value === true) {
       newState.immersiveReading = false
+      newState.highContrast = false
     } else if (key === 'immersiveReading' && value === true) {
+      newState.darkMode = false
+    } else if (key === 'highContrast' && value === true) {
       newState.darkMode = false
     }
 

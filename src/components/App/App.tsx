@@ -313,16 +313,23 @@ function App() {
       return option ? option.label : id;
     }).join(', ');
 
+    const roomTypeValue = formData.get('roomType') as string
+    const quantityValue = Number(formData.get('quantity')) || 1
+    const selectedRoom = hotelData.rooms.find(r => r.name === roomTypeValue)
+    const precioTotal = selectedRoom ? selectedRoom.price * quantityValue : 0
+    const precioTotalFormatted = `${hotelData.currency} $${formatPrice(precioTotal)}`
+
     const reservationData = {
       numero_de_pedido: orderNumber,
       nombre: formData.get('name'),
       email: formData.get('email'),
       telefono: formData.get('phone'),
-      habitacion_tipo: formData.get('roomType'),
-      habitacion_cantidad: formData.get('quantity'),
+      habitacion_tipo: roomTypeValue,
+      habitacion_cantidad: quantityValue,
       checkIn: formData.get('checkIn'),
       checkOut: formData.get('checkOut'),
       acomodaciones: translatedAccommodations,
+      precio_total: precioTotal,
       fecha_creacion: new Date().toISOString()
     }
 
@@ -346,7 +353,8 @@ function App() {
             habitacion_cantidad: reservationData.habitacion_cantidad,
             checkIn: reservationData.checkIn,
             checkOut: reservationData.checkOut,
-            acomodaciones: reservationData.acomodaciones
+            acomodaciones: reservationData.acomodaciones,
+            precio_total: precioTotalFormatted
           },
           'TTS9BrBBr92hi-UHq'
         );
@@ -711,6 +719,7 @@ function App() {
                     <p><strong>{t('search.labels.phone')}:</strong> {foundReservation.telefono}</p>
                     <p><strong>{t('search.labels.dates')}:</strong> {t('search.labels.datesValue', { checkIn: foundReservation.checkIn, checkOut: foundReservation.checkOut })}</p>
                     <p><strong>{t('search.labels.room')}:</strong> {foundReservation.habitacion_tipo} ({t('search.labels.quantity', { type: foundReservation.habitacion_tipo, qty: foundReservation.habitacion_cantidad })})</p>
+                    <p><strong>{t('search.labels.total')}:</strong> {hotelData.currency} ${formatPrice(foundReservation.precio_total || 0)}</p>
                     <p><strong>{t('search.labels.accessibility')}:</strong> {foundReservation.acomodaciones || t('search.labels.none')}</p>
                     <p><strong>{t('search.labels.reservationDate')}:</strong> {new Date(foundReservation.fecha_creacion).toLocaleString(i18n.language === 'en' ? 'en-US' : 'es-MX')}</p>
                   </div>
