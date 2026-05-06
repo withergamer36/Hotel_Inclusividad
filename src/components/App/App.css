@@ -39,6 +39,8 @@ body {
 
 .landing {
   min-height: 100vh;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .sr-only {
@@ -1772,11 +1774,24 @@ textarea:focus:not(:focus-visible) {
 @media (max-width: 480px) {
   .room-selection-row {
     flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
   }
   .room-type-group {
     flex: 1 1 100%;
+    min-width: 100%;
   }
   .room-qty-group {
-    width: 60px;
+    flex: 1;
   }
+  .accommodation-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Solución definitiva para el desbordamiento horizontal en móviles */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
 }

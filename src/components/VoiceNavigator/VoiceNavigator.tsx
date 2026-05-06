@@ -83,8 +83,7 @@ export function VoiceNavigator() {
     transcript,
     listening,
     resetTranscript,
-    browserSupportsSpeechRecognition,
-    isMicrophoneAvailable
+    browserSupportsSpeechRecognition
   } = useSpeechRecognition({ commands })
 
   const handleToggle = useCallback(() => {
@@ -92,15 +91,11 @@ export function VoiceNavigator() {
       SpeechRecognition.stopListening()
       setIsVoiceActive(false)
     } else {
-      if (!isMicrophoneAvailable) {
-        toast.error(t('voice.microphoneError'))
-        return
-      }
       SpeechRecognition.startListening({ continuous: true, language: i18n.language === 'en' ? 'en-US' : 'es-MX' })
       setIsVoiceActive(true)
       toast.success(t('voice.activated'))
     }
-  }, [isVoiceActive, isMicrophoneAvailable, i18n.language, t])
+  }, [isVoiceActive, i18n.language, t])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -110,7 +105,18 @@ export function VoiceNavigator() {
   }, [transcript, resetTranscript])
 
   if (!browserSupportsSpeechRecognition) {
-    return null
+    return (
+      <div className="voice-navigator">
+        <button 
+          className="voice-btn"
+          onClick={() => toast.error(t('voice.notSupported', 'El control por voz requiere Google Chrome o Edge en escritorio.'))}
+          aria-label="Control por voz no soportado"
+        >
+          <span className="voice-icon" aria-hidden="true">🎤</span>
+          <span className="voice-text">Voz (No Soportado)</span>
+        </button>
+      </div>
+    )
   }
 
   return (
