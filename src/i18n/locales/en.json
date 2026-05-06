@@ -1,6 +1,5 @@
 {
   "skipLink": "Skip to main content",
-
   "hotel": {
     "name": "The Grand Executive",
     "tagline": "Executive Luxury and Total Inclusion",
@@ -15,7 +14,6 @@
     "address": "Paseo de la Reforma 222, Col. Juárez, CDMX, México",
     "currency": "MXN",
     "heroImageAlt": "Facade of The Grand Executive, a five-star hotel on Paseo de la Reforma, Mexico City",
-
     "amenities": {
       "wheelchair": {
         "title": "Accessible Rooms",
@@ -42,7 +40,6 @@
         "description": "Personalized assistance for guests with visual or cognitive disabilities."
       }
     },
-
     "facilities": {
       "gym": {
         "name": "Gym",
@@ -105,7 +102,6 @@
         "description": "Room delivery within the hotel, accessible counter in the lobby, medications organized in Braille blister packs, and dosage reminder service."
       }
     },
-
     "rooms": {
       "suitePresidencial": {
         "name": "Accessible Presidential Suite",
@@ -145,7 +141,6 @@
         "altDescription": "Double room with adapted bathroom including grab bars next to the toilet and in the shower, bedside visual alarm, portable hearing loop available upon request, and full-width doors for comfortable access."
       }
     },
-
     "testimonials": {
       "maria": {
         "name": "María García",
@@ -163,7 +158,6 @@
         "text": "The low-stimulation room was an oasis for my son. We were able to enjoy our vacation without stress or sensory overwhelm."
       }
     },
-
     "accommodationOptions": {
       "auditory-kit": {
         "label": "Hearing Accessibility Kit",
@@ -198,7 +192,6 @@
         "description": "Articulated bed with side rails and remote control"
       }
     },
-
     "filterOptions": {
       "wheelchairAccessible": "Wheelchair Accessible",
       "rollInShower": "Roll-In Shower",
@@ -208,7 +201,6 @@
       "hearingLoop": "Hearing Loop",
       "transferCrane": "Transfer Crane"
     },
-
     "iconLabels": {
       "wheelchair": "Wheelchair accessibility icon",
       "visual": "Visual assistance icon",
@@ -233,7 +225,6 @@
       "pharmacy": "Pharmacy icon"
     }
   },
-
   "nav": {
     "inicio": "Home",
     "instalaciones": "Facilities",
@@ -243,13 +234,11 @@
     "ariaLabel": "Main navigation",
     "logoAriaLabel": "The Grand Executive - Home"
   },
-
   "hero": {
     "viewRooms": "View Rooms",
     "contact": "Contact",
     "roomsCountLabel": "rooms"
   },
-
   "facilitiesSection": {
     "title": "Hotel Facilities",
     "subtitle": "{{count}} luxury rooms with {{plan}} and all the amenities you need",
@@ -258,12 +247,10 @@
     "closeDetail": "Close detail",
     "detailRegion": "Selected facility detail"
   },
-
   "amenitiesSection": {
     "title": "Total Accessibility",
     "subtitle": "All the tools you need for a comfortable stay"
   },
-
   "roomsSection": {
     "title": "Our Rooms",
     "subtitle": "Designed for your comfort and autonomy",
@@ -273,7 +260,6 @@
     "clearFilters": "Clear Filters",
     "priceAriaLabel": "Price: {{price}} Mexican pesos per night"
   },
-
   "roomFilters": {
     "title": "Accessibility Filters",
     "clearFilters": "Clear Filters",
@@ -285,7 +271,6 @@
     "foundResults_plural": "{{count}} rooms found matching the selected filters",
     "noResults": "No rooms found matching the selected filters"
   },
-
   "map": {
     "title": "Accessibility Map",
     "subtitle": "Navigate our adapted facilities",
@@ -437,12 +422,10 @@
       }
     }
   },
-
   "testimonialsSection": {
     "title": "What Our Guests Say",
     "ratingAria": "Rating: {{rating}} out of 5 stars"
   },
-
   "reservation": {
     "title": "Book Your Stay",
     "subtitle": "We are here to help",
@@ -473,7 +456,6 @@
     "success": "Message sent successfully! Your order number is: {{orderNumber}}",
     "error": "Error sending: {{error}}"
   },
-
   "search": {
     "title": "Check My Reservation",
     "subtitle": "Enter your order number to check the status",
@@ -503,7 +485,6 @@
     },
     "close": "Close Details"
   },
-
   "footer": {
     "copyright": "© 2024 {{name}}. {{category}}. All rights reserved.",
     "privacy": "Privacy Policy",
@@ -513,7 +494,6 @@
     "backToSite": "Back to Hotel Site",
     "ariaLabel": "Legal links"
   },
-
   "accessibility": {
     "toolbarLabel": "Accessibility tools",
     "openPanel": "Open accessibility panel",
@@ -553,7 +533,6 @@
     "decreaseFont": "Decrease font size",
     "languageLabel": "Switch language"
   },
-
   "voice": {
     "button": "Voice Control",
     "listening": "Listening...",
@@ -571,7 +550,6 @@
     "activated": "Voice control enabled. Say 'Go to rooms', 'Book', etc.",
     "microphoneError": "Microphone is not available or lacks permissions."
   },
-
   "admin": {
     "loginTitle": "Administrative Dashboard",
     "loginSubtitle": "Restricted access for hotel staff",
@@ -608,7 +586,6 @@
     "updateError": "Error updating",
     "exportFileName": "Hotel_Reservations_Report_{{date}}.xlsx"
   },
-
   "speaker": {
     "facilitiesSection": "Read facilities section",
     "amenitiesSection": "Read services section",
@@ -619,12 +596,32 @@
     "readPage": "Read entire page",
     "stopPage": "Stop reading"
   },
-
   "roomAccessBadges": {
     "wheelchairAccessible": "Wheelchair Accessible",
     "rollInShower": "Roll-in Shower",
     "grabBars": "Grab Bars",
     "visualAlarms": "Visual Alarms",
     "hearingLoop": "Hearing Loop"
+  },
+  "checkout": {
+    "title": "Secure Payment Gateway",
+    "cancel": "Go Back",
+    "summaryTitle": "Booking Summary",
+    "name": "Cardholder:",
+    "email": "Email:",
+    "phone": "Phone:",
+    "dates": "Dates:",
+    "rooms": "Rooms:",
+    "total": "Total to Pay:",
+    "paymentMethod": "Payment Method",
+    "creditCard": "Credit/Debit Card",
+    "cardNumber": "Card Number",
+    "cardExp": "Expiration (MM/YY)",
+    "cardCvc": "Security Code (CVC)",
+    "cardName": "Name on Card",
+    "paypalDesc": "You will be redirected to PayPal to complete your payment securely.",
+    "processing": "Processing...",
+    "payButton": "Pay",
+    "secure": "100% Secure Payment"
   }
 }

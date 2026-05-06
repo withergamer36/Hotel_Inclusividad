@@ -182,9 +182,9 @@ export function AdminPanel() {
             <tbody>
               {reservas.map((reserva) => (
                 <tr key={reserva.id} className={reserva.atendido ? 'is-atendido' : ''}>
-                  <td data-label={t('admin.tableHeaders.status')}>
+                  <td data-label={t('admin_state')}>
                     <span className={`badge ${reserva.atendido ? 'bg-success' : 'bg-warning'}`}>
-                      {reserva.atendido ? t('admin.attendedLabel') : t('admin.pendingLabel')}
+                      {reserva.atendido ? 'Pagado' : 'Pendiente Pago'}
                     </span>
                   </td>
                   <td data-label={t('admin.tableHeaders.order')} className="font-mono">{reserva.numero_de_pedido}</td>

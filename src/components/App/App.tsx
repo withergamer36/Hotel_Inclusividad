@@ -11,6 +11,7 @@ import { HeroSection } from '../HeroSection/HeroSection'
 import { AdminPanel } from '../AdminPanel/AdminPanel'
 import { Toaster, toast } from 'react-hot-toast'
 import { VoiceNavigator } from '../VoiceNavigator/VoiceNavigator'
+import { Checkout } from '../Checkout/Checkout'
 import './App.css'
 
 function StarIcon(props: React.SVGProps<SVGSVGElement> & { filled?: boolean }) {
@@ -203,21 +204,39 @@ function App() {
   const formatPrice = useFormatPrice()
   const speechLang = useSpeechLang()
 
-  const [accessibility, setAccessibility] = useState<AccessibilityState>({
-    fontSize: 1,
-    dyslexiaFont: false,
-    highContrast: false,
-    darkMode: false,
-    reduceMotion: false,
-    increasedSpacing: false,
-    readingLine: false,
-    isSpeaking: false,
-    speechRate: 1,
-    colorBlindMode: 'none',
-    immersiveReading: false,
-    largeCursor: false,
-    highlightLinks: false
+  const [accessibility, setAccessibility] = useState<AccessibilityState>(() => {
+    const saved = localStorage.getItem('accessibilityState');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error("Error parsing accessibility state", e);
+      }
+    }
+    return {
+      fontSize: 1,
+      dyslexiaFont: false,
+      highContrast: false,
+      darkMode: false,
+      reduceMotion: false,
+      increasedSpacing: false,
+      readingLine: false,
+      isSpeaking: false,
+      speechRate: 1,
+      colorBlindMode: 'none',
+      immersiveReading: false,
+      largeCursor: false,
+      highlightLinks: false,
+      language: 'es'
+    };
   })
+
+  useEffect(() => {
+    localStorage.setItem('accessibilityState', JSON.stringify(accessibility));
+    if (accessibility.language && accessibility.language !== i18n.language) {
+      i18n.changeLanguage(accessibility.language);
+    }
+  }, [accessibility, i18n]);
 
   const [activeFilters, setActiveFilters] = useState<string[]>([])
   const [announcement, setAnnouncement] = useState('')
@@ -227,6 +246,8 @@ function App() {
   const [searchOrder, setSearchOrder] = useState('')
   const [foundReservation, setFoundReservation] = useState<any>(null)
   const [isSearching, setIsSearching] = useState(false)
+  const [isCheckoutView, setIsCheckoutView] = useState(false)
+  const [checkoutData, setCheckoutData] = useState<any>(null)
   interface SelectedRoomItem { id: string; tipo: string; cantidad: number }
   const [selectedRooms, setSelectedRooms] = useState<SelectedRoomItem[]>([
     { id: '1', tipo: '', cantidad: 1 }
@@ -263,7 +284,7 @@ function App() {
       document.addEventListener('mousemove', handleMouseMove)
       return () => document.removeEventListener('mousemove', handleMouseMove)
     }
-  }, [accessibility.readingLine])
+  }, [accessibility.readingLine, isCheckoutView, isAdminView])
 
   useEffect(() => {
     if (accessibility.darkMode) {
@@ -348,48 +369,78 @@ function App() {
       .map(h => `${h.tipo} x${h.cantidad}`)
       .join(', ')
     const cantidadTotal = habitacionesSeleccionadas.reduce((s, h) => s + h.cantidad, 0)
-    const habitacionesEmail = habitacionesSeleccionadas
-      .map(h => `${h.tipo} x${h.cantidad} — ${hotelData.currency} $${formatPrice(h.subtotal)}`)
-      .join(', ')
 
     const reservationData = {
       numero_de_pedido: orderNumber,
-      nombre: formData.get('name'),
-      email: formData.get('email'),
-      telefono: formData.get('phone'),
+      nombre: formData.get('name') as string,
+      email: formData.get('email') as string,
+      telefono: formData.get('phone') as string,
       habitacion_tipo: habitacionesTexto,
       habitacion_cantidad: cantidadTotal,
       habitaciones: habitacionesSeleccionadas,
-      checkIn: formData.get('checkIn'),
-      checkOut: formData.get('checkOut'),
+      checkIn: formData.get('checkIn') as string,
+      checkOut: formData.get('checkOut') as string,
       acomodaciones: translatedAccommodations,
-      precio_total: precioTotal,
-      fecha_creacion: new Date().toISOString()
+      mensaje: formData.get('message') as string || '',
+      precio_total_numero: precioTotal,
+      precio_total_formateado: precioTotalFormatted,
+      currency: hotelData.currency
     }
 
+    setCheckoutData(reservationData)
+    setIsCheckoutView(true)
+  }
+
+  const handlePaymentSuccess = async () => {
+    if (!checkoutData) return;
+    
+    setIsCheckoutView(false)
+    
+    // Preparar datos para Firebase
+    const dataToSave = {
+      numero_de_pedido: checkoutData.numero_de_pedido,
+      nombre: checkoutData.nombre,
+      email: checkoutData.email,
+      telefono: checkoutData.telefono,
+      habitacion_tipo: checkoutData.habitacion_tipo,
+      habitacion_cantidad: checkoutData.habitacion_cantidad,
+      habitaciones: checkoutData.habitaciones,
+      checkIn: checkoutData.checkIn,
+      checkOut: checkoutData.checkOut,
+      acomodaciones: checkoutData.acomodaciones,
+      precio_total: checkoutData.precio_total_numero,
+      fecha_creacion: new Date().toISOString()
+    };
+
     try {
-      console.log('Intentando enviar datos a Firebase...', reservationData);
+      console.log('Intentando enviar datos a Firebase...', dataToSave);
       const docRef = await addDoc(collection(db, 'reservas'), {
-        ...reservationData,
-        atendido: false
+        ...dataToSave,
+        atendido: true // Cambiado a true por defecto ya que fue pagado
       })
       console.log('Reserva guardada con ID:', docRef.id);
 
       try {
         const templateId = i18n.language === 'en' ? 'template_7wr203l' : 'template_o2idr4j'
+        
+        // Preparar email format
+        const habitacionesEmail = checkoutData.habitaciones
+          .map((h: any) => `${h.tipo} x${h.cantidad} — ${hotelData.currency} $${formatPrice(h.subtotal)}`)
+          .join(', ')
+
         await emailjs.send(
           'service_q8d6ofv',
           templateId,
           {
-            nombre: reservationData.nombre,
-            email: reservationData.email,
-            numero_de_pedido: reservationData.numero_de_pedido,
+            nombre: dataToSave.nombre,
+            email: dataToSave.email,
+            numero_de_pedido: dataToSave.numero_de_pedido,
             habitacion_tipo: habitacionesEmail,
-            habitacion_cantidad: cantidadTotal,
-            checkIn: reservationData.checkIn,
-            checkOut: reservationData.checkOut,
-            acomodaciones: reservationData.acomodaciones,
-            precio_total: precioTotalFormatted
+            habitacion_cantidad: dataToSave.habitacion_cantidad,
+            checkIn: dataToSave.checkIn,
+            checkOut: dataToSave.checkOut,
+            acomodaciones: dataToSave.acomodaciones,
+            precio_total: checkoutData.precio_total_formateado
           },
           'TTS9BrBBr92hi-UHq'
         );
@@ -398,17 +449,22 @@ function App() {
         console.error('Error al enviar el correo:', emailError);
       }
 
-      const successMsg = t('reservation.success', { orderNumber })
-      alert(successMsg)
+      const successMsg = t('reservation.success', { orderNumber: checkoutData.numero_de_pedido })
+      toast.success(successMsg, { duration: 8000 })
       announce(successMsg)
 
       setSelectedAccommodations([])
       setSelectedRooms([{ id: '1', tipo: '', cantidad: 1 }])
-      form.reset()
+      setCheckoutData(null)
+      
+      // Limpiar formulario principal
+      const form = document.querySelector('.contact-form') as HTMLFormElement;
+      if (form) form.reset();
+      
     } catch (error: any) {
       console.error('Error detallado de Firebase:', error)
       const errorMsg = t('reservation.error', { error: error.message })
-      alert(errorMsg)
+      toast.error(errorMsg)
       announce(errorMsg)
     }
   }
@@ -498,6 +554,60 @@ function App() {
         <main id="main-content" role="main">
           <AdminPanel />
         </main>
+        <svg style={{ height: 0, width: 0, position: 'absolute' }} aria-hidden="true">
+          <defs>
+            <filter id="protanopia">
+              <feColorMatrix type="matrix" values="0.567, 0.433, 0, 0, 0  0.558, 0.442, 0, 0, 0  0, 0.242, 0.758, 0, 0  0, 0, 0, 1, 0" />
+            </filter>
+            <filter id="deuteranopia">
+              <feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0  0.7, 0.3, 0, 0, 0  0, 0.3, 0.7, 0, 0  0, 0, 0, 1, 0" />
+            </filter>
+            <filter id="tritanopia">
+              <feColorMatrix type="matrix" values="0.95, 0.05, 0, 0, 0  0, 0.433, 0.567, 0, 0  0, 0.475, 0.525, 0, 0  0, 0, 0, 1, 0" />
+            </filter>
+            <filter id="achromatopsia">
+              <feColorMatrix type="matrix" values="0.299, 0.587, 0.114, 0, 0  0.299, 0.587, 0.114, 0, 0  0.299, 0.587, 0.114, 0, 0  0, 0, 0, 1, 0" />
+            </filter>
+          </defs>
+        </svg>
+      </div>
+    )
+  }
+
+  if (isCheckoutView && checkoutData) {
+    return (
+      <div
+        className={`landing ${accessibilityClasses}`}
+        style={{ fontSize: `${accessibility.fontSize}rem`, minHeight: '100vh' }}
+      >
+        <Toaster position="top-center" reverseOrder={false} />
+        <VoiceNavigator />
+        <div
+          className="sr-only"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          id="announcer"
+        >
+          {announcement}
+        </div>
+        <AccessibilityToolbar
+          state={accessibility}
+          onChange={setAccessibility}
+          onAnnounce={announce}
+        />
+        {accessibility.readingLine && (
+          <div
+            ref={readingLineRef}
+            className="reading-line"
+            aria-hidden="true"
+          />
+        )}
+        <Checkout 
+          data={checkoutData} 
+          onPay={handlePaymentSuccess} 
+          onCancel={() => setIsCheckoutView(false)}
+        />
         <svg style={{ height: 0, width: 0, position: 'absolute' }} aria-hidden="true">
           <defs>
             <filter id="protanopia">

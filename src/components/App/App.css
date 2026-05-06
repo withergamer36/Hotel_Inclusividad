@@ -1594,10 +1594,10 @@ textarea:focus:not(:focus-visible) {
 
 
 /* Daltonismo - Filtros aplicados al contenido para no romper position:fixed de las barras */
-.cb-protanopia .header, .cb-protanopia main, .cb-protanopia .footer { filter: url('#protanopia'); }
-.cb-deuteranopia .header, .cb-deuteranopia main, .cb-deuteranopia .footer { filter: url('#deuteranopia'); }
-.cb-tritanopia .header, .cb-tritanopia main, .cb-tritanopia .footer { filter: url('#tritanopia'); }
-.cb-achromatopsia .header, .cb-achromatopsia main, .cb-achromatopsia .footer { filter: url('#achromatopsia'); }
+.cb-protanopia .header, .cb-protanopia main, .cb-protanopia .footer, .cb-protanopia .checkout-container { filter: url('#protanopia'); }
+.cb-deuteranopia .header, .cb-deuteranopia main, .cb-deuteranopia .footer, .cb-deuteranopia .checkout-container { filter: url('#deuteranopia'); }
+.cb-tritanopia .header, .cb-tritanopia main, .cb-tritanopia .footer, .cb-tritanopia .checkout-container { filter: url('#tritanopia'); }
+.cb-achromatopsia .header, .cb-achromatopsia main, .cb-achromatopsia .footer, .cb-achromatopsia .checkout-container { filter: url('#achromatopsia'); }
 
 /* Resaltar Enlaces */
 .highlight-links a, 
@@ -1620,7 +1620,10 @@ textarea:focus:not(:focus-visible) {
 .immersive-reading .rooms,
 .immersive-reading .testimonials,
 .immersive-reading .contact,
-.immersive-reading .footer {
+.immersive-reading .footer,
+.immersive-reading .checkout-container,
+.immersive-reading .checkout-summary,
+.immersive-reading .checkout-payment {
   background-color: #fdfdfd !important;
   background-image: none !important;
   color: #222 !important;

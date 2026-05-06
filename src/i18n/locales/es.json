@@ -1,6 +1,5 @@
 {
   "skipLink": "Saltar al contenido principal",
-
   "hotel": {
     "name": "The Grand Executive",
     "tagline": "Lujo Ejecutivo e Inclusión Total",
@@ -15,7 +14,6 @@
     "address": "Paseo de la Reforma 222, Col. Juárez, CDMX, México",
     "currency": "MXN",
     "heroImageAlt": "Fachada del The Grand Executive, hotel cinco estrellas en Paseo de la Reforma, Ciudad de México",
-
     "amenities": {
       "wheelchair": {
         "title": "Habitaciones Accesibles",
@@ -42,7 +40,6 @@
         "description": "Asistencia personalizada para huéspedes con discapacidades visuales o cognitivas."
       }
     },
-
     "facilities": {
       "gym": {
         "name": "Gimnasio",
@@ -105,7 +102,6 @@
         "description": "Atención a domicilio dentro del hotel, mostrador accesible en el lobby, medicamentos organizados en blisters Braille y servicio de recordatorio de dosis."
       }
     },
-
     "rooms": {
       "suitePresidencial": {
         "name": "Suite Presidencial Accesible",
@@ -145,7 +141,6 @@
         "altDescription": "Habitación doble con baño adaptado que incluye barras de apoyo junto al inodoro y en la regadera, alarma visual en la mesita de noche, bucle magnético portátil disponible bajo petición, y puertas de ancho completo para acceso cómodo."
       }
     },
-
     "testimonials": {
       "maria": {
         "name": "María García",
@@ -163,7 +158,6 @@
         "text": "La habitación de baja estimulación fue un oasis para mi hijo. Pudimos disfrutar de nuestras vacaciones sin estrés ni abrumación sensorial."
       }
     },
-
     "accommodationOptions": {
       "auditory-kit": {
         "label": "Kit de accesibilidad auditiva",
@@ -198,7 +192,6 @@
         "description": "Cama articulada con barandales y control remoto"
       }
     },
-
     "filterOptions": {
       "wheelchairAccessible": "Espacio para silla de ruedas",
       "rollInShower": "Ducha a ras de suelo",
@@ -208,7 +201,6 @@
       "hearingLoop": "Bucle magnético",
       "transferCrane": "Grúa de transferencia"
     },
-
     "iconLabels": {
       "wheelchair": "Icono de accesibilidad en silla de ruedas",
       "visual": "Icono de asistencia visual",
@@ -233,7 +225,6 @@
       "pharmacy": "Icono de farmacia"
     }
   },
-
   "nav": {
     "inicio": "Inicio",
     "instalaciones": "Instalaciones",
@@ -243,13 +234,11 @@
     "ariaLabel": "Navegacion principal",
     "logoAriaLabel": "The Grand Executive - Inicio"
   },
-
   "hero": {
     "viewRooms": "Ver Habitaciones",
     "contact": "Contactar",
     "roomsCountLabel": "habitaciones"
   },
-
   "facilitiesSection": {
     "title": "Instalaciones del Hotel",
     "subtitle": "{{count}} habitaciones de lujo con {{plan}} y todas las amenidades que necesita",
@@ -258,12 +247,10 @@
     "closeDetail": "Cerrar detalle",
     "detailRegion": "Detalle de instalación seleccionada"
   },
-
   "amenitiesSection": {
     "title": "Accesibilidad Total",
     "subtitle": "Todas las herramientas que necesitas para una estancia comoda"
   },
-
   "roomsSection": {
     "title": "Nuestras Habitaciones",
     "subtitle": "Disenadas para tu comodidad y autonomia",
@@ -273,7 +260,6 @@
     "clearFilters": "Limpiar filtros",
     "priceAriaLabel": "Precio: {{price}} pesos mexicanos por noche"
   },
-
   "roomFilters": {
     "title": "Filtros de Accesibilidad",
     "clearFilters": "Limpiar filtros",
@@ -285,7 +271,6 @@
     "foundResults_plural": "Se encontraron {{count}} habitaciones con los filtros seleccionados",
     "noResults": "No se encontraron habitaciones con los filtros seleccionados"
   },
-
   "map": {
     "title": "Mapa de Accesibilidad",
     "subtitle": "Navega por nuestras instalaciones adaptadas",
@@ -437,12 +422,10 @@
       }
     }
   },
-
   "testimonialsSection": {
     "title": "Lo que dicen nuestros huespedes",
     "ratingAria": "Calificacion: {{rating}} de 5 estrellas"
   },
-
   "reservation": {
     "title": "Reserva tu estancia",
     "subtitle": "Estamos aqui para ayudarte",
@@ -473,7 +456,6 @@
     "success": "¡Mensaje enviado correctamente! Su número de pedido es: {{orderNumber}}",
     "error": "Error al enviar: {{error}}"
   },
-
   "search": {
     "title": "Consultar mi Reserva",
     "subtitle": "Ingrese su número de pedido para verificar el estado",
@@ -503,7 +485,6 @@
     },
     "close": "Cerrar Detalles"
   },
-
   "footer": {
     "copyright": "© 2024 {{name}}. {{category}}. Todos los derechos reservados.",
     "privacy": "Política de Privacidad",
@@ -513,7 +494,6 @@
     "backToSite": "Volver al Sitio del Hotel",
     "ariaLabel": "Enlaces legales"
   },
-
   "accessibility": {
     "toolbarLabel": "Herramientas de accesibilidad",
     "openPanel": "Abrir panel de accesibilidad",
@@ -553,7 +533,6 @@
     "decreaseFont": "Reducir tamaño de fuente",
     "languageLabel": "Cambiar idioma"
   },
-
   "voice": {
     "button": "Control por Voz",
     "listening": "Escuchando...",
@@ -571,7 +550,6 @@
     "activated": "Control por voz activado. Diga \"Ir a habitaciones\", \"Reservar\", etc.",
     "microphoneError": "El micrófono no está disponible o no tiene permisos."
   },
-
   "admin": {
     "loginTitle": "Dashboard Administrativo",
     "loginSubtitle": "Acceso restringido para personal del hotel",
@@ -608,7 +586,6 @@
     "updateError": "Error al actualizar",
     "exportFileName": "Reporte_Reservas_Hotel_{{date}}.xlsx"
   },
-
   "speaker": {
     "facilitiesSection": "Leer sección de instalaciones",
     "amenitiesSection": "Leer sección de servicios",
@@ -619,12 +596,32 @@
     "readPage": "Leer toda la página",
     "stopPage": "Detener lectura de la página"
   },
-
   "roomAccessBadges": {
     "wheelchairAccessible": "Espacio para silla de ruedas",
     "rollInShower": "Ducha a ras de suelo",
     "grabBars": "Barras de apoyo",
     "visualAlarms": "Alarmas visuales",
     "hearingLoop": "Bucle magnetico"
+  },
+  "checkout": {
+    "title": "Pasarela de Pago Segura",
+    "cancel": "Volver",
+    "summaryTitle": "Resumen de tu Reserva",
+    "name": "Titular:",
+    "email": "Correo:",
+    "phone": "Teléfono:",
+    "dates": "Fechas:",
+    "rooms": "Habitaciones:",
+    "total": "Total a Pagar:",
+    "paymentMethod": "Método de Pago",
+    "creditCard": "Tarjeta de Crédito/Débito",
+    "cardNumber": "Número de Tarjeta",
+    "cardExp": "Vencimiento (MM/AA)",
+    "cardCvc": "Código de Seguridad (CVC)",
+    "cardName": "Nombre en la Tarjeta",
+    "paypalDesc": "Serás redirigido a PayPal para completar tu pago de forma segura.",
+    "processing": "Procesando...",
+    "payButton": "Pagar",
+    "secure": "Pago 100% Seguro"
   }
 }
