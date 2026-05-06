@@ -466,6 +466,10 @@
       "selectRoom": "Seleccione una opción"
     },
     "submit": "Enviar Solicitud",
+    "addRoom": "+ Agregar habitación",
+    "removeRoom": "Eliminar habitación",
+    "roomsLabel": "Habitaciones seleccionadas",
+    "subtotal": "Subtotal: {{subtotal}}",
     "success": "¡Mensaje enviado correctamente! Su número de pedido es: {{orderNumber}}",
     "error": "Error al enviar: {{error}}"
   },

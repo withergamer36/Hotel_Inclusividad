@@ -227,6 +227,10 @@ function App() {
   const [searchOrder, setSearchOrder] = useState('')
   const [foundReservation, setFoundReservation] = useState<any>(null)
   const [isSearching, setIsSearching] = useState(false)
+  interface SelectedRoomItem { id: string; tipo: string; cantidad: number }
+  const [selectedRooms, setSelectedRooms] = useState<SelectedRoomItem[]>([
+    { id: '1', tipo: '', cantidad: 1 }
+  ])
   const readingLineRef = useRef<HTMLDivElement>(null)
   const announcerTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -300,6 +304,18 @@ function App() {
     }
   }
 
+  const addRoom = () => {
+    setSelectedRooms([...selectedRooms, { id: String(Date.now()), tipo: '', cantidad: 1 }])
+  }
+
+  const removeRoom = (id: string) => {
+    setSelectedRooms(selectedRooms.filter(r => r.id !== id))
+  }
+
+  const updateRoom = (id: string, field: 'tipo' | 'cantidad', value: string | number) => {
+    setSelectedRooms(selectedRooms.map(r => r.id === id ? { ...r, [field]: value } : r))
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -313,19 +329,37 @@ function App() {
       return option ? option.label : id;
     }).join(', ');
 
-    const roomTypeValue = formData.get('roomType') as string
-    const quantityValue = Number(formData.get('quantity')) || 1
-    const selectedRoom = hotelData.rooms.find(r => r.name === roomTypeValue)
-    const precioTotal = selectedRoom ? selectedRoom.price * quantityValue : 0
+    const habitacionesSeleccionadas = selectedRooms
+      .filter(r => r.tipo)
+      .map(r => {
+        const roomData = hotelData.rooms.find(hr => hr.name === r.tipo)
+        const precio = roomData?.price || 0
+        return {
+          tipo: r.tipo,
+          cantidad: r.cantidad,
+          precio_unitario: precio,
+          subtotal: precio * r.cantidad
+        }
+      })
+
+    const precioTotal = habitacionesSeleccionadas.reduce((sum, h) => sum + h.subtotal, 0)
     const precioTotalFormatted = `${hotelData.currency} $${formatPrice(precioTotal)}`
+    const habitacionesTexto = habitacionesSeleccionadas
+      .map(h => `${h.tipo} x${h.cantidad}`)
+      .join(', ')
+    const cantidadTotal = habitacionesSeleccionadas.reduce((s, h) => s + h.cantidad, 0)
+    const habitacionesEmail = habitacionesSeleccionadas
+      .map(h => `${h.tipo} x${h.cantidad} — ${hotelData.currency} $${formatPrice(h.subtotal)}`)
+      .join(', ')
 
     const reservationData = {
       numero_de_pedido: orderNumber,
       nombre: formData.get('name'),
       email: formData.get('email'),
       telefono: formData.get('phone'),
-      habitacion_tipo: roomTypeValue,
-      habitacion_cantidad: quantityValue,
+      habitacion_tipo: habitacionesTexto,
+      habitacion_cantidad: cantidadTotal,
+      habitaciones: habitacionesSeleccionadas,
       checkIn: formData.get('checkIn'),
       checkOut: formData.get('checkOut'),
       acomodaciones: translatedAccommodations,
@@ -342,15 +376,16 @@ function App() {
       console.log('Reserva guardada con ID:', docRef.id);
 
       try {
+        const templateId = i18n.language === 'en' ? 'template_7wr203l' : 'template_o2idr4j'
         await emailjs.send(
           'service_q8d6ofv',
-          'template_o2idr4j',
+          templateId,
           {
             nombre: reservationData.nombre,
             email: reservationData.email,
             numero_de_pedido: reservationData.numero_de_pedido,
-            habitacion_tipo: reservationData.habitacion_tipo,
-            habitacion_cantidad: reservationData.habitacion_cantidad,
+            habitacion_tipo: habitacionesEmail,
+            habitacion_cantidad: cantidadTotal,
             checkIn: reservationData.checkIn,
             checkOut: reservationData.checkOut,
             acomodaciones: reservationData.acomodaciones,
@@ -368,6 +403,7 @@ function App() {
       announce(successMsg)
 
       setSelectedAccommodations([])
+      setSelectedRooms([{ id: '1', tipo: '', cantidad: 1 }])
       form.reset()
     } catch (error: any) {
       console.error('Error detallado de Firebase:', error)
@@ -425,6 +461,32 @@ function App() {
         className={`landing ${accessibilityClasses}`}
         style={{ fontSize: `${accessibility.fontSize}rem`, minHeight: '100vh' }}
       >
+        <Toaster position="top-center" reverseOrder={false} />
+        <VoiceNavigator />
+        <a href="#main-content" className="skip-link">
+          {t('skipLink')}
+        </a>
+        <div
+          className="sr-only"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          id="announcer"
+        >
+          {announcement}
+        </div>
+        <AccessibilityToolbar
+          state={accessibility}
+          onChange={setAccessibility}
+          onAnnounce={announce}
+        />
+        {accessibility.readingLine && (
+          <div
+            ref={readingLineRef}
+            className="reading-line"
+            aria-hidden="true"
+          />
+        )}
         <div style={{ padding: '20px', display: 'flex', justifyContent: 'flex-end' }}>
           <button
             onClick={() => setIsAdminView(false)}
@@ -433,12 +495,25 @@ function App() {
             {t('footer.backToSite')}
           </button>
         </div>
-        <AccessibilityToolbar
-          state={accessibility}
-          onChange={setAccessibility}
-          onAnnounce={announce}
-        />
-        <AdminPanel />
+        <main id="main-content" role="main">
+          <AdminPanel />
+        </main>
+        <svg style={{ height: 0, width: 0, position: 'absolute' }} aria-hidden="true">
+          <defs>
+            <filter id="protanopia">
+              <feColorMatrix type="matrix" values="0.567, 0.433, 0, 0, 0  0.558, 0.442, 0, 0, 0  0, 0.242, 0.758, 0, 0  0, 0, 0, 1, 0" />
+            </filter>
+            <filter id="deuteranopia">
+              <feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0  0.7, 0.3, 0, 0, 0  0, 0.3, 0.7, 0, 0  0, 0, 0, 1, 0" />
+            </filter>
+            <filter id="tritanopia">
+              <feColorMatrix type="matrix" values="0.95, 0.05, 0, 0, 0  0, 0.433, 0.567, 0, 0  0, 0.475, 0.525, 0, 0  0, 0, 0, 1, 0" />
+            </filter>
+            <filter id="achromatopsia">
+              <feColorMatrix type="matrix" values="0.299, 0.587, 0.114, 0, 0  0.299, 0.587, 0.114, 0, 0  0.299, 0.587, 0.114, 0, 0  0, 0, 0, 1, 0" />
+            </filter>
+          </defs>
+        </svg>
       </div>
     )
   }
@@ -718,9 +793,17 @@ function App() {
                     <p><strong>{t('search.labels.email')}:</strong> {foundReservation.email}</p>
                     <p><strong>{t('search.labels.phone')}:</strong> {foundReservation.telefono}</p>
                     <p><strong>{t('search.labels.dates')}:</strong> {t('search.labels.datesValue', { checkIn: foundReservation.checkIn, checkOut: foundReservation.checkOut })}</p>
-                    <p><strong>{t('search.labels.room')}:</strong> {foundReservation.habitacion_tipo} ({t('search.labels.quantity', { type: foundReservation.habitacion_tipo, qty: foundReservation.habitacion_cantidad })})</p>
-                    <p><strong>{t('search.labels.total')}:</strong> {hotelData.currency} ${formatPrice(foundReservation.precio_total || 0)}</p>
+                    {foundReservation.habitaciones && Array.isArray(foundReservation.habitaciones) ? (
+                      <>
+                        {foundReservation.habitaciones.map((h: any, i: number) => (
+                          <p key={i}><strong>{t('search.labels.room')} {i + 1}:</strong> {h.tipo} x{h.cantidad} — {hotelData.currency} ${formatPrice(h.subtotal || 0)}</p>
+                        ))}
+                      </>
+                    ) : (
+                      <p><strong>{t('search.labels.room')}:</strong> {foundReservation.habitacion_tipo} ({foundReservation.habitacion_cantidad})</p>
+                    )}
                     <p><strong>{t('search.labels.accessibility')}:</strong> {foundReservation.acomodaciones || t('search.labels.none')}</p>
+                    <p><strong>{t('search.labels.total')}:</strong> {hotelData.currency} ${formatPrice(foundReservation.precio_total || 0)}</p>
                     <p><strong>{t('search.labels.reservationDate')}:</strong> {new Date(foundReservation.fecha_creacion).toLocaleString(i18n.language === 'en' ? 'en-US' : 'es-MX')}</p>
                   </div>
                   <button onClick={() => setFoundReservation(null)} className="btn-close-result">{t('search.close')}</button>
@@ -777,32 +860,70 @@ function App() {
                     autoComplete="email"
                   />
                 </div>
-                <div className="form-row">
-                  <div className="form-group">
-                    <label htmlFor="room-type">{t('reservation.formLabels.roomType')}</label>
-                    <select id="room-type" name="roomType" className="form-input" required>
-                      <option value="">{t('reservation.placeholders.selectRoom')}</option>
-                      {hotelData.rooms.map((room) => (
-                        <option key={room.name} value={room.name}>
-                          {room.name} - ${formatPrice(room.price)} {hotelData.currency}
-                        </option>
-                      ))}
-                    </select>
+                <fieldset className="rooms-selection-fieldset">
+                  <legend className="accommodation-legend">{t('reservation.roomsLabel')}</legend>
+                  <div className="rooms-selection-list">
+                    {selectedRooms.map((roomItem, index) => (
+                      <div key={roomItem.id} className="room-selection-row">
+                        <div className="form-group room-type-group">
+                          <label htmlFor={`room-type-${roomItem.id}`} className="sr-only">{t('reservation.formLabels.roomType')} {index + 1}</label>
+                          <select
+                            id={`room-type-${roomItem.id}`}
+                            value={roomItem.tipo}
+                            onChange={(e) => updateRoom(roomItem.id, 'tipo', e.target.value)}
+                            className="form-input"
+                            required
+                          >
+                            <option value="">{t('reservation.placeholders.selectRoom')}</option>
+                            {hotelData.rooms.map((room) => (
+                              <option key={room.name} value={room.name}>
+                                {room.name} - {hotelData.currency} ${formatPrice(room.price)}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="form-group room-qty-group">
+                          <label htmlFor={`room-qty-${roomItem.id}`} className="sr-only">{t('reservation.formLabels.quantity')} {index + 1}</label>
+                          <input
+                            id={`room-qty-${roomItem.id}`}
+                            type="number"
+                            min="1"
+                            max="5"
+                            value={roomItem.cantidad}
+                            onChange={(e) => updateRoom(roomItem.id, 'cantidad', Number(e.target.value))}
+                            className="form-input"
+                            required
+                          />
+                        </div>
+                        {selectedRooms.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => removeRoom(roomItem.id)}
+                            className="btn-remove-room"
+                            aria-label={t('reservation.removeRoom')}
+                          >
+                            {'\u2715'}
+                          </button>
+                        )}
+                      </div>
+                    ))}
                   </div>
-                  <div className="form-group">
-                    <label htmlFor="room-quantity">{t('reservation.formLabels.quantity')}</label>
-                    <input
-                      type="number"
-                      id="room-quantity"
-                      name="quantity"
-                      min="1"
-                      max="5"
-                      defaultValue="1"
-                      className="form-input"
-                      required
-                    />
-                  </div>
-                </div>
+                  {selectedRooms.filter(r => r.tipo).length > 0 && (
+                    <div className="rooms-total-preview">
+                      {t('search.labels.total')}: {hotelData.currency} ${formatPrice(
+                        selectedRooms
+                          .filter(r => r.tipo)
+                          .reduce((sum, r) => {
+                            const rd = hotelData.rooms.find(hr => hr.name === r.tipo)
+                            return sum + (rd ? rd.price * r.cantidad : 0)
+                          }, 0)
+                      )}
+                    </div>
+                  )}
+                  <button type="button" onClick={addRoom} className="btn-add-room">
+                    {t('reservation.addRoom')}
+                  </button>
+                </fieldset>
 
                 <div className="form-row">
                   <div className="form-group">

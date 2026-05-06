@@ -197,8 +197,16 @@ export function AdminPanel() {
                   </td>
                   <td data-label={t('admin.tableHeaders.reservation')}>
                     <div className="td-reserva">
-                      <span className="room">{reserva.habitacion_tipo}</span>
-                      <span className="qty">{t('admin.quantity', { qty: reserva.habitacion_cantidad })}</span>
+                      {reserva.habitaciones && Array.isArray(reserva.habitaciones) ? (
+                        reserva.habitaciones.map((h: any, i: number) => (
+                          <span key={i} className="room-row-item">{h.tipo} x{h.cantidad}</span>
+                        ))
+                      ) : (
+                        <>
+                          <span className="room">{reserva.habitacion_tipo}</span>
+                          <span className="qty">{t('admin.quantity', { qty: reserva.habitacion_cantidad })}</span>
+                        </>
+                      )}
                     </div>
                   </td>
                   <td data-label={t('admin.tableHeaders.checkIn')} className="date">{reserva.checkIn}</td>
