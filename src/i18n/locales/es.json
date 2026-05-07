@@ -446,7 +446,8 @@
       "email": "maria@ejemplo.com",
       "phone": "+52 55 0000 0000",
       "message": "Indique cualquier otra necesidad especial de accesibilidad...",
-      "selectRoom": "Seleccione una opción"
+      "selectRoom": "Seleccione una opción",
+      "dateFormat": "dd/mm/aaaa"
     },
     "submit": "Proceder con el pago",
     "addRoom": "+ Agregar habitación",
@@ -497,7 +498,8 @@
       "total": "Total a Pagar",
       "none": "Ninguna"
     },
-    "close": "Cerrar Detalles"
+    "close": "Cerrar Detalles",
+    "downloadPDF": "Descargar PDF"
   },
   "footer": {
     "copyright": "© 2024 {{name}}. {{category}}. Todos los derechos reservados.",
@@ -562,7 +564,9 @@
     "scrollUp": "Subiendo pantalla",
     "deactivated": "Control por voz desactivado",
     "activated": "Control por voz activado. Diga \"Ir a habitaciones\", \"Reservar\", etc.",
-    "microphoneError": "El micrófono no está disponible o no tiene permisos."
+    "microphoneError": "El micrófono no está disponible o no tiene permisos.",
+    "notSupported": "Control por voz no disponible en este navegador. Use Chrome o Edge.",
+    "buttonShort": "Voz"
   },
   "admin": {
     "loginTitle": "Dashboard Administrativo",

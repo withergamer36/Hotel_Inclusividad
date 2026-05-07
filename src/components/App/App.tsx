@@ -12,6 +12,7 @@ import { AdminPanel } from '../AdminPanel/AdminPanel'
 import { Toaster, toast } from 'react-hot-toast'
 import { VoiceNavigator } from '../VoiceNavigator/VoiceNavigator'
 import { Checkout } from '../Checkout/Checkout'
+import { generateReservationPDF } from '../../utils/generateReservationPDF'
 import './App.css'
 
 function StarIcon(props: React.SVGProps<SVGSVGElement> & { filled?: boolean }) {
@@ -709,9 +710,14 @@ function App() {
               <p><strong>{t('search.labels.accessibility')}:</strong> {paymentSuccessData.acomodaciones || t('search.labels.none')}</p>
               <p><strong>{t('search.labels.total')}:</strong> {paymentSuccessData.precio_total_formateado}</p>
             </div>
-            <button onClick={handleBackToHome} className="btn btn-primary success-back-btn">
-              {t('paymentSuccess.backToHome')}
-            </button>
+            <div className="success-actions">
+              <button onClick={handleBackToHome} className="btn btn-primary success-back-btn">
+                {t('paymentSuccess.backToHome')}
+              </button>
+              <button onClick={() => generateReservationPDF(paymentSuccessData, t, formatPrice, i18n.language)} className="btn-download-pdf">
+                {'\u{1F4C4}'} {t('search.downloadPDF')}
+              </button>
+            </div>
           </div>
         </div>
         <svg style={{ height: 0, width: 0, position: 'absolute' }} aria-hidden="true">
@@ -1022,7 +1028,12 @@ function App() {
                     <p><strong>{t('search.labels.total')}:</strong> {hotelData.currency} ${formatPrice(foundReservation.precio_total || 0)}</p>
                     <p><strong>{t('search.labels.reservationDate')}:</strong> {new Date(foundReservation.fecha_creacion).toLocaleString(i18n.language === 'en' ? 'en-US' : 'es-MX')}</p>
                   </div>
-                  <button onClick={() => setFoundReservation(null)} className="btn-close-result">{t('search.close')}</button>
+                  <div className="result-actions">
+                    <button onClick={() => setFoundReservation(null)} className="btn-close-result">{t('search.close')}</button>
+                    <button onClick={() => generateReservationPDF(foundReservation, t, formatPrice, i18n.language)} className="btn-download-pdf">
+                      {'\u{1F4C4}'} {t('search.downloadPDF')}
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -1150,6 +1161,7 @@ function App() {
                       name="checkIn"
                       className="form-input"
                       required
+                      placeholder={t('reservation.placeholders.dateFormat')}
                       min={new Date().toISOString().split('T')[0]}
                     />
                   </div>
@@ -1161,6 +1173,7 @@ function App() {
                       name="checkOut"
                       className="form-input"
                       required
+                      placeholder={t('reservation.placeholders.dateFormat')}
                       min={new Date().toISOString().split('T')[0]}
                     />
                   </div>

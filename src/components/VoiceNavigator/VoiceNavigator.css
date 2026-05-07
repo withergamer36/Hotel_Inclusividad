@@ -39,6 +39,10 @@
   font-size: 1.2rem;
 }
 
+.voice-text-short {
+  display: none;
+}
+
 .voice-transcript {
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
@@ -80,4 +84,16 @@
 .high-contrast .voice-btn.listening {
   background-color: yellow;
   color: black;
+}
+
+@media (max-width: 600px) {
+  .voice-text {
+    display: none;
+  }
+  .voice-text-short {
+    display: inline;
+  }
+  .voice-btn {
+    padding: 10px 14px;
+  }
 }

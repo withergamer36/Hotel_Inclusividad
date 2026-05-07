@@ -1,5 +1,5 @@
 import 'regenerator-runtime/runtime'
-import { useEffect, useState, useMemo, useCallback } from 'react'
+import { useEffect, useMemo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 import { toast } from 'react-hot-toast'
@@ -7,7 +7,6 @@ import './VoiceNavigator.css'
 
 export function VoiceNavigator() {
   const { t, i18n } = useTranslation()
-  const [isVoiceActive, setIsVoiceActive] = useState(false)
 
   const commands = useMemo(() => {
     return [
@@ -72,7 +71,6 @@ export function VoiceNavigator() {
         command: ['*detener voz*', '*apagar micrófono*', '*stop voice*', '*turn off mic*'],
         callback: () => {
           SpeechRecognition.stopListening()
-          setIsVoiceActive(false)
           toast(t('voice.deactivated'), { icon: '\u{1F507}' })
         }
       }
@@ -83,19 +81,22 @@ export function VoiceNavigator() {
     transcript,
     listening,
     resetTranscript,
-    browserSupportsSpeechRecognition
+    browserSupportsSpeechRecognition,
+    isMicrophoneAvailable
   } = useSpeechRecognition({ commands })
 
   const handleToggle = useCallback(() => {
-    if (isVoiceActive) {
+    if (listening) {
       SpeechRecognition.stopListening()
-      setIsVoiceActive(false)
     } else {
+      if (!isMicrophoneAvailable) {
+        toast.error(t('voice.microphoneError'))
+        return
+      }
       SpeechRecognition.startListening({ continuous: true, language: i18n.language === 'en' ? 'en-US' : 'es-MX' })
-      setIsVoiceActive(true)
       toast.success(t('voice.activated'))
     }
-  }, [isVoiceActive, i18n.language, t])
+  }, [listening, isMicrophoneAvailable, i18n.language, t])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -113,7 +114,7 @@ export function VoiceNavigator() {
           aria-label="Control por voz no soportado"
         >
           <span className="voice-icon" aria-hidden="true">🎤</span>
-          <span className="voice-text">Voz (No Soportado)</span>
+          <span className="voice-text">{t('voice.notSupported')}</span>
         </button>
       </div>
     )
@@ -132,6 +133,9 @@ export function VoiceNavigator() {
         </span>
         <span className="voice-text">
           {listening ? t('voice.listening') : t('voice.button')}
+        </span>
+        <span className="voice-text-short">
+          {listening ? '...' : t('voice.buttonShort')}
         </span>
       </button>
 

@@ -446,7 +446,8 @@
       "email": "john@example.com",
       "phone": "+1 555 0000 000",
       "message": "Please indicate any other special accessibility needs...",
-      "selectRoom": "Select an option"
+      "selectRoom": "Select an option",
+      "dateFormat": "mm/dd/yyyy"
     },
     "submit": "Proceed to payment",
     "addRoom": "+ Add Room",
@@ -497,7 +498,8 @@
       "total": "Total Amount",
       "none": "None"
     },
-    "close": "Close Details"
+    "close": "Close Details",
+    "downloadPDF": "Download PDF"
   },
   "footer": {
     "copyright": "© 2024 {{name}}. {{category}}. All rights reserved.",
@@ -562,7 +564,9 @@
     "scrollUp": "Scrolling up",
     "deactivated": "Voice control disabled",
     "activated": "Voice control enabled. Say 'Go to rooms', 'Book', etc.",
-    "microphoneError": "Microphone is not available or lacks permissions."
+    "microphoneError": "Microphone is not available or lacks permissions.",
+    "notSupported": "Voice control not available in this browser. Use Chrome or Edge.",
+    "buttonShort": "Voice"
   },
   "admin": {
     "loginTitle": "Administrative Dashboard",
