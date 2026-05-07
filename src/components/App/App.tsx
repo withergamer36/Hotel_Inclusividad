@@ -12,7 +12,8 @@ import { AdminPanel } from '../AdminPanel/AdminPanel'
 import { Toaster, toast } from 'react-hot-toast'
 import { VoiceNavigator } from '../VoiceNavigator/VoiceNavigator'
 import { Checkout } from '../Checkout/Checkout'
-import { generateReservationPDF } from '../../utils/generateReservationPDF'
+import { generateReservationPDF, generateReservationPDFBlob } from '../../utils/generateReservationPDF'
+import { Html5Qrcode } from 'html5-qrcode'
 import './App.css'
 
 function StarIcon(props: React.SVGProps<SVGSVGElement> & { filled?: boolean }) {
@@ -247,6 +248,8 @@ function App() {
   const [searchOrder, setSearchOrder] = useState('')
   const [foundReservation, setFoundReservation] = useState<any>(null)
   const [isSearching, setIsSearching] = useState(false)
+  const [isScanning, setIsScanning] = useState(false)
+  const scannerRef = useRef<Html5Qrcode | null>(null)
   const [isCheckoutView, setIsCheckoutView] = useState(false)
   const [checkoutData, setCheckoutData] = useState<any>(null)
   const [isPaymentSuccessView, setIsPaymentSuccessView] = useState(false)
@@ -445,22 +448,29 @@ function App() {
           .map((h: any) => `${h.tipo} x${h.cantidad} — ${hotelData.currency} $${formatPrice(h.subtotal)}`)
           .join(', ')
 
-        await emailjs.send(
-          'service_q8d6ofv',
-          templateId,
-          {
-            nombre: dataToSave.nombre,
-            email: dataToSave.email,
-            numero_de_pedido: dataToSave.numero_de_pedido,
-            habitacion_tipo: habitacionesEmail,
-            habitacion_cantidad: dataToSave.habitacion_cantidad,
-            checkIn: dataToSave.checkIn,
-            checkOut: dataToSave.checkOut,
-            acomodaciones: dataToSave.acomodaciones,
-            precio_total: checkoutData.precio_total_formateado
-          },
-          'TTS9BrBBr92hi-UHq'
-        );
+        const templateParams = {
+          nombre: dataToSave.nombre,
+          email: dataToSave.email,
+          numero_de_pedido: dataToSave.numero_de_pedido,
+          habitacion_tipo: habitacionesEmail,
+          habitacion_cantidad: dataToSave.habitacion_cantidad,
+          checkIn: dataToSave.checkIn,
+          checkOut: dataToSave.checkOut,
+          acomodaciones: dataToSave.acomodaciones,
+          precio_total: checkoutData.precio_total_formateado
+        }
+
+        try {
+          await generateReservationPDFBlob(checkoutData, t, formatPrice, i18n.language)
+
+          await emailjs.send(
+            'service_q8d6ofv',
+            templateId,
+            templateParams,
+            'TTS9BrBBr92hi-UHq'
+          )
+        } catch {}
+        console.log('Correo de confirmación enviado exitosamente');
         console.log('Correo de confirmación enviado exitosamente');
       } catch (emailError) {
         console.error('Error al enviar el correo:', emailError);
@@ -490,6 +500,45 @@ function App() {
   const handleBackToHome = () => {
     setIsPaymentSuccessView(false)
     setPaymentSuccessData(null)
+  }
+
+  const handleScanQR = async () => {
+    try {
+      const scanner = new Html5Qrcode('qr-reader')
+      scannerRef.current = scanner
+      setIsScanning(true)
+
+      await scanner.start(
+        { facingMode: 'environment' },
+        { fps: 10, qrbox: { width: 250, height: 250 } },
+        (decodedText) => {
+          const match = decodedText.match(/RES-[A-Z0-9]+/i)
+          const code = match ? match[0].toUpperCase() : decodedText.toUpperCase()
+          setSearchOrder(code)
+          scanner.stop().then(() => {
+            scannerRef.current = null
+            setIsScanning(false)
+            const input = document.querySelector('.search-form input') as HTMLInputElement
+            if (input) input.value = code
+            toast.success(t('search.found'))
+            announce(t('search.foundAnnounce'))
+          })
+        },
+        () => {}
+      )
+    } catch {
+      toast.error(t('search.qrError'))
+      setIsScanning(false)
+      scannerRef.current = null
+    }
+  }
+
+  const handleCancelScan = async () => {
+    if (scannerRef.current) {
+      await scannerRef.current.stop()
+      scannerRef.current = null
+    }
+    setIsScanning(false)
   }
 
   const handleSearchReservation = async (e: React.FormEvent) => {
@@ -1000,6 +1049,26 @@ function App() {
                   ) : t('search.button')}
                 </button>
               </form>
+
+              <div className="qr-scan-section">
+                <button
+                  type="button"
+                  onClick={handleScanQR}
+                  className="btn-scan-qr"
+                  aria-label={t('search.scanQR')}
+                  title={t('search.scanQR')}
+                >
+                  {'\u{1F4F7}'} {t('search.scanQR')}
+                </button>
+                {isScanning && (
+                  <div className="qr-scanner-container">
+                    <div id="qr-reader" style={{ width: '100%', maxWidth: '300px', margin: '0 auto' }}></div>
+                    <button onClick={handleCancelScan} className="btn-cancel-scan">
+                      {t('search.close')}
+                    </button>
+                  </div>
+                )}
+              </div>
 
               {foundReservation && (
                 <div className="reservation-result-card animate-fade-in">

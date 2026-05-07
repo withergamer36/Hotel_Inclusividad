@@ -499,7 +499,10 @@
       "none": "None"
     },
     "close": "Close Details",
-    "downloadPDF": "Download PDF"
+    "downloadPDF": "Download PDF",
+    "scanQR": "Scan QR",
+    "scanningQR": "Scanning...",
+    "qrError": "Could not read QR code"
   },
   "footer": {
     "copyright": "© 2024 {{name}}. {{category}}. All rights reserved.",
