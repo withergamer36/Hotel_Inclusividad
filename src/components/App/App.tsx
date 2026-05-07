@@ -250,7 +250,6 @@ function App() {
   const [foundReservation, setFoundReservation] = useState<any>(null)
   const [isSearching, setIsSearching] = useState(false)
   const [isScanning, setIsScanning] = useState(false)
-  const [shouldScan, setShouldScan] = useState(false)
   const scannerRef = useRef<Html5Qrcode | null>(null)
   const [isCheckoutView, setIsCheckoutView] = useState(false)
   const [checkoutData, setCheckoutData] = useState<any>(null)
@@ -511,45 +510,49 @@ function App() {
   }
 
   const handleScanQR = () => {
-    setShouldScan(true)
     setIsScanning(true)
-    setSearchOrder('')
   }
 
   useEffect(() => {
-    if (!shouldScan) return
+    if (!isScanning) return
     const el = document.getElementById('qr-reader')
     if (!el) return
 
     const scanner = new Html5Qrcode('qr-reader')
     scannerRef.current = scanner
+    let stopped = false
 
     scanner.start(
       { facingMode: 'environment' },
       { fps: 10, qrbox: { width: 250, height: 250 } },
       (decodedText) => {
+        if (stopped) return
+        stopped = true
+
         const match = decodedText.match(/RES-[A-Z0-9]+/i)
         const code = match ? match[0].toUpperCase() : decodedText.toUpperCase()
-        setSearchOrder(code)
-        searchByCode(code)
+
         scanner.stop().then(() => {
           scannerRef.current = null
+          setSearchOrder(code)
           setIsScanning(false)
-          setShouldScan(false)
+        }).catch(() => {
+          setIsScanning(false)
+          scannerRef.current = null
         })
       },
       () => {}
     ).catch(() => {
       toast.error(t('search.qrError'))
       setIsScanning(false)
-      setShouldScan(false)
       scannerRef.current = null
     })
 
     return () => {
+      stopped = true
       scanner.stop().catch(() => {})
     }
-  }, [shouldScan])
+  }, [isScanning])
 
   const handleCancelScan = async () => {
     if (scannerRef.current) {
@@ -557,7 +560,6 @@ function App() {
       scannerRef.current = null
     }
     setIsScanning(false)
-    setShouldScan(false)
   }
 
   const searchByCode = async (code: string) => {
