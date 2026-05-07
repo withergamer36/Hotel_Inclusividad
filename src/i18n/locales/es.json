@@ -456,6 +456,12 @@
     "success": "¡Mensaje enviado correctamente! Su número de pedido es: {{orderNumber}}",
     "error": "Error al enviar: {{error}}"
   },
+  "paymentSuccess": {
+    "title": "¡Pago Realizado con Éxito!",
+    "subtitle": "Tu reserva {{orderNumber}} ha sido confirmada.",
+    "detailsTitle": "Detalles de tu Reserva",
+    "backToHome": "Volver a la Página Principal"
+  },
   "validation": {
     "nameRequired": "Por favor, ingresa tu nombre completo.",
     "emailRequired": "Por favor, ingresa tu correo electrónico.",

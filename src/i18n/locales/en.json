@@ -456,6 +456,12 @@
     "success": "Message sent successfully! Your order number is: {{orderNumber}}",
     "error": "Error sending: {{error}}"
   },
+  "paymentSuccess": {
+    "title": "Payment Successful!",
+    "subtitle": "Your reservation {{orderNumber}} has been confirmed.",
+    "detailsTitle": "Reservation Details",
+    "backToHome": "Back to Home Page"
+  },
   "validation": {
     "nameRequired": "Please enter your full name.",
     "emailRequired": "Please enter your email address.",

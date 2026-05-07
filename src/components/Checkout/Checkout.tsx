@@ -29,6 +29,14 @@ interface CheckoutProps {
 export function Checkout({ data, onPay, onCancel, t }: CheckoutProps) {
   const [paymentMethod, setPaymentMethod] = useState('tarjeta')
   const [isProcessing, setIsProcessing] = useState(false)
+  const [expiry, setExpiry] = useState('')
+
+  const handleExpiryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, '')
+    if (value.length > 4) value = value.slice(0, 4)
+    if (value.length >= 2) value = value.slice(0, 2) + '/' + value.slice(2)
+    setExpiry(value)
+  }
 
   const handlePayment = (e: React.FormEvent) => {
     e.preventDefault()
@@ -124,7 +132,7 @@ export function Checkout({ data, onPay, onCancel, t }: CheckoutProps) {
                     <label>{t('checkout.cardExp', 'Vencimiento (MM/AA)')}</label>
                     <div className="input-with-icon">
                       <span className="input-icon">📅</span>
-                      <input type="text" placeholder="12/25" className="form-input checkout-input" required maxLength={5} />
+                      <input type="text" inputMode="numeric" placeholder="MM/AA" className="form-input checkout-input" required maxLength={5} value={expiry} onChange={handleExpiryChange} />
                     </div>
                   </div>
                   <div className="form-group card-input-group">

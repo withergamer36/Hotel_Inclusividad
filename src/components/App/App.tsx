@@ -248,6 +248,8 @@ function App() {
   const [isSearching, setIsSearching] = useState(false)
   const [isCheckoutView, setIsCheckoutView] = useState(false)
   const [checkoutData, setCheckoutData] = useState<any>(null)
+  const [isPaymentSuccessView, setIsPaymentSuccessView] = useState(false)
+  const [paymentSuccessData, setPaymentSuccessData] = useState<any>(null)
   interface SelectedRoomItem { id: string; tipo: string; cantidad: number }
   const [selectedRooms, setSelectedRooms] = useState<SelectedRoomItem[]>([
     { id: '1', tipo: '', cantidad: 1 }
@@ -279,8 +281,8 @@ function App() {
       const handleMouseMove = (e: MouseEvent) => {
         if (readingLineRef.current) {
           readingLineRef.current.style.top = `${e.clientY}px`
-        }
-      }
+    }
+  }
       document.addEventListener('mousemove', handleMouseMove)
       return () => document.removeEventListener('mousemove', handleMouseMove)
     }
@@ -463,9 +465,10 @@ function App() {
         console.error('Error al enviar el correo:', emailError);
       }
 
-      const successMsg = t('reservation.success', { orderNumber: checkoutData.numero_de_pedido })
-      toast.success(successMsg, { duration: 8000 })
-      announce(successMsg)
+      const successData = { ...checkoutData, fecha_creacion: dataToSave.fecha_creacion }
+      setPaymentSuccessData(successData)
+      setIsCheckoutView(false)
+      setIsPaymentSuccessView(true)
 
       setSelectedAccommodations([])
       setSelectedRooms([{ id: '1', tipo: '', cantidad: 1 }])
@@ -481,6 +484,11 @@ function App() {
       toast.error(errorMsg)
       announce(errorMsg)
     }
+  }
+
+  const handleBackToHome = () => {
+    setIsPaymentSuccessView(false)
+    setPaymentSuccessData(null)
   }
 
   const handleSearchReservation = async (e: React.FormEvent) => {
@@ -623,6 +631,89 @@ function App() {
           onCancel={() => setIsCheckoutView(false)}
           t={t}
         />
+        <svg style={{ height: 0, width: 0, position: 'absolute' }} aria-hidden="true">
+          <defs>
+            <filter id="protanopia">
+              <feColorMatrix type="matrix" values="0.567, 0.433, 0, 0, 0  0.558, 0.442, 0, 0, 0  0, 0.242, 0.758, 0, 0  0, 0, 0, 1, 0" />
+            </filter>
+            <filter id="deuteranopia">
+              <feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0  0.7, 0.3, 0, 0, 0  0, 0.3, 0.7, 0, 0  0, 0, 0, 1, 0" />
+            </filter>
+            <filter id="tritanopia">
+              <feColorMatrix type="matrix" values="0.95, 0.05, 0, 0, 0  0, 0.433, 0.567, 0, 0  0, 0.475, 0.525, 0, 0  0, 0, 0, 1, 0" />
+            </filter>
+            <filter id="achromatopsia">
+              <feColorMatrix type="matrix" values="0.299, 0.587, 0.114, 0, 0  0.299, 0.587, 0.114, 0, 0  0.299, 0.587, 0.114, 0, 0  0, 0, 0, 1, 0" />
+            </filter>
+          </defs>
+        </svg>
+      </div>
+    )
+  }
+
+  if (isPaymentSuccessView && paymentSuccessData) {
+    return (
+      <div
+        className={`landing ${accessibilityClasses}`}
+        style={{ fontSize: `${accessibility.fontSize}rem`, minHeight: '100vh' }}
+      >
+        <Toaster position="top-center" reverseOrder={false} />
+        <VoiceNavigator />
+        <div
+          className="sr-only"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          id="announcer"
+        >
+          {announcement}
+        </div>
+        <AccessibilityToolbar
+          state={accessibility}
+          onChange={setAccessibility}
+          onAnnounce={announce}
+        />
+        {accessibility.readingLine && (
+          <div
+            ref={readingLineRef}
+            className="reading-line"
+            aria-hidden="true"
+          />
+        )}
+        <div className="payment-success-container animate-fade-in">
+          <div className="payment-success-card">
+            <div className="success-icon-wrapper">
+              <svg className="success-icon" viewBox="0 0 52 52" width="72" height="72">
+                <circle className="success-circle" cx="26" cy="26" r="25" fill="none" stroke="#10b981" strokeWidth="3" />
+                <path className="success-check" fill="none" stroke="#10b981" strokeWidth="4" d="M14 27l7 7 16-16" />
+              </svg>
+            </div>
+            <h1 className="success-title">{t('paymentSuccess.title')}</h1>
+            <p className="success-subtitle">{t('paymentSuccess.subtitle', { orderNumber: paymentSuccessData.numero_de_pedido })}</p>
+            <div className="success-details">
+              <h3>{t('paymentSuccess.detailsTitle')}</h3>
+              <p><strong>{t('search.labels.orderNumber')}:</strong> <span className="order-id">{paymentSuccessData.numero_de_pedido}</span></p>
+              <p><strong>{t('search.labels.holder')}:</strong> {paymentSuccessData.nombre}</p>
+              <p><strong>{t('search.labels.email')}:</strong> {paymentSuccessData.email}</p>
+              <p><strong>{t('search.labels.phone')}:</strong> {paymentSuccessData.telefono}</p>
+              <p><strong>{t('search.labels.dates')}:</strong> {t('search.labels.datesValue', { checkIn: paymentSuccessData.checkIn, checkOut: paymentSuccessData.checkOut })}</p>
+              {paymentSuccessData.habitaciones && Array.isArray(paymentSuccessData.habitaciones) ? (
+                <>
+                  {paymentSuccessData.habitaciones.map((h: any, i: number) => (
+                    <p key={i}><strong>{t('search.labels.room')} {i + 1}:</strong> {h.tipo} x{h.cantidad} — {hotelData.currency} ${formatPrice(h.subtotal || 0)}</p>
+                  ))}
+                </>
+              ) : (
+                <p><strong>{t('search.labels.room')}:</strong> {paymentSuccessData.habitacion_tipo} ({paymentSuccessData.habitacion_cantidad})</p>
+              )}
+              <p><strong>{t('search.labels.accessibility')}:</strong> {paymentSuccessData.acomodaciones || t('search.labels.none')}</p>
+              <p><strong>{t('search.labels.total')}:</strong> {paymentSuccessData.precio_total_formateado}</p>
+            </div>
+            <button onClick={handleBackToHome} className="btn btn-primary success-back-btn">
+              {t('paymentSuccess.backToHome')}
+            </button>
+          </div>
+        </div>
         <svg style={{ height: 0, width: 0, position: 'absolute' }} aria-hidden="true">
           <defs>
             <filter id="protanopia">

@@ -1594,10 +1594,10 @@ textarea:focus:not(:focus-visible) {
 
 
 /* Daltonismo - Filtros aplicados al contenido para no romper position:fixed de las barras */
-.cb-protanopia .header, .cb-protanopia main, .cb-protanopia .footer, .cb-protanopia .checkout-container { filter: url('#protanopia'); }
-.cb-deuteranopia .header, .cb-deuteranopia main, .cb-deuteranopia .footer, .cb-deuteranopia .checkout-container { filter: url('#deuteranopia'); }
-.cb-tritanopia .header, .cb-tritanopia main, .cb-tritanopia .footer, .cb-tritanopia .checkout-container { filter: url('#tritanopia'); }
-.cb-achromatopsia .header, .cb-achromatopsia main, .cb-achromatopsia .footer, .cb-achromatopsia .checkout-container { filter: url('#achromatopsia'); }
+.cb-protanopia .header, .cb-protanopia main, .cb-protanopia .footer, .cb-protanopia .checkout-container, .cb-protanopia .payment-success-container { filter: url('#protanopia'); }
+.cb-deuteranopia .header, .cb-deuteranopia main, .cb-deuteranopia .footer, .cb-deuteranopia .checkout-container, .cb-deuteranopia .payment-success-container { filter: url('#deuteranopia'); }
+.cb-tritanopia .header, .cb-tritanopia main, .cb-tritanopia .footer, .cb-tritanopia .checkout-container, .cb-tritanopia .payment-success-container { filter: url('#tritanopia'); }
+.cb-achromatopsia .header, .cb-achromatopsia main, .cb-achromatopsia .footer, .cb-achromatopsia .checkout-container, .cb-achromatopsia .payment-success-container { filter: url('#achromatopsia'); }
 
 /* Resaltar Enlaces */
 .highlight-links a, 
@@ -1797,4 +1797,140 @@ html, body {
   overflow-x: hidden;
   width: 100%;
   position: relative;
+}
+
+/* ==================== PAYMENT SUCCESS SCREEN ==================== */
+
+.payment-success-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 160px);
+  padding: 40px 20px;
+}
+
+.payment-success-card {
+  background: var(--white);
+  max-width: 650px;
+  width: 100%;
+  padding: 48px 40px;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.success-icon-wrapper {
+  margin-bottom: 24px;
+}
+
+.success-icon {
+  animation: successPulse 0.6s ease-in-out;
+}
+
+.success-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: circleDraw 0.6s ease-in-out 0.1s forwards;
+}
+
+.success-check {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: checkDraw 0.35s ease-in-out 0.4s forwards;
+}
+
+@keyframes circleDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes checkDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes successPulse {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.success-title {
+  font-size: 1.8rem;
+  color: #10b981;
+  margin: 0 0 12px 0;
+}
+
+.success-subtitle {
+  color: var(--gray);
+  font-size: 1.05rem;
+  margin: 0 0 32px 0;
+}
+
+.success-details {
+  background: transparent;
+  border-radius: 10px;
+  padding: 24px;
+  text-align: left;
+  margin-bottom: 28px;
+}
+
+.success-details h3 {
+  margin: 0 0 16px 0;
+  font-size: 1.15rem;
+  color: var(--dark);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+
+.success-details p {
+  margin: 8px 0;
+  font-size: 0.95rem;
+  color: var(--dark);
+  line-height: 1.5;
+}
+
+.success-details .order-id {
+  font-family: monospace;
+  background: var(--white);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.success-back-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 1.1rem;
+}
+
+/* Dark mode */
+.dark-mode .payment-success-card {
+  background: var(--light);
+}
+
+.dark-mode .payment-success-card .success-title {
+  color: #34d399;
+}
+
+.dark-mode .success-details {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.dark-mode .success-details p {
+  color: var(--dark);
+}
+
+.dark-mode .success-details .order-id {
+  background: rgba(255, 255, 255, 0.12);
+  color: #34d399;
+}
+
+@media (max-width: 768px) {
+  .payment-success-card {
+    padding: 32px 24px;
+  }
+  .success-title {
+    font-size: 1.5rem;
+  }
 }
