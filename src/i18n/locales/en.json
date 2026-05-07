@@ -448,13 +448,21 @@
       "message": "Please indicate any other special accessibility needs...",
       "selectRoom": "Select an option"
     },
-    "submit": "Submit Request",
+    "submit": "Proceed to payment",
     "addRoom": "+ Add Room",
     "removeRoom": "Remove Room",
     "roomsLabel": "Selected Rooms",
     "subtotal": "Subtotal: {{subtotal}}",
     "success": "Message sent successfully! Your order number is: {{orderNumber}}",
     "error": "Error sending: {{error}}"
+  },
+  "validation": {
+    "nameRequired": "Please enter your full name.",
+    "emailRequired": "Please enter your email address.",
+    "phoneRequired": "Please enter your phone number.",
+    "roomsRequired": "Please select at least one room.",
+    "checkInRequired": "Please select a check-in date.",
+    "checkOutRequired": "Please select a check-out date."
   },
   "search": {
     "title": "Check My Reservation",
@@ -576,8 +584,7 @@
       "checkOut": "Check-out",
       "accessibility": "Accessibility",
       "total": "Total",
-      "date": "Date",
-      "actions": "Actions"
+      "date": "Date"
     },
     "attendedLabel": "Attended",
     "pendingLabel": "Pending",
@@ -623,5 +630,6 @@
     "processing": "Processing...",
     "payButton": "Pay",
     "secure": "100% Secure Payment"
-  }
+  },
+  "btn_book": "Proceed to payment"
 }

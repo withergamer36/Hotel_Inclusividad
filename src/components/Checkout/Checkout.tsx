@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Toaster } from 'react-hot-toast'
+import type { TFunction } from 'i18next'
 import './Checkout.css'
 
 interface CheckoutData {
@@ -23,10 +23,10 @@ interface CheckoutProps {
   data: CheckoutData
   onPay: () => void
   onCancel: () => void
+  t: TFunction
 }
 
-export function Checkout({ data, onPay, onCancel }: CheckoutProps) {
-  const { t } = useTranslation()
+export function Checkout({ data, onPay, onCancel, t }: CheckoutProps) {
   const [paymentMethod, setPaymentMethod] = useState('tarjeta')
   const [isProcessing, setIsProcessing] = useState(false)
 

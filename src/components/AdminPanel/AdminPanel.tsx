@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { db } from '../../lib/firebase'
-import { collection, getDocs, updateDoc, doc, query, orderBy } from 'firebase/firestore'
+import { collection, getDocs, query, orderBy } from 'firebase/firestore'
 import * as XLSX from 'xlsx';
 import './AdminPanel.css'
 
@@ -46,16 +46,6 @@ export function AdminPanel() {
       console.error('Error al cargar reservas:', error)
     }
     setLoading(false)
-  }
-
-  const handleToggleAtendido = async (id: string, estadoActual: boolean) => {
-    try {
-      const reservaRef = doc(db, 'reservas', id)
-      await updateDoc(reservaRef, { atendido: !estadoActual })
-      fetchReservas()
-    } catch {
-      alert(t('admin.updateError'))
-    }
   }
 
   const exportToExcel = () => {
@@ -176,7 +166,6 @@ export function AdminPanel() {
                 <th>{t('admin.tableHeaders.accessibility')}</th>
                 <th>{t('admin.tableHeaders.total')}</th>
                 <th>{t('admin.tableHeaders.date')}</th>
-                <th>{t('admin.tableHeaders.actions')}</th>
               </tr>
             </thead>
             <tbody>
@@ -218,14 +207,6 @@ export function AdminPanel() {
                   </td>
                   <td data-label={t('admin.tableHeaders.total')} className="font-mono">MXN ${(reserva.precio_total || 0).toLocaleString(i18n.language === 'en' ? 'en-US' : 'es-MX')}</td>
                   <td data-label={t('admin.tableHeaders.date')} className="date">{new Date(reserva.fecha_creacion).toLocaleString(i18n.language === 'en' ? 'en-US' : 'es-MX', { dateStyle: 'short', timeStyle: 'short' })}</td>
-                  <td data-label={t('admin.tableHeaders.actions')}>
-                    <button
-                      onClick={() => handleToggleAtendido(reserva.id, reserva.atendido)}
-                      className={`action-btn ${reserva.atendido ? 'btn-undo' : 'btn-complete'}`}
-                    >
-                      {reserva.atendido ? '\u21A9\uFE0F' : '\u2705'}
-                    </button>
-                  </td>
                 </tr>
 
               ))}

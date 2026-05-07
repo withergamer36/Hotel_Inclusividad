@@ -38,7 +38,7 @@
 
 .checkout-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   gap: 40px;
 }
 
@@ -101,6 +101,10 @@
   font-family: monospace; /* Mejor para números de tarjeta */
   background: transparent !important;
   color: var(--dark) !important;
+}
+
+.checkout-input::placeholder {
+  color: var(--gray) !important;
 }
 
 .checkout-input:focus {

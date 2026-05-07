@@ -343,6 +343,20 @@ function App() {
     const form = e.target as HTMLFormElement
     const formData = new FormData(form)
 
+    const nombre = (formData.get('name') as string || '').trim()
+    const email = (formData.get('email') as string || '').trim()
+    const telefono = (formData.get('phone') as string || '').trim()
+    const checkIn = (formData.get('checkIn') as string || '').trim()
+    const checkOut = (formData.get('checkOut') as string || '').trim()
+    const tieneHabitaciones = selectedRooms.some(r => r.tipo !== '')
+
+    if (!nombre) { toast.error(t('validation.nameRequired')); return }
+    if (!email) { toast.error(t('validation.emailRequired')); return }
+    if (!telefono) { toast.error(t('validation.phoneRequired')); return }
+    if (!tieneHabitaciones) { toast.error(t('validation.roomsRequired')); return }
+    if (!checkIn) { toast.error(t('validation.checkInRequired')); return }
+    if (!checkOut) { toast.error(t('validation.checkOutRequired')); return }
+
     const orderNumber = 'RES-' + Math.random().toString(36).substr(2, 9).toUpperCase()
 
     const translatedAccommodations = selectedAccommodations.map(id => {
@@ -372,14 +386,14 @@ function App() {
 
     const reservationData = {
       numero_de_pedido: orderNumber,
-      nombre: formData.get('name') as string,
-      email: formData.get('email') as string,
-      telefono: formData.get('phone') as string,
+      nombre,
+      email,
+      telefono,
       habitacion_tipo: habitacionesTexto,
       habitacion_cantidad: cantidadTotal,
       habitaciones: habitacionesSeleccionadas,
-      checkIn: formData.get('checkIn') as string,
-      checkOut: formData.get('checkOut') as string,
+      checkIn,
+      checkOut,
       acomodaciones: translatedAccommodations,
       mensaje: formData.get('message') as string || '',
       precio_total_numero: precioTotal,
@@ -607,6 +621,7 @@ function App() {
           data={checkoutData} 
           onPay={handlePaymentSuccess} 
           onCancel={() => setIsCheckoutView(false)}
+          t={t}
         />
         <svg style={{ height: 0, width: 0, position: 'absolute' }} aria-hidden="true">
           <defs>
@@ -945,7 +960,7 @@ function App() {
                   <span>{hotelData.address}</span>
                 </div>
               </address>
-              <form className="contact-form" onSubmit={handleSubmit} noValidate>
+              <form className="contact-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="contact-name">{t('reservation.formLabels.name')}</label>
                   <input
@@ -1068,6 +1083,7 @@ function App() {
                     name="phone"
                     placeholder={t('reservation.placeholders.phone')}
                     className="form-input"
+                    required
                     autoComplete="tel"
                   />
                 </div>
