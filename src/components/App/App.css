@@ -1834,7 +1834,13 @@ textarea:focus:not(:focus-visible) {
     flex-shrink: 0;
   }
   .form-input {
-    padding: 12px 12px;
+    min-height: 40px;
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+  .form-textarea {
+    font-size: 0.85rem;
+    min-height: 80px;
   }
   select.form-input {
     padding-right: 32px;
@@ -1848,16 +1854,6 @@ textarea:focus:not(:focus-visible) {
     min-height: 40px;
     flex-shrink: 0;
     align-self: flex-end;
-  }
-  .room-type-group .form-input {
-    min-height: 40px;
-    padding: 8px 10px;
-    font-size: 0.85rem;
-  }
-  .room-type-group select.form-input {
-    padding-right: 28px;
-    background-position: right 8px center;
-    background-size: 11px;
   }
   .rooms-total-preview {
     padding: 8px 10px;
