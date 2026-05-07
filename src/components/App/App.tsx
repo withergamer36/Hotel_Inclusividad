@@ -466,7 +466,7 @@ function App() {
         console.error('Error al enviar el correo:', emailError);
       }
 
-      const successData = { ...checkoutData, fecha_creacion: dataToSave.fecha_creacion }
+      const successData = { ...checkoutData, fecha_creacion: dataToSave.fecha_creacion, atendido: true }
       setPaymentSuccessData(successData)
       setIsCheckoutView(false)
       setIsPaymentSuccessView(true)

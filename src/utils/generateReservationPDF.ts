@@ -66,7 +66,7 @@ export function generateReservationPDF(
     <tr><td class="label">${t('search.labels.dates')}</td><td>${reservation.checkIn} — ${reservation.checkOut}</td></tr>
     <tr><td class="label">Rooms</td><td>${roomsHtml}</td></tr>
     <tr><td class="label">${t('search.labels.accessibility')}</td><td>${reservation.acomodaciones || t('search.labels.none')}</td></tr>
-    <tr><td class="label">${t('search.labels.total')}</td><td style="font-weight:700;font-size:13px;">${currency} $${formatPrice(reservation.precio_total || 0)}</td></tr>
+    <tr><td class="label">${t('search.labels.total')}</td><td style="font-weight:700;font-size:13px;">${currency} $${formatPrice(reservation.precio_total_numero || reservation.precio_total || 0)}</td></tr>
     ${dateStr ? `<tr><td class="label">${t('search.labels.reservationDate')}</td><td>${dateStr}</td></tr>` : ''}
   </table>
   <div class="footer">
