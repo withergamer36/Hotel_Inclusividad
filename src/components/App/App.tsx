@@ -926,7 +926,7 @@ function App() {
                         </span>
                         <span className="per-night">{t('roomsSection.perNight')}</span>
                       </div>
-                      <button className="btn btn-primary">{t('roomsSection.reserve')}</button>
+                      <button className="btn btn-primary" onClick={() => document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' })}>{t('roomsSection.reserve')}</button>
                     </div>
                   </article>
                 ))
