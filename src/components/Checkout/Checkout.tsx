@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { Toaster } from 'react-hot-toast'
+import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import type { TFunction } from 'i18next'
 import './Checkout.css'
@@ -113,8 +112,7 @@ export function Checkout({ data, onPay, onCancel, t }: CheckoutProps) {
   }
 
   return (
-    <div className="checkout-container animate-fade-in">
-      <Toaster position="top-center" />
+    <main id="main-content" role="main" className="checkout-container animate-fade-in">
       <div className="checkout-header">
         <h1>{t('checkout.title', 'Pasarela de Pago Segura')}</h1>
         <button onClick={onCancel} className="btn-cancel-checkout">
@@ -271,6 +269,6 @@ export function Checkout({ data, onPay, onCancel, t }: CheckoutProps) {
           </form>
         </div>
       </div>
-    </div>
+    </main>
   )
 }

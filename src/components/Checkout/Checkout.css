@@ -61,7 +61,7 @@
   display: block;
   font-weight: 700;
   margin-bottom: 8px;
-  color: var(--dark) !important;
+  color: var(--dark);
   font-size: 0.95rem;
 }
 
@@ -288,6 +288,84 @@
   background: var(--light);
 }
 
+.dark-mode .checkout-header h1 {
+  color: var(--white);
+}
+
+.dark-mode .method-name,
+.dark-mode .summary-value {
+  color: var(--dark);
+}
+
+.dark-mode .summary-label {
+  color: var(--gray);
+}
+
+.dark-mode .summary-divider {
+  border-top-color: var(--border);
+}
+
+.dark-mode .btn-cancel-checkout {
+  color: var(--gray-light);
+  border-color: var(--border);
+}
+
+.dark-mode .btn-cancel-checkout:hover {
+  background: var(--border);
+  color: var(--dark);
+}
+
 .dark-mode .btn-pay {
   background: #059669;
+}
+
+.dark-mode .secure-badge {
+  color: var(--gray-light);
+}
+
+.dark-mode .paypal-details {
+  background: rgba(255,255,255,0.06);
+  color: var(--gray-light);
+}
+
+.dark-mode .card-type-badge {
+  background: rgba(46,125,50,0.2);
+  color: #66bb6a;
+}
+
+.high-contrast .checkout-summary,
+.high-contrast .checkout-payment {
+  border: 3px solid var(--dark);
+  background: var(--light);
+}
+
+.high-contrast .checkout-header h1 {
+  color: var(--dark);
+}
+
+.high-contrast .checkout-input,
+.high-contrast .form-input {
+  border: 2px solid var(--dark) !important;
+}
+
+.high-contrast .input-with-icon {
+  border-color: var(--dark);
+}
+
+.high-contrast .btn-pay {
+  border: 3px solid var(--dark);
+  background: var(--primary);
+}
+
+.high-contrast .payment-method {
+  border-color: var(--dark);
+}
+
+.high-contrast .payment-method.selected {
+  background: var(--primary);
+  border-color: var(--dark);
+}
+
+.high-contrast .payment-method.selected .method-name {
+  color: var(--white);
 }

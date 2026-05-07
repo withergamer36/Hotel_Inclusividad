@@ -646,27 +646,5 @@
     "grabBars": "Grab Bars",
     "visualAlarms": "Visual Alarms",
     "hearingLoop": "Hearing Loop"
-  },
-  "checkout": {
-    "title": "Secure Payment Gateway",
-    "cancel": "Go Back",
-    "summaryTitle": "Booking Summary",
-    "name": "Cardholder:",
-    "email": "Email:",
-    "phone": "Phone:",
-    "dates": "Dates:",
-    "rooms": "Rooms:",
-    "total": "Total to Pay:",
-    "paymentMethod": "Payment Method",
-    "creditCard": "Credit/Debit Card",
-    "cardNumber": "Card Number",
-    "cardExp": "Expiration (MM/YY)",
-    "cardCvc": "Security Code (CVC)",
-    "cardName": "Name on Card",
-    "paypalDesc": "You will be redirected to PayPal to complete your payment securely.",
-    "processing": "Processing...",
-    "payButton": "Pay",
-    "secure": "100% Secure Payment"
-  },
-  "btn_book": "Proceed to payment"
+  }
 }

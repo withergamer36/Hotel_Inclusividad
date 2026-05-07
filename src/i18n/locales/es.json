@@ -646,27 +646,5 @@
     "grabBars": "Barras de apoyo",
     "visualAlarms": "Alarmas visuales",
     "hearingLoop": "Bucle magnetico"
-  },
-  "checkout": {
-    "title": "Pasarela de Pago Segura",
-    "cancel": "Volver",
-    "summaryTitle": "Resumen de tu Reserva",
-    "name": "Titular:",
-    "email": "Correo:",
-    "phone": "Teléfono:",
-    "dates": "Fechas:",
-    "rooms": "Habitaciones:",
-    "total": "Total a Pagar:",
-    "paymentMethod": "Método de Pago",
-    "creditCard": "Tarjeta de Crédito/Débito",
-    "cardNumber": "Número de Tarjeta",
-    "cardExp": "Vencimiento (MM/AA)",
-    "cardCvc": "Código de Seguridad (CVC)",
-    "cardName": "Nombre en la Tarjeta",
-    "paypalDesc": "Serás redirigido a PayPal para completar tu pago de forma segura.",
-    "processing": "Procesando...",
-    "payButton": "Pagar",
-    "secure": "Pago 100% Seguro"
-  },
-  "btn_book": "Proceder con el pago"
+  }
 }

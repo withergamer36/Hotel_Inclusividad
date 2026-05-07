@@ -5,10 +5,21 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import { toast } from 'react-hot-toast'
 import './VoiceNavigator.css'
 
-export function VoiceNavigator() {
+export function VoiceNavigator({ currentView }: { currentView?: string }) {
   const { t, i18n } = useTranslation()
 
   const commands = useMemo(() => {
+    const isLanding = !currentView || currentView === 'landing'
+    const stopCmd = {
+      command: ['*detener voz*', '*apagar micrófono*', '*stop voice*', '*turn off mic*'],
+      callback: () => {
+        SpeechRecognition.stopListening()
+        toast(t('voice.deactivated'), { icon: '\u{1F507}' })
+      }
+    }
+
+    if (!isLanding) return [stopCmd]
+
     return [
       {
         command: ['*inicio*', '*arriba del todo*', '*home*', '*top*'],
@@ -67,13 +78,7 @@ export function VoiceNavigator() {
           toast(t('voice.scrollUp'), { icon: '\u2B06\uFE0F' })
         }
       },
-      {
-        command: ['*detener voz*', '*apagar micrófono*', '*stop voice*', '*turn off mic*'],
-        callback: () => {
-          SpeechRecognition.stopListening()
-          toast(t('voice.deactivated'), { icon: '\u{1F507}' })
-        }
-      }
+      stopCmd
     ]
   }, [t])
 

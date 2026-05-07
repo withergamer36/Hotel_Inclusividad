@@ -14,6 +14,7 @@ import { VoiceNavigator } from '../VoiceNavigator/VoiceNavigator'
 import { Checkout } from '../Checkout/Checkout'
 import { generateReservationPDF, generateReservationPDFBlob } from '../../utils/generateReservationPDF'
 import { Html5Qrcode } from 'html5-qrcode'
+import QRCode from 'qrcode'
 import './App.css'
 
 function StarIcon(props: React.SVGProps<SVGSVGElement> & { filled?: boolean }) {
@@ -249,6 +250,7 @@ function App() {
   const [foundReservation, setFoundReservation] = useState<any>(null)
   const [isSearching, setIsSearching] = useState(false)
   const [isScanning, setIsScanning] = useState(false)
+  const [shouldScan, setShouldScan] = useState(false)
   const scannerRef = useRef<Html5Qrcode | null>(null)
   const [isCheckoutView, setIsCheckoutView] = useState(false)
   const [checkoutData, setCheckoutData] = useState<any>(null)
@@ -448,6 +450,12 @@ function App() {
           .map((h: any) => `${h.tipo} x${h.cantidad} — ${hotelData.currency} $${formatPrice(h.subtotal)}`)
           .join(', ')
 
+        const qrDataUrl = await QRCode.toDataURL(checkoutData.numero_de_pedido, {
+          width: 200,
+          margin: 1,
+          color: { dark: '#2d7a9e' }
+        })
+
         const templateParams = {
           nombre: dataToSave.nombre,
           email: dataToSave.email,
@@ -457,7 +465,8 @@ function App() {
           checkIn: dataToSave.checkIn,
           checkOut: dataToSave.checkOut,
           acomodaciones: dataToSave.acomodaciones,
-          precio_total: checkoutData.precio_total_formateado
+          precio_total: checkoutData.precio_total_formateado,
+          qr_code: qrDataUrl
         }
 
         try {
@@ -470,7 +479,6 @@ function App() {
             'TTS9BrBBr92hi-UHq'
           )
         } catch {}
-        console.log('Correo de confirmación enviado exitosamente');
         console.log('Correo de confirmación enviado exitosamente');
       } catch (emailError) {
         console.error('Error al enviar el correo:', emailError);
@@ -502,54 +510,62 @@ function App() {
     setPaymentSuccessData(null)
   }
 
-  const handleScanQR = async () => {
-    try {
-      const scanner = new Html5Qrcode('qr-reader')
-      scannerRef.current = scanner
-      setIsScanning(true)
+  const handleScanQR = () => {
+    setShouldScan(true)
+    setIsScanning(true)
+    setSearchOrder('')
+  }
 
-      await scanner.start(
-        { facingMode: 'environment' },
-        { fps: 10, qrbox: { width: 250, height: 250 } },
-        (decodedText) => {
-          const match = decodedText.match(/RES-[A-Z0-9]+/i)
-          const code = match ? match[0].toUpperCase() : decodedText.toUpperCase()
-          setSearchOrder(code)
-          scanner.stop().then(() => {
-            scannerRef.current = null
-            setIsScanning(false)
-            const input = document.querySelector('.search-form input') as HTMLInputElement
-            if (input) input.value = code
-            toast.success(t('search.found'))
-            announce(t('search.foundAnnounce'))
-          })
-        },
-        () => {}
-      )
-    } catch {
+  useEffect(() => {
+    if (!shouldScan) return
+    const el = document.getElementById('qr-reader')
+    if (!el) return
+
+    const scanner = new Html5Qrcode('qr-reader')
+    scannerRef.current = scanner
+
+    scanner.start(
+      { facingMode: 'environment' },
+      { fps: 10, qrbox: { width: 250, height: 250 } },
+      (decodedText) => {
+        const match = decodedText.match(/RES-[A-Z0-9]+/i)
+        const code = match ? match[0].toUpperCase() : decodedText.toUpperCase()
+        setSearchOrder(code)
+        searchByCode(code)
+        scanner.stop().then(() => {
+          scannerRef.current = null
+          setIsScanning(false)
+          setShouldScan(false)
+        })
+      },
+      () => {}
+    ).catch(() => {
       toast.error(t('search.qrError'))
       setIsScanning(false)
+      setShouldScan(false)
       scannerRef.current = null
+    })
+
+    return () => {
+      scanner.stop().catch(() => {})
     }
-  }
+  }, [shouldScan])
 
   const handleCancelScan = async () => {
     if (scannerRef.current) {
-      await scannerRef.current.stop()
+      await scannerRef.current.stop().catch(() => {})
       scannerRef.current = null
     }
     setIsScanning(false)
+    setShouldScan(false)
   }
 
-  const handleSearchReservation = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!searchOrder.trim()) return
-
+  const searchByCode = async (code: string) => {
     setIsSearching(true)
     setFoundReservation(null)
 
     try {
-      const q = query(collection(db, 'reservas'), where('numero_de_pedido', '==', searchOrder.trim().toUpperCase()))
+      const q = query(collection(db, 'reservas'), where('numero_de_pedido', '==', code.trim().toUpperCase()))
       const querySnapshot = await getDocs(q)
 
       if (querySnapshot.empty) {
@@ -567,6 +583,12 @@ function App() {
     } finally {
       setIsSearching(false)
     }
+  }
+
+  const handleSearchReservation = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!searchOrder.trim()) return
+    await searchByCode(searchOrder)
   }
 
   const selectedFacilityData = hotelData.facilities.find(f => f.id === selectedFacility)
@@ -590,7 +612,7 @@ function App() {
         style={{ fontSize: `${accessibility.fontSize}rem`, minHeight: '100vh' }}
       >
         <Toaster position="top-center" reverseOrder={false} />
-        <VoiceNavigator />
+        <VoiceNavigator currentView="admin" />
         <a href="#main-content" className="skip-link">
           {t('skipLink')}
         </a>
@@ -653,7 +675,10 @@ function App() {
         style={{ fontSize: `${accessibility.fontSize}rem`, minHeight: '100vh' }}
       >
         <Toaster position="top-center" reverseOrder={false} />
-        <VoiceNavigator />
+        <VoiceNavigator currentView="checkout" />
+        <a href="#main-content" className="skip-link">
+          {t('skipLink')}
+        </a>
         <div
           className="sr-only"
           role="status"
@@ -675,9 +700,9 @@ function App() {
             aria-hidden="true"
           />
         )}
-        <Checkout 
-          data={checkoutData} 
-          onPay={handlePaymentSuccess} 
+        <Checkout
+          data={checkoutData}
+          onPay={handlePaymentSuccess}
           onCancel={() => setIsCheckoutView(false)}
           t={t}
         />
@@ -708,7 +733,10 @@ function App() {
         style={{ fontSize: `${accessibility.fontSize}rem`, minHeight: '100vh' }}
       >
         <Toaster position="top-center" reverseOrder={false} />
-        <VoiceNavigator />
+        <VoiceNavigator currentView="payment" />
+        <a href="#main-content" className="skip-link">
+          {t('skipLink')}
+        </a>
         <div
           className="sr-only"
           role="status"
@@ -730,7 +758,7 @@ function App() {
             aria-hidden="true"
           />
         )}
-        <div className="payment-success-container animate-fade-in">
+        <main id="main-content" role="main" className="payment-success-container animate-fade-in">
           <div className="payment-success-card">
             <div className="success-icon-wrapper">
               <svg className="success-icon" viewBox="0 0 52 52" width="72" height="72">
@@ -768,7 +796,7 @@ function App() {
               </button>
             </div>
           </div>
-        </div>
+        </main>
         <svg style={{ height: 0, width: 0, position: 'absolute' }} aria-hidden="true">
           <defs>
             <filter id="protanopia">
