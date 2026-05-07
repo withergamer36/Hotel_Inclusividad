@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Toaster } from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 import type { TFunction } from 'i18next'
 import './Checkout.css'
 
@@ -26,10 +27,54 @@ interface CheckoutProps {
   t: TFunction
 }
 
+type CardType = 'visa' | 'mastercard' | 'amex' | 'other' | ''
+
+function detectCardType(digitsOnly: string): CardType {
+  if (/^4/.test(digitsOnly)) return 'visa'
+  if (/^5[1-5]/.test(digitsOnly)) return 'mastercard'
+  if (/^3[47]/.test(digitsOnly)) return 'amex'
+  return digitsOnly.length >= 4 ? 'other' : ''
+}
+
+function validateExpiry(value: string): boolean {
+  if (value.length < 5) return false
+  const parts = value.split('/')
+  if (parts.length !== 2) return false
+  const mm = parseInt(parts[0], 10)
+  const yy = parseInt(parts[1], 10)
+  if (isNaN(mm) || isNaN(yy)) return false
+  if (mm < 1 || mm > 12) return false
+
+  const year = 2000 + yy
+  const now = new Date()
+  const currentMonth = now.getMonth() + 1
+  const currentYear = now.getFullYear()
+
+  if (year < currentYear) return false
+  if (year === currentYear && mm < currentMonth) return false
+  return true
+}
+
+const cardTypeIcons: Record<Exclude<CardType, ''>, string> = {
+  visa: '💳',
+  mastercard: '💳',
+  amex: '💳',
+  other: '💳'
+}
+
+const cardTypeLabels: Record<Exclude<CardType, ''>, string> = {
+  visa: 'VISA',
+  mastercard: 'MC',
+  amex: 'AMEX',
+  other: ''
+}
+
 export function Checkout({ data, onPay, onCancel, t }: CheckoutProps) {
   const [paymentMethod, setPaymentMethod] = useState('tarjeta')
   const [isProcessing, setIsProcessing] = useState(false)
   const [expiry, setExpiry] = useState('')
+  const [cardNumber, setCardNumber] = useState('')
+  const [cardType, setCardType] = useState<CardType>('')
 
   const handleExpiryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/\D/g, '')
@@ -38,11 +83,29 @@ export function Checkout({ data, onPay, onCancel, t }: CheckoutProps) {
     setExpiry(value)
   }
 
+  const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, '').slice(0, 16)
+    const formatted = value.replace(/(\d{4})(?=\d)/g, '$1 ').trim()
+    setCardNumber(formatted)
+    setCardType(detectCardType(value))
+  }
+
   const handlePayment = (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (paymentMethod === 'tarjeta') {
+      if (cardNumber.replace(/\s/g, '').length < 13) {
+        toast.error(t('checkout.invalidCard', 'Número de tarjeta inválido'))
+        return
+      }
+      if (!validateExpiry(expiry)) {
+        toast.error(t('checkout.invalidExpiry', 'La tarjeta está vencida o la fecha no es válida'))
+        return
+      }
+    }
+
     setIsProcessing(true)
-    
-    // Simular tiempo de procesamiento
+
     setTimeout(() => {
       setIsProcessing(false)
       onPay()
@@ -124,7 +187,21 @@ export function Checkout({ data, onPay, onCancel, t }: CheckoutProps) {
                   <label>{t('checkout.cardNumber', 'Número de Tarjeta')}</label>
                   <div className="input-with-icon">
                     <span className="input-icon">💳</span>
-                    <input type="text" placeholder="0000 0000 0000 0000" className="form-input checkout-input" required maxLength={19} />
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      placeholder="0000 0000 0000 0000"
+                      className="form-input checkout-input"
+                      required
+                      maxLength={19}
+                      value={cardNumber}
+                      onChange={handleCardNumberChange}
+                    />
+                    {cardType && (
+                      <span className="card-type-badge">
+                        {cardTypeIcons[cardType]} <span className="card-type-label">{cardTypeLabels[cardType]}</span>
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="form-row">
@@ -132,14 +209,31 @@ export function Checkout({ data, onPay, onCancel, t }: CheckoutProps) {
                     <label>{t('checkout.cardExp', 'Vencimiento (MM/AA)')}</label>
                     <div className="input-with-icon">
                       <span className="input-icon">📅</span>
-                      <input type="text" inputMode="numeric" placeholder="MM/AA" className="form-input checkout-input" required maxLength={5} value={expiry} onChange={handleExpiryChange} />
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        placeholder="MM/AA"
+                        className="form-input checkout-input"
+                        required
+                        maxLength={5}
+                        value={expiry}
+                        onChange={handleExpiryChange}
+                      />
                     </div>
                   </div>
                   <div className="form-group card-input-group">
                     <label>{t('checkout.cardCvc', 'Código de Seguridad (CVC)')}</label>
                     <div className="input-with-icon">
                       <span className="input-icon">🔒</span>
-                      <input type="text" placeholder="123" className="form-input checkout-input" required maxLength={4} />
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        placeholder="123"
+                        className="form-input checkout-input"
+                        required
+                        maxLength={4}
+                        onChange={(e) => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4) }}
+                      />
                     </div>
                   </div>
                 </div>

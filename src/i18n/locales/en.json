@@ -568,6 +568,30 @@
     "notSupported": "Voice control not available in this browser. Use Chrome or Edge.",
     "buttonShort": "Voice"
   },
+
+  "checkout": {
+    "title": "Secure Payment Gateway",
+    "cancel": "Back",
+    "summaryTitle": "Booking Summary",
+    "name": "Guest:",
+    "email": "Email:",
+    "phone": "Phone:",
+    "dates": "Dates:",
+    "rooms": "Rooms:",
+    "total": "Total Amount:",
+    "paymentMethod": "Payment Method",
+    "creditCard": "Credit/Debit Card",
+    "cardNumber": "Card Number",
+    "cardExp": "Expiry (MM/YY)",
+    "cardCvc": "Security Code (CVC)",
+    "cardName": "Name on Card",
+    "paypalDesc": "You will be redirected to PayPal to complete your payment securely.",
+    "payButton": "Pay",
+    "processing": "Processing...",
+    "secure": "100% Secure Payment",
+    "invalidCard": "Invalid card number",
+    "invalidExpiry": "Card is expired or date is invalid"
+  },
   "admin": {
     "loginTitle": "Administrative Dashboard",
     "loginSubtitle": "Restricted access for hotel staff",

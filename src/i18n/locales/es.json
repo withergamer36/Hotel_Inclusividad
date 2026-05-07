@@ -568,6 +568,30 @@
     "notSupported": "Control por voz no disponible en este navegador. Use Chrome o Edge.",
     "buttonShort": "Voz"
   },
+
+  "checkout": {
+    "title": "Pasarela de Pago Segura",
+    "cancel": "Volver",
+    "summaryTitle": "Resumen de tu Reserva",
+    "name": "Titular:",
+    "email": "Correo:",
+    "phone": "Teléfono:",
+    "dates": "Fechas:",
+    "rooms": "Habitaciones:",
+    "total": "Total a Pagar:",
+    "paymentMethod": "Método de Pago",
+    "creditCard": "Tarjeta de Crédito/Débito",
+    "cardNumber": "Número de Tarjeta",
+    "cardExp": "Vencimiento (MM/AA)",
+    "cardCvc": "Código de Seguridad (CVC)",
+    "cardName": "Nombre en la Tarjeta",
+    "paypalDesc": "Serás redirigido a PayPal para completar tu pago de forma segura.",
+    "payButton": "Pagar",
+    "processing": "Procesando...",
+    "secure": "Pago 100% Seguro",
+    "invalidCard": "Número de tarjeta inválido",
+    "invalidExpiry": "La tarjeta está vencida o la fecha no es válida"
+  },
   "admin": {
     "loginTitle": "Dashboard Administrativo",
     "loginSubtitle": "Acceso restringido para personal del hotel",
