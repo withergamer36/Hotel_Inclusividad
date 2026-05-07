@@ -1079,10 +1079,10 @@ function App() {
                 <fieldset className="rooms-selection-fieldset">
                   <legend className="accommodation-legend">{t('reservation.roomsLabel')}</legend>
                   <div className="rooms-selection-list">
-                    {selectedRooms.map((roomItem, index) => (
+                    {selectedRooms.map((roomItem) => (
                       <div key={roomItem.id} className="room-selection-row">
                         <div className="form-group room-type-group">
-                          <label htmlFor={`room-type-${roomItem.id}`} className="sr-only">{t('reservation.formLabels.roomType')} {index + 1}</label>
+                          <label htmlFor={`room-type-${roomItem.id}`} className="room-field-label">{t('reservation.formLabels.roomType')}</label>
                           <select
                             id={`room-type-${roomItem.id}`}
                             value={roomItem.tipo}
@@ -1099,7 +1099,7 @@ function App() {
                           </select>
                         </div>
                         <div className="form-group room-qty-group">
-                          <label htmlFor={`room-qty-${roomItem.id}`} className="sr-only">{t('reservation.formLabels.quantity')} {index + 1}</label>
+                          <label htmlFor={`room-qty-${roomItem.id}`} className="room-field-label">{t('reservation.formLabels.quantity')}</label>
                           <input
                             id={`room-qty-${roomItem.id}`}
                             type="number"

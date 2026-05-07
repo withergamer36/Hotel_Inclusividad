@@ -928,6 +928,28 @@ section {
   outline-offset: 2px;
 }
 
+select.form-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%232d7a9e' stroke-width='3'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 14px;
+  cursor: pointer;
+}
+
+input[type="date"].form-input {
+  color-scheme: light;
+}
+
+input[type="date"].form-input::-webkit-calendar-picker-indicator {
+  opacity: 1;
+  cursor: pointer;
+  padding: 4px;
+}
+
 .form-textarea {
   min-height: 100px;
   resize: vertical;
@@ -1704,14 +1726,25 @@ textarea:focus:not(:focus-visible) {
   text-align: center;
 }
 
+.room-field-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--white);
+  margin-bottom: 4px;
+  opacity: 0.9;
+}
+
 .btn-remove-room {
-  width: 36px;
-  height: 42px;
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
   background: #fee2e2;
   border: 2px solid #fca5a5;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #dc2626;
   display: flex;
   align-items: center;
@@ -1737,6 +1770,9 @@ textarea:focus:not(:focus-visible) {
   transition: all var(--transition-fast);
   font-family: inherit;
   width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  display: block;
 }
 
 .btn-add-room:hover {
@@ -1774,18 +1810,54 @@ textarea:focus:not(:focus-visible) {
   line-height: 1.5;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .room-selection-row {
     flex-wrap: wrap;
-    gap: 10px;
-    width: 100%;
+    gap: 6px;
   }
   .room-type-group {
     flex: 1 1 100%;
     min-width: 100%;
   }
   .room-qty-group {
-    flex: 1;
+    width: 58px;
+    min-width: 58px;
+    flex-shrink: 0;
+  }
+  .form-input {
+    padding: 12px 12px;
+  }
+  select.form-input {
+    padding-right: 32px;
+    background-position: right 10px center;
+    background-size: 12px;
+  }
+  .btn-remove-room {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    flex-shrink: 0;
+    align-self: flex-end;
+  }
+  .room-type-group .form-input {
+    min-height: 40px;
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+  .room-type-group select.form-input {
+    padding-right: 28px;
+    background-position: right 8px center;
+    background-size: 11px;
+  }
+  .rooms-total-preview {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+  .btn-add-room {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    max-width: 220px;
   }
   .accommodation-options {
     grid-template-columns: 1fr;
